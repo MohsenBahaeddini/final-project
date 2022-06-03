@@ -1,0 +1,15 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongodb": "^4.6.0",
+    "node": "^17.7.2",
+    "nodemon": "^2.0.16"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  }
+}
