@@ -4,10 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "moment": "^2.29.3",
     "mongodb": "^4.6.0",
+    "morgan": "^1.10.0",
     "node": "^17.7.2",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "nodemon index.js"
