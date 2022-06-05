@@ -3,7 +3,7 @@ import { years, type } from "./data";
 import { options } from "./.env";
 const PostAd = () => {
   const [makes, setMakes] = useState([]);
-  
+  // not very usefull to fetch makes
   // useEffect(() => {
   //   fetch("https://car-data.p.rapidapi.com/cars/makes", options)
   //     .then((response) => response.json())
