@@ -3,6 +3,7 @@ import Navbar from "./Header/Navbar";
 import Homepage from "./Homepage/Homepage";
 import Login from "./Header/Login";
 import Signup from "./Header/Signup";
+import Post from "./PostAd";
 
 const App = () => {
   return (
@@ -18,6 +19,9 @@ const App = () => {
           </Route>
           <Route exact path="/signup">
             <Signup />
+          </Route>
+          <Route exact path="/post-ad">
+            <Post />
           </Route>
         </Switch>
       </Router>

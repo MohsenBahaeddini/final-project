@@ -4,7 +4,7 @@
 const express = require("express");
 const morgan = require("morgan");
 
-const { getListing } = require("./handlers");
+const { getListing, addNewAd, getMakes } = require("./handlers");
 
 express()
   // Below are methods that are included in express(). We chain them for convenience.
@@ -27,6 +27,10 @@ express()
 
   // get all cars in the list
   .get("/api/get-listing", getListing)
+
+  .get("/api/get-makes", getMakes)
+  // add new ad
+  .post("/api/new-ad", addNewAd)
 
   // ---------------------------------
 

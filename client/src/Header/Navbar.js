@@ -11,6 +11,7 @@ const Navbar = () => {
         <Container>
           <StyledNavLink to="/login">LOG IN</StyledNavLink>
           <StyledNavLink to="/signup">SIGN UP</StyledNavLink>
+          <StyledNavLink to="/post-ad">Post Ad</StyledNavLink>
         </Container>
       </Wrapper>
     </>

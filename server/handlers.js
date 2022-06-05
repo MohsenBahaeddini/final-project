@@ -15,10 +15,21 @@ const options = {
   useUnifiedTopology: true,
 };
 
-
 // all makes models years for filtering when either cx wants to search or post an ad
 const getListing = async () => {};
 
+const getMakes = async () => {
+  getCarMakes();
+};
+
+const addNewAd = async () => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { type, make, year, mileage } = req.body;
+  const newAdId = uuidv4();
+};
+
 module.exports = {
   getListing,
+  addNewAd,
+  getMakes,
 };
