@@ -5,7 +5,7 @@ import SmallAd from "./SmallAd";
 
 const Homepage = () => {
   const [ads, setAds] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState("loading");
 
   useEffect(() => {
     fetch("/api/ads", {
@@ -17,8 +17,8 @@ const Homepage = () => {
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
-        setAds(response);
-        setLoading(true);
+        setAds(response.ads);
+        setLoading("idle");
       })
       .catch((err) => {
         console.log(err);
@@ -29,7 +29,9 @@ const Homepage = () => {
     <>
       Homepage
       {/* have to map on all ads to get each ad info and pass to SmallAd */}
-      <SmallAd />
+      {ads.map((ad) => {
+        return <SmallAd car={ad} />;
+      })}
     </>
   );
 };

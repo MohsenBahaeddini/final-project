@@ -10,7 +10,6 @@ const PostAd = () => {
   const [cars, setCars] = useState([]);
 
   // get all Models for the selected make,type and year from car data api
-  console.log(process.env.REACT_APP_APIKEY);
   useEffect(() => {
     if (make && type && year) {
       fetch(

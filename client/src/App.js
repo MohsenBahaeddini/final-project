@@ -5,6 +5,7 @@ import Login from "./Header/Login";
 import Signup from "./Header/Signup";
 import Post from "./Pages/PostAd";
 import GlobalStyles from "./GlobalStyles";
+import AdDetails from "./Pages/AdDetails";
 
 const App = () => {
   return (
@@ -14,7 +15,9 @@ const App = () => {
         <Navbar />
         <Switch>
           <Route exact path="/" component={Homepage}></Route>
-          {/* <Route exact path="/ad/:id"></Route> */}
+          <Route exact path="/ad/:id">
+            <AdDetails />
+          </Route>
           <Route exact path="/login">
             <Login />
           </Route>
