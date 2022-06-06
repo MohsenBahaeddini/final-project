@@ -1,7 +1,9 @@
 import { Link, NavLink, useHistory } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
 
 const Navbar = () => {
+  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
   return (
     <>
       <Wrapper>
@@ -9,9 +11,16 @@ const Navbar = () => {
           <Logo>M.B.A</Logo>
         </StyledLink>
         <Container>
-          <StyledNavLink to="/login">LOG IN</StyledNavLink>
-          <StyledNavLink to="/signup">SIGN UP</StyledNavLink>
-          <StyledNavLink to="/post-ad">Post Ad</StyledNavLink>
+          {isAuthenticated && (
+            <>
+              <StyledNavLink to="/profile">My Profile</StyledNavLink>
+              <StyledNavLink to="/post-ad">Post Ad</StyledNavLink>
+              <Button onClick={() => logout()}>Log out</Button>
+            </>
+          )}
+          {!isAuthenticated && (
+            <Button onClick={() => loginWithRedirect()}>LOG IN</Button>
+          )}
         </Container>
       </Wrapper>
     </>
@@ -25,7 +34,14 @@ const Container = styled.div`
   text-align: right;
   flex-basis: 33%;
 `;
-
+const Button = styled.button`
+  background: none;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+  /* width: 0px;
+  height: 25px; */
+`;
 const StyledNavLink = styled(NavLink)`
   color: gray;
   margin-left: 10px;

@@ -9,7 +9,7 @@ const AdDetails = () => {
   const [error, setError] = useState(false);
 
   const { id } = useParams();
-  console.log(id);
+
   useEffect(() => {
     fetch(`/api/ad/${id}`)
       .then((res) => res.json())

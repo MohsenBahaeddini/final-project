@@ -6,6 +6,7 @@ import Signup from "./Header/Signup";
 import Post from "./Pages/PostAd";
 import GlobalStyles from "./GlobalStyles";
 import AdDetails from "./Pages/AdDetails";
+import Profile from "./Pages/Profile";
 
 const App = () => {
   return (
@@ -18,14 +19,19 @@ const App = () => {
           <Route exact path="/ad/:id">
             <AdDetails />
           </Route>
-          <Route exact path="/login">
+          {/* <Route exact path="/login">
             <Login />
-          </Route>
+          </Route> */}
+          <Route exact path="login"></Route>
+          <Route exact path="logout"></Route>
           <Route exact path="/signup">
             <Signup />
           </Route>
           <Route exact path="/post-ad">
             <Post />
+          </Route>
+          <Route exact path="/profile">
+            <Profile />
           </Route>
         </Switch>
       </Router>
