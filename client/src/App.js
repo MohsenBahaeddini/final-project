@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./Header/Navbar";
-import Homepage from "./Homepage/Homepage";
+import Homepage from "./Pages/Homepage";
 import Login from "./Header/Login";
 import Signup from "./Header/Signup";
-import Post from "./PostAd";
+import Post from "./Pages/PostAd";
 
 const App = () => {
   return (
@@ -11,9 +11,7 @@ const App = () => {
       <Router>
         <Navbar />
         <Switch>
-          <Route exact path="/">
-            <Homepage />
-          </Route>
+          <Route exact path="/" comppnent={Homepage}></Route>
           <Route exact path="/login">
             <Login />
           </Route>
