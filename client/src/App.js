@@ -4,14 +4,17 @@ import Homepage from "./Pages/Homepage";
 import Login from "./Header/Login";
 import Signup from "./Header/Signup";
 import Post from "./Pages/PostAd";
+import GlobalStyles from "./GlobalStyles";
 
 const App = () => {
   return (
     <>
       <Router>
+        <GlobalStyles />
         <Navbar />
         <Switch>
-          <Route exact path="/" comppnent={Homepage}></Route>
+          <Route exact path="/" component={Homepage}></Route>
+          {/* <Route exact path="/ad/:id"></Route> */}
           <Route exact path="/login">
             <Login />
           </Route>

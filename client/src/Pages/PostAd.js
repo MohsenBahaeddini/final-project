@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { years, types, makes } from "../data";
-import options from "../.env";
 
 const PostAd = () => {
   const [make, setMake] = useState("");
@@ -11,13 +10,19 @@ const PostAd = () => {
   const [cars, setCars] = useState([]);
 
   // get all Models for the selected make,type and year from car data api
+  console.log(process.env.REACT_APP_APIKEY);
   useEffect(() => {
     if (make && type && year) {
       fetch(
         `https://car-data.p.rapidapi.com/cars?limit=50&page=0&year=${year}&make=${make}&type=${type}`,
-        options
+        {
+          method: "GET",
+          headers: {
+            "X-RapidAPI-Host": "car-data.p.rapidapi.com",
+            "X-RapidAPI-Key": process.env.REACT_APP_APIKEY,
+          },
+        }
       )
-        .then(console.log("hey"))
         .then((res) => res.json())
         .then((response) => {
           console.log(response);
@@ -25,7 +30,7 @@ const PostAd = () => {
         })
         .catch((err) => console.error("Error: ", err));
     }
-  }, []);
+  }, [make, type, year]);
   console.log(year, make, type);
   console.log("CARS : ", cars);
 
