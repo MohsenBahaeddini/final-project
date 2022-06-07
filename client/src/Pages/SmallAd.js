@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 
 //have to get ad info here from homepage
 const SmallAd = ({ car }) => {
-  console.log(car);
+  // console.log(car);
   return (
     <>
       <StyledLink to={`ad/${car._id}`}>

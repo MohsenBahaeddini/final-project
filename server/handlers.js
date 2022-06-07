@@ -63,12 +63,19 @@ const getAd = async (req, res) => {
   }
 };
 
+// get ads for the specified user
+const getAdByOwner = async(req,res)=>{
+  const client = new MongoClient(MONGO_URI, options);
+try{}catch{}finally{}
+}
+
+
 // add new ad to db
 const addNewAd = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   // will add user info once signin is done or check signed in with another function
   // should be able to get images as well
-  const { type, make, model, year, mileage } = req.body;
+  const { owner, type, make, model, year, mileage } = req.body;
   const newAdId = uuidv4();
   if (!type || !make || !year || !mileage || !model) {
     res.status(400).json({
@@ -81,6 +88,7 @@ const addNewAd = async (req, res) => {
     const db = client.db("mba");
 
     const newAd = {
+      owner: owner,
       _id: newAdId,
       type: type,
       make: make,
@@ -172,4 +180,83 @@ const deleteAd = async (req, res) => {
   }
 };
 
-module.exports = { addNewAd, getAds, getAd, deleteAd, updateAd };
+// check the specified user when signed in by auth0 , if new add it to users collection
+const addNewUser = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+
+  // will add other user info later
+  const { sub, name, email } = req.body;
+  try {
+    await client.connect();
+    const db = client.db("mba");
+    const findUserInDB = await db.collection("users").findOne({ email: email });
+
+    if (findUserInDB) {
+      return console.log("user already exists");
+    }
+    if (!findUserInDB) {
+      const newUser = {
+        sub: sub,
+        email: email,
+        name: name,
+      };
+
+      const inserUser = await db.collection("users").insertOne(newUser);
+      if (inserUser) {
+        res.status(200).json({
+          status: 200,
+          success: true,
+          newUser: newUser,
+        });
+      }
+    }
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
+
+// get all users
+const getUsers = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("mba");
+    const getAllUsers = await db.collection("users").find().toArray();
+    res.status(200).json({
+      status: 200,
+      success: true,
+      users: getAllUsers,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
+// add user
+// const addUser = async (req, res) => {
+//   const client = new MongoClient(MONGO_URI, options);
+
+//   try {
+//   } catch {
+//   } finally {
+//   }
+// };
+
+module.exports = {
+  addNewAd,
+  getAds,
+  getAd,
+  deleteAd,
+  updateAd,
+  addNewUser,
+  getUsers,
+};

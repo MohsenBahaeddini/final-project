@@ -4,7 +4,15 @@
 const express = require("express");
 const morgan = require("morgan");
 
-const { addNewAd, getAds, getAd, deleteAd, updateAd } = require("./handlers");
+const {
+  addNewAd,
+  getAds,
+  getAd,
+  deleteAd,
+  updateAd,
+  addNewUser,
+  getUsers,
+} = require("./handlers");
 
 express()
   // Below are methods that are included in express(). We chain them for convenience.
@@ -30,6 +38,14 @@ express()
   .patch("/api/update-ad/:id", updateAd)
   // delete ad
   .delete("/api/delete-ad/:id", deleteAd)
+
+  // get user when signed in
+
+  // get all users
+  .get("/api/users", getUsers)
+  // add user
+  .post("/api/new-user", addNewUser)
+
   // ---------------------------------
 
   // this is our catch all endpoint.

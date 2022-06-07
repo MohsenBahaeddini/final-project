@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { years, types, makes } from "../data";
-
+import { CurrentUserContext } from "../CurrentUserContext";
 const PostAd = () => {
   const [make, setMake] = useState("");
   const [type, setType] = useState("");
@@ -8,6 +8,11 @@ const PostAd = () => {
   const [model, setModel] = useState("");
   const [mileage, setMileage] = useState("");
   const [cars, setCars] = useState([]);
+  const [image, setImage] = useState("");
+
+  const [newAd, setNewAd] = useState({});
+  const { currentUser } = useContext(CurrentUserContext);
+  console.log("currentuser :", currentUser);
 
   // get all Models for the selected make,type and year from car data api
   useEffect(() => {
@@ -33,10 +38,18 @@ const PostAd = () => {
   console.log(year, make, type);
   console.log("CARS : ", cars);
 
+  const uploadImage = () => {
+    const formData = new FormData();
+    // formData.append("file", image);
+    // formData.append("upload_preset")
+  };
+
   // hadnleSubmit will send the info to the server
   const handleSubmit = (ev) => {
-    ev.preventDeafault();
-    if (make && type && year && model) {
+    console.log("worked");
+    ev.preventDefault();
+    console.log(make, model, year, type);
+    if (make && type && year && model && mileage) {
       fetch("/api/new-ad", {
         method: "POST",
         headers: {
@@ -44,6 +57,7 @@ const PostAd = () => {
           Accept: "application/json",
         },
         body: JSON.stringify({
+          owner: currentUser.email,
           make: make,
           type: type,
           year: year,
@@ -53,7 +67,7 @@ const PostAd = () => {
       })
         .then((res) => res.json())
         .then((response) => {
-          if (response.status === 200) {
+          if (response) {
             console.log(response);
             // localStorage.setItem("_id", response._id);
             //   setResId(response._id);
@@ -111,6 +125,7 @@ const PostAd = () => {
         <select
           onChange={(ev) => {
             setModel(ev.target.value);
+            console.log(ev.target.value);
           }}
         >
           {cars.length &&
@@ -126,6 +141,13 @@ const PostAd = () => {
         />
         <button type="submit">Post My Car</button>
       </form>
+      <input
+        type="file"
+        onChange={(ev) => {
+          setImage(ev.target.files);
+        }}
+      />
+      <button onClick={uploadImage}>upload image</button>
     </>
   );
 };
