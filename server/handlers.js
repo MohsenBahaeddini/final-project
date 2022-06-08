@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require("uuid");
 // use this data. Changes will persist until the server (backend) restarts.
 
 // const { flights, reservations } = require("./data");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const { type } = require("os");
 
 require("dotenv").config();
@@ -20,14 +20,24 @@ const options = {
 const getAds = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   try {
+    const page = req.query.page;
+    const limit = 20;
     await client.connect();
     const db = client.db("mba");
 
-    const findAds = await db.collection("ads").find().toArray();
+    const findAds = await db
+      .collection("ads")
+      .find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .toArray();
     // console.log(findAds);
+    const count = await db.collection("ads").countDocuments();
+
     res.status(200).json({
       status: 200,
       success: true,
+      count,
       ads: findAds,
     });
   } catch (err) {
@@ -44,6 +54,7 @@ const getAds = async (req, res) => {
 const getAd = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const adId = req.params.id;
+  // console.log(req);
   try {
     await client.connect();
     const db = client.db("mba");
@@ -68,9 +79,9 @@ const addNewAd = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   // will add user info once signin is done or check signed in with another function
   // should be able to get images as well
-  const { owner, type, make, model, year, mileage } = req.body;
+  const { owner, type, make, model, year, mileage, price } = req.body;
   const newAdId = uuidv4();
-  if (!type || !make || !year || !mileage || !model) {
+  if (!type || !make || !year || !mileage || !model || !price) {
     res.status(400).json({
       status: 400,
       error: "at least one info is missing",
@@ -88,6 +99,7 @@ const addNewAd = async (req, res) => {
       year: year,
       model: model,
       mileage: mileage,
+      price: price,
     };
     const insertNewAd = await db.collection("ads").insertOne(newAd);
     if (insertNewAd) {
@@ -176,7 +188,7 @@ const deleteAd = async (req, res) => {
 // check the specified user when signed in by auth0 , if new add it to users collection
 const addNewUser = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-
+  // const _id = uuidv4();
   // will add other user info later
   const { sub, name, email } = req.body;
   try {
@@ -189,8 +201,8 @@ const addNewUser = async (req, res) => {
     }
     if (!findUserInDB) {
       const newUser = {
-        // added _id: email
-        _id: email,
+        // removed _id: email
+        _id: sub,
         sub: sub,
         email: email,
         name: name,
@@ -226,6 +238,31 @@ const getUsers = async (req, res) => {
       status: 200,
       success: true,
       users: getAllUsers,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
+
+// get a specific  user
+const getUserById = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const id = req.params.id;
+  console.log(id);
+  try {
+    await client.connect();
+    const db = client.db("mba");
+    const user = await db.collection("users").findOne({ _id: id });
+    console.log(user);
+    res.status(200).json({
+      status: 200,
+      success: true,
+      user: user,
     });
   } catch (err) {
     res.status(500).json({
@@ -293,6 +330,46 @@ const getMessages = async (req, res) => {
   }
 };
 
+// get ads by owner
+const getAdsByOwners = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  // userId like _id:"google-oauth2|115624167694773099675"
+  const { id } = req.params;
+  try {
+    await client.connect();
+    const db = client.db("mba");
+
+    const findUser = await db.collection("users").findOne({ _id: id });
+    console.log("findUser ::", findUser);
+
+    const findUserAds = await db
+      .collection("ads")
+      .find({ owner: findUser.email })
+      .toArray();
+    console.log(findUserAds);
+
+    if (findUserAds) {
+      res.status(200).json({
+        status: 200,
+        success: true,
+        ads: findUserAds,
+      });
+    } else {
+      res.status(400).json({
+        status: 400,
+        message: "this user does not have any ads",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
+
 // get ad by owner
 const getAdByOwner = async (owner) => {
   const client = new MongoClient(MONGO_URI, options);
@@ -336,4 +413,6 @@ module.exports = {
   addMsg,
   getMessages,
   getMyAds,
+  getAdsByOwners,
+  getUserById,
 };

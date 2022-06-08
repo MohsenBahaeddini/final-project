@@ -1,12 +1,28 @@
 import { createContext, useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useParams } from "react-router-dom";
 export const CurrentUserContext = createContext();
 
 export const CurrentUserProvider = ({ children }) => {
   const { user, isAuthenticated } = useAuth0();
   const [currentUser, setCurrentUser] = useState(null);
   const [status, setStatus] = useState("loading");
+  const [error, setError] = useState(false);
 
+  // const { id } = useParams();
+  // useEffect(() => {
+  //   fetch(`/api/user/${id}`)
+  //     .then((res) => res.json())
+  //     .then((response) => {
+  //       setCurrentUser(response);
+  //       setStatus("idle");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setError(true);
+  //     });
+  // }, []);
+  // console.log(currentUser);
   useEffect(() => {
     setCurrentUser(user);
     setStatus("idle");
@@ -14,7 +30,6 @@ export const CurrentUserProvider = ({ children }) => {
 
   // check if user is new and then do fetch post
   // how to check if cx is new? user.sub or user.email  (user id exists?)
- 
 
   return (
     <CurrentUserContext.Provider

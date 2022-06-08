@@ -15,6 +15,8 @@ const {
   addMsg,
   getMessages,
   getMyAds,
+  getAdsByOwners,
+  getUserById,
 } = require("./handlers");
 
 express()
@@ -54,6 +56,12 @@ express()
   .get("/api/messages", getMessages)
 
   .get("/api/my-ads", getMyAds)
+
+  // get ads by owner
+  .get("/api/ads-by-owner/:id", getAdsByOwners)
+
+  // get user by id
+  .get("/api/user/:id", getUserById)
   // ---------------------------------
 
   // this is our catch all endpoint.

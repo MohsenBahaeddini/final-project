@@ -1,9 +1,14 @@
-import { Link, NavLink, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory, useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useContext } from "react";
 import styled from "styled-components";
-
+import { CurrentUserContext } from "../CurrentUserContext";
 const Navbar = () => {
-  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+  const { currentUser } = useContext(CurrentUserContext);
+  console.log("currentUser in navbar :", currentUser);
+  // const { id } = useParams();
+  // console.log(id);
   return (
     <>
       <Wrapper>
@@ -11,9 +16,11 @@ const Navbar = () => {
           <Logo>M.B.A</Logo>
         </StyledLink>
         <Container>
-          {isAuthenticated && (
+          {isAuthenticated && currentUser && (
             <>
-              <StyledNavLink to="/profile">My Profile</StyledNavLink>
+              <StyledNavLink to={`/profile/${currentUser.sub}`}>
+                My Profile
+              </StyledNavLink>
               <StyledNavLink to="/post-ad">Post Ad</StyledNavLink>
               <Button onClick={() => logout()}>Log out</Button>
             </>

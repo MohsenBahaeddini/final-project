@@ -1,11 +1,14 @@
 import { useEffect, useState, useRef, useContext } from "react";
 import { years, types, makes } from "../data";
 import { CurrentUserContext } from "../CurrentUserContext";
+import styled from "styled-components";
+import UploadImg from "./UploadImg";
 const PostAd = () => {
   const [make, setMake] = useState("");
   const [type, setType] = useState("");
   const [year, setYear] = useState("");
   const [model, setModel] = useState("");
+  const [price, setPrice] = useState("");
   const [mileage, setMileage] = useState("");
   const [cars, setCars] = useState([]);
   const [image, setImage] = useState("");
@@ -38,18 +41,18 @@ const PostAd = () => {
   console.log(year, make, type);
   console.log("CARS : ", cars);
 
-  const uploadImage = () => {
-    const formData = new FormData();
-    // formData.append("file", image);
-    // formData.append("upload_preset")
-  };
+  // const uploadImage = () => {
+  //   const formData = new FormData();
+  //   // formData.append("file", image);
+  //   // formData.append("upload_preset")
+  // };
 
   // hadnleSubmit will send the info to the server
   const handleSubmit = (ev) => {
     console.log("worked");
     ev.preventDefault();
     console.log(make, model, year, type);
-    if (make && type && year && model && mileage) {
+    if (make && type && year && model && mileage && price) {
       fetch("/api/new-ad", {
         method: "POST",
         headers: {
@@ -63,6 +66,7 @@ const PostAd = () => {
           year: year,
           model: model,
           mileage: mileage,
+          price: price,
         }),
       })
         .then((res) => res.json())
@@ -83,72 +87,79 @@ const PostAd = () => {
 
   return (
     <>
-      <h1>Enter your car details:</h1>
-      <form onSubmit={handleSubmit}>
-        <label for="type">Type: </label>
-        <select
-          name="type"
-          id="type"
-          onChange={(ev) => {
-            setType(ev.target.value);
-          }}
-        >
-          {types.map((el) => {
-            return <option value={el}>{el}</option>;
-          })}
-        </select>
-        <label for="make">Make: </label>
-        <select
-          onChange={(ev) => {
-            setMake(ev.target.value);
-          }}
-        >
-          {makes.map((make) => {
-            return (
-              <>
-                <option value={make}>{make}</option>
-              </>
-            );
-          })}
-        </select>
-        <label for="year">Year: </label>
-        <select
-          onChange={(ev) => {
-            setYear(ev.target.value);
-          }}
-        >
-          {years.map((year) => {
-            return <option value={year}>{year}</option>;
-          })}
-        </select>
-        <label for="model">Model: </label>
-        <select
-          onChange={(ev) => {
-            setModel(ev.target.value);
-            console.log(ev.target.value);
-          }}
-        >
-          {cars.length &&
-            cars.map((car) => {
-              return <option value={car.model}>{car.model}</option>;
+      <Wrapper>
+        <h2>Enter your car details:</h2>
+        <form onSubmit={handleSubmit}>
+          <label for="type">Type: </label>
+          <select
+            name="type"
+            id="type"
+            onChange={(ev) => {
+              setType(ev.target.value);
+            }}
+          >
+            {types.map((el) => {
+              return <option value={el}>{el}</option>;
             })}
-        </select>
-        <label for="mileage">Mileage: </label>
-        <input
-          type="text"
-          placeholder="Current mileage in kilometers"
-          onChange={(ev) => setMileage(ev.target.value)}
-        />
-        <button type="submit">Post My Car</button>
-      </form>
-      <input
-        type="file"
-        onChange={(ev) => {
-          setImage(ev.target.files);
-        }}
-      />
-      <button onClick={uploadImage}>upload image</button>
+          </select>
+          <label for="make">Make: </label>
+          <select
+            onChange={(ev) => {
+              setMake(ev.target.value);
+            }}
+          >
+            {makes.map((make) => {
+              return (
+                <>
+                  <option value={make}>{make}</option>
+                </>
+              );
+            })}
+          </select>
+          <label for="year">Year: </label>
+          <select
+            onChange={(ev) => {
+              setYear(ev.target.value);
+            }}
+          >
+            {years.map((year) => {
+              return <option value={year}>{year}</option>;
+            })}
+          </select>
+          <label for="model">Model: </label>
+          <select
+            onChange={(ev) => {
+              setModel(ev.target.value);
+              console.log(ev.target.value);
+            }}
+          >
+            {cars.length &&
+              cars.map((car) => {
+                return <option value={car.model}>{car.model}</option>;
+              })}
+          </select>
+          <label for="mileage">Mileage: </label>
+          <input
+            type="text"
+            placeholder="Current mileage in kilometers"
+            onChange={(ev) => setMileage(ev.target.value)}
+          />
+          <label for="price">Price: </label>
+          <input
+            type="text"
+            // placeholder=""
+            onChange={(ev) => setPrice(ev.target.value)}
+          />
+          <UploadImg />
+          <button type="submit">Post My Car</button>
+        </form>
+      </Wrapper>
     </>
   );
 };
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+`;
 export default PostAd;

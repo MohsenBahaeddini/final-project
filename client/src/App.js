@@ -30,7 +30,7 @@ const App = () => {
           <Route exact path="/post-ad">
             <Post />
           </Route>
-          <Route exact path="/profile">
+          <Route exact path="/profile/:id">
             <Profile />
           </Route>
         </Switch>

@@ -64,7 +64,7 @@ label,
 button {
   color: grey;
   font-family: var(--font-heading);
-  font-size: 32px;
+  font-size: 16px;
   text-align: center;
 }
 p,
@@ -76,10 +76,10 @@ input {
 }
 
   input {
-    font-size: 24px;
-    height: 42px;
+    font-size: 16;
+    height: 24px;
     border: 2px solid var(--color-orange);
     border-radius: 4px;
-    padding: 0 12px;
+    padding: 0 6px;
   }
 `;

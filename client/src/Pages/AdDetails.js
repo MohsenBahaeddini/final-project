@@ -12,6 +12,7 @@ const AdDetails = () => {
   const { currentUser } = useContext(CurrentUserContext);
 
   const { id } = useParams();
+  console.log(id);
   useEffect(() => {
     fetch(`/api/ad/${id}`)
       .then((res) => res.json())
@@ -51,7 +52,6 @@ const AdDetails = () => {
             // localStorage.setItem("_id", response._id);
             //   setResId(response._id);
             //   history.push("/confirmed");
-            
           }
         });
     }
