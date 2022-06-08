@@ -11,6 +11,7 @@ const Homepage = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [status, setStatus] = useState("loading");
 
+  // would change thiis to have pagination
   useEffect(() => {
     fetch("/api/ads", {
       headers: {
@@ -65,13 +66,28 @@ const Homepage = () => {
 
   return (
     <>
-      Homepage
-      {/* have to map on all ads to get each ad info and pass to SmallAd */}
-      {ads.map((ad, index) => {
-        return <SmallAd key={index} car={ad} />;
-      })}
+      <Wrapper>
+        <SideBar>SideBar for search filter</SideBar>
+
+        {/* have to map on all ads to get each ad info and pass to SmallAd */}
+        {ads.map((ad, index) => {
+          return <SmallAd key={index} car={ad} />;
+        })}
+      </Wrapper>
     </>
   );
 };
-
+// const Wrapper = styled.div`
+//   display: flex;
+// `;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+const SideBar = styled.div`
+  flex-basis: 10%;
+  padding: 15px 20px 20px 10px;
+  border-radius: 10px;
+`;
 export default Homepage;

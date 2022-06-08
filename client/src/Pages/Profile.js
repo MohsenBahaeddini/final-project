@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import { CurrentUserContext } from "../CurrentUserContext";
 import MyAd from "./MyAd";
 
-
 const Profile = () => {
   const { user, isAuthenticated } = useAuth0();
   const { currentUser } = useContext(CurrentUserContext);
@@ -16,7 +15,7 @@ const Profile = () => {
         <>
           <p>{user.name}</p>
           <img src={user.picture} alt={user.name} />
-          <MyAd currentUser={currentUser}/>
+          <MyAd currentUser={currentUser} />
         </>
       )}
     </>

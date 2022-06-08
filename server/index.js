@@ -12,6 +12,9 @@ const {
   updateAd,
   addNewUser,
   getUsers,
+  addMsg,
+  getMessages,
+  getMyAds,
 } = require("./handlers");
 
 express()
@@ -39,13 +42,18 @@ express()
   // delete ad
   .delete("/api/delete-ad/:id", deleteAd)
 
-  // get user when signed in
-
   // get all users
   .get("/api/users", getUsers)
   // add user
   .post("/api/new-user", addNewUser)
 
+  // add new message
+  .post("/api/new-msg", addMsg)
+
+  // get all messages
+  .get("/api/messages", getMessages)
+
+  .get("/api/my-ads", getMyAds)
   // ---------------------------------
 
   // this is our catch all endpoint.

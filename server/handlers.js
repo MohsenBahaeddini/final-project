@@ -40,7 +40,7 @@ const getAds = async (req, res) => {
   }
 };
 
-// get a specific ad
+// get a specific ad by id
 const getAd = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const adId = req.params.id;
@@ -62,13 +62,6 @@ const getAd = async (req, res) => {
     await client.close();
   }
 };
-
-// get ads for the specified user
-const getAdByOwner = async(req,res)=>{
-  const client = new MongoClient(MONGO_URI, options);
-try{}catch{}finally{}
-}
-
 
 // add new ad to db
 const addNewAd = async (req, res) => {
@@ -196,13 +189,15 @@ const addNewUser = async (req, res) => {
     }
     if (!findUserInDB) {
       const newUser = {
+        // added _id: email
+        _id: email,
         sub: sub,
         email: email,
         name: name,
       };
 
-      const inserUser = await db.collection("users").insertOne(newUser);
-      if (inserUser) {
+      const insertUser = await db.collection("users").insertOne(newUser);
+      if (insertUser) {
         res.status(200).json({
           status: 200,
           success: true,
@@ -241,15 +236,94 @@ const getUsers = async (req, res) => {
     await client.close();
   }
 };
-// add user
-// const addUser = async (req, res) => {
-//   const client = new MongoClient(MONGO_URI, options);
 
-//   try {
-//   } catch {
-//   } finally {
-//   }
-// };
+// add new message to db
+const addMsg = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { message, sender, receiver, adId } = req.body;
+  try {
+    await client.connect();
+    const db = client.db("mba");
+    const newMessage = {
+      message: message,
+      sender: sender,
+      receiver: receiver,
+      adId: adId,
+    };
+    const insertNewMessage = await db
+      .collection("messages")
+      .insertOne(newMessage);
+    if (insertNewMessage) {
+      res.status(200).json({
+        status: 200,
+        success: true,
+        insertNewMessage: insertNewMessage,
+        newMessage: newMessage,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
+
+// get all messages in db
+const getMessages = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("mba");
+    const getAllMessages = await db.collection("messages").find().toArray();
+    res.status(200).json({
+      status: 200,
+      success: true,
+      messages: getAllMessages,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
+
+// get ad by owner
+const getAdByOwner = async (owner) => {
+  const client = new MongoClient(MONGO_URI, options);
+
+  try {
+    await client.connect();
+    const db = client.db("mba");
+    const result = await db.collection("ads").find({ owner: owner }).toArray();
+    console.log("result: ", result);
+    if (result) return result;
+    else return "ad by owner not found";
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// get myAds
+const getMyAds = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("mba");
+    console.log("req************* :", req);
+    const myAds = await db.getAdByOwner(req.user._id);
+    res.status(200).json({ status: 200, data: myAds });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+};
 
 module.exports = {
   addNewAd,
@@ -259,4 +333,7 @@ module.exports = {
   updateAd,
   addNewUser,
   getUsers,
+  addMsg,
+  getMessages,
+  getMyAds,
 };
