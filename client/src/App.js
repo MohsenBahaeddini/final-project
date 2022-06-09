@@ -7,6 +7,7 @@ import Post from "./Pages/PostAd";
 import GlobalStyles from "./GlobalStyles";
 import AdDetails from "./Pages/AdDetails";
 import Profile from "./Pages/Profile";
+import MyMessages from "./Pages/MyMessages";
 
 const App = () => {
   return (
@@ -32,6 +33,9 @@ const App = () => {
           </Route>
           <Route exact path="/profile/:id">
             <Profile />
+          </Route>
+          <Route exact patch="/messages/:id">
+            <MyMessages />
           </Route>
         </Switch>
       </Router>

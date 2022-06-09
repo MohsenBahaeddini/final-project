@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { NavLink, useParams } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import { CurrentUserContext } from "../CurrentUserContext";
+import moment from "moment";
 
 const AdDetails = () => {
   const [ad, setAd] = useState({});
@@ -32,16 +33,22 @@ const AdDetails = () => {
     ev.preventDefault();
     console.log("working");
     if (msg) {
-      fetch("/api/new-msg", {
+      fetch("/api/new-conversation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify({
-          message: msg,
-          sender: currentUser.email,
-          receiver: ad.owner,
+          messages: [
+            {
+              user: currentUser.email,
+              body: msg,
+              date: moment().format("h:mm A - MMMM Do, YYYY"),
+            },
+          ],
+          buyer: currentUser.email,
+          seller: ad.owner,
           adId: id,
         }),
       })
@@ -56,6 +63,7 @@ const AdDetails = () => {
         });
     }
   };
+  console.log(msg);
 
   if (error) {
     return (

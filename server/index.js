@@ -14,9 +14,11 @@ const {
   getUsers,
   addMsg,
   getMessages,
-  getMyAds,
   getAdsByOwners,
   getUserById,
+  createConversation,
+  getConversationsByAdId,
+  updateConversation,
 } = require("./handlers");
 
 express()
@@ -55,13 +57,20 @@ express()
   // get all messages
   .get("/api/messages", getMessages)
 
-  .get("/api/my-ads", getMyAds)
-
   // get ads by owner
   .get("/api/ads-by-owner/:id", getAdsByOwners)
 
   // get user by id
   .get("/api/user/:id", getUserById)
+
+  // create new conversation
+  .post("/api/new-conversation", createConversation)
+
+  // get conversations for the specific ad
+  .get("/api/conversations-by-ad/:id", getConversationsByAdId)
+
+  // update conversation
+  .patch("/api/update-conversation/:id", updateConversation)
   // ---------------------------------
 
   // this is our catch all endpoint.

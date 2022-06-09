@@ -1,11 +1,9 @@
 // use this package to generate unique ids: https://www.npmjs.com/package/uuid
 const { v4: uuidv4 } = require("uuid");
 
-// use this data. Changes will persist until the server (backend) restarts.
-
-// const { flights, reservations } = require("./data");
 const { MongoClient, ObjectId } = require("mongodb");
 const { type } = require("os");
+const { query } = require("express");
 
 require("dotenv").config();
 
@@ -277,15 +275,17 @@ const getUserById = async (req, res) => {
 // add new message to db
 const addMsg = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  const { message, sender, receiver, adId } = req.body;
+  const { message, sender, receiver, adId, conversationId } = req.body;
   try {
     await client.connect();
     const db = client.db("mba");
     const newMessage = {
+      _id: adId,
       message: message,
       sender: sender,
       receiver: receiver,
       adId: adId,
+      conversationId: conversationId,
     };
     const insertNewMessage = await db
       .collection("messages")
@@ -340,13 +340,13 @@ const getAdsByOwners = async (req, res) => {
     const db = client.db("mba");
 
     const findUser = await db.collection("users").findOne({ _id: id });
-    console.log("findUser ::", findUser);
+    // console.log("findUser ::", findUser);
 
     const findUserAds = await db
       .collection("ads")
       .find({ owner: findUser.email })
       .toArray();
-    console.log(findUserAds);
+    // console.log(findUserAds);
 
     if (findUserAds) {
       res.status(200).json({
@@ -370,33 +370,151 @@ const getAdsByOwners = async (req, res) => {
   }
 };
 
-// get ad by owner
-const getAdByOwner = async (owner) => {
+// create conversation
+const createConversation = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-
+  // will add date(timestamp) // actually should be added in messages object
+  const { seller, buyer, adId, messages } = req.body;
+  const id = uuidv4();
   try {
     await client.connect();
     const db = client.db("mba");
-    const result = await db.collection("ads").find({ owner: owner }).toArray();
-    console.log("result: ", result);
-    if (result) return result;
-    else return "ad by owner not found";
+    const newConversation = {
+      _id: id,
+      // title: title,
+      seller: seller,
+      buyer: buyer,
+      messages: messages,
+      adId: adId,
+    };
+    const insertConversation = await db
+      .collection("conversations")
+      .insertOne(newConversation);
+    if (insertConversation.acknowledged) {
+      res.status(200).json({
+        status: 200,
+        success: true,
+        newConversation: newConversation,
+      });
+    }
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
   }
 };
 
-// get myAds
-const getMyAds = async (req, res) => {
+// get Conversation by ID
+// NOT SURE IF NEED THIS ONE
+const getConverationsById = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
+  const id = req.params.id;
+  // console.log(id);
   try {
     await client.connect();
     const db = client.db("mba");
-    console.log("req************* :", req);
-    const myAds = await db.getAdByOwner(req.user._id);
-    res.status(200).json({ status: 200, data: myAds });
+    const conversation = await db
+      .collection("conversations")
+      .findOne({ _id: id });
+    // console.log(user);
+    res.status(200).json({
+      status: 200,
+      success: true,
+      conversation: conversation,
+    });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
+
+// get conversations by adId
+const getConversationsByAdId = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { id } = req.params;
+  try {
+    await client.connect();
+    const db = client.db("mba");
+    const findAdById = await db.collection("ads").findOne({ _id: id });
+    console.log("findAdById ::", findAdById);
+
+    const findConversationByAdId = await db
+      .collection("conversations")
+      .find({ adId: findAdById._id })
+      .toArray();
+    console.log("findConversationByAdId ::", findConversationByAdId);
+    if (findConversationByAdId) {
+      res.status(200).json({
+        status: 200,
+        success: true,
+        conversations: findConversationByAdId,
+      });
+    } else {
+      res.status(400).json({
+        status: 400,
+        message: "There is no message for this ad",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
+
+// update conversation
+// cannot patch ... ?!!
+const updateConversation = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { messages } = req.body;
+  console.log(messages);
+  const conversationId = req.params.id;
+  const query = { _id: conversationId };
+  console.log(conversationId);
+  console.log(query);
+
+  try {
+    await client.connect();
+    const db = client.db("mba");
+    const previousMessages = await db
+      .collection("conversations")
+      .findOne({ _id: conversationId });
+    console.log("previousMessages ::", previousMessages);
+    const newMessages = [...previousMessages.messages];
+    newMessages.push(messages);
+    console.log("newMessages :", newMessages);
+
+    newValues = {
+      $set: {
+        messages: newMessages,
+      },
+    };
+
+    const addNewMsg = await db
+      .collection("conversations")
+      .updateOne(query, newValues);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      updatedConversation: addNewMsg,
+      newMessages: newMessages,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
   } finally {
     await client.close();
   }
@@ -412,7 +530,9 @@ module.exports = {
   getUsers,
   addMsg,
   getMessages,
-  getMyAds,
   getAdsByOwners,
   getUserById,
+  createConversation,
+  getConversationsByAdId,
+  updateConversation,
 };
