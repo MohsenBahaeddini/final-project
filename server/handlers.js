@@ -273,62 +273,62 @@ const getUserById = async (req, res) => {
 };
 
 // add new message to db
-const addMsg = async (req, res) => {
-  const client = new MongoClient(MONGO_URI, options);
-  const { message, sender, receiver, adId, conversationId } = req.body;
-  try {
-    await client.connect();
-    const db = client.db("mba");
-    const newMessage = {
-      _id: adId,
-      message: message,
-      sender: sender,
-      receiver: receiver,
-      adId: adId,
-      conversationId: conversationId,
-    };
-    const insertNewMessage = await db
-      .collection("messages")
-      .insertOne(newMessage);
-    if (insertNewMessage) {
-      res.status(200).json({
-        status: 200,
-        success: true,
-        insertNewMessage: insertNewMessage,
-        newMessage: newMessage,
-      });
-    }
-  } catch (err) {
-    res.status(500).json({
-      status: 500,
-      Error: err.message,
-    });
-  } finally {
-    await client.close();
-  }
-};
+// const addMsg = async (req, res) => {
+//   const client = new MongoClient(MONGO_URI, options);
+//   const { message, sender, receiver, adId, conversationId } = req.body;
+//   try {
+//     await client.connect();
+//     const db = client.db("mba");
+//     const newMessage = {
+//       _id: adId,
+//       message: message,
+//       sender: sender,
+//       receiver: receiver,
+//       adId: adId,
+//       conversationId: conversationId,
+//     };
+//     const insertNewMessage = await db
+//       .collection("messages")
+//       .insertOne(newMessage);
+//     if (insertNewMessage) {
+//       res.status(200).json({
+//         status: 200,
+//         success: true,
+//         insertNewMessage: insertNewMessage,
+//         newMessage: newMessage,
+//       });
+//     }
+//   } catch (err) {
+//     res.status(500).json({
+//       status: 500,
+//       Error: err.message,
+//     });
+//   } finally {
+//     await client.close();
+//   }
+// };
 
 // get all messages in db
-const getMessages = async (req, res) => {
-  const client = new MongoClient(MONGO_URI, options);
-  try {
-    await client.connect();
-    const db = client.db("mba");
-    const getAllMessages = await db.collection("messages").find().toArray();
-    res.status(200).json({
-      status: 200,
-      success: true,
-      messages: getAllMessages,
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: 500,
-      Error: err.message,
-    });
-  } finally {
-    await client.close();
-  }
-};
+// const getMessages = async (req, res) => {
+//   const client = new MongoClient(MONGO_URI, options);
+//   try {
+//     await client.connect();
+//     const db = client.db("mba");
+//     const getAllMessages = await db.collection("messages").find().toArray();
+//     res.status(200).json({
+//       status: 200,
+//       success: true,
+//       messages: getAllMessages,
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       status: 500,
+//       Error: err.message,
+//     });
+//   } finally {
+//     await client.close();
+//   }
+// };
 
 // get ads by owner
 const getAdsByOwners = async (req, res) => {
@@ -528,8 +528,8 @@ module.exports = {
   updateAd,
   addNewUser,
   getUsers,
-  addMsg,
-  getMessages,
+  // addMsg,
+  // getMessages,
   getAdsByOwners,
   getUserById,
   createConversation,

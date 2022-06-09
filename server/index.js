@@ -10,16 +10,17 @@ const {
   getAd,
   deleteAd,
   updateAd,
-  addNewUser,
-  getUsers,
-  addMsg,
-  getMessages,
   getAdsByOwners,
-  getUserById,
+} = require("./adsHandlers");
+
+const {
   createConversation,
   getConversationsByAdId,
   updateConversation,
-} = require("./handlers");
+  getConverationsById,
+} = require("./ConversationsHandlers");
+
+const { addNewUser, getUsers, getUserById } = require("./usersHandlers");
 
 express()
   // Below are methods that are included in express(). We chain them for convenience.
@@ -33,7 +34,7 @@ express()
   .use(express.static("public"))
 
   // ---------------------------------
-  // endpoints here
+  // REST endpoints
 
   // get all ads
   .get("/api/ads", getAds)
@@ -50,12 +51,6 @@ express()
   .get("/api/users", getUsers)
   // add user
   .post("/api/new-user", addNewUser)
-
-  // add new message
-  .post("/api/new-msg", addMsg)
-
-  // get all messages
-  .get("/api/messages", getMessages)
 
   // get ads by owner
   .get("/api/ads-by-owner/:id", getAdsByOwners)
@@ -83,3 +78,20 @@ express()
 
   // Node spins up the server and sets it to listen on port 8000.
   .listen(8000, console.log("listening on port 8000"));
+
+// const {
+//   // addNewAd,
+//   // getAds,
+//   // getAd,
+//   // deleteAd,
+//   // updateAd,
+//   // getAdsByOwners,
+//   // addNewUser,
+//   // getUsers,
+//   // getUserById,
+//   // addMsg,
+//   // getMessages,
+//   // createConversation,
+//   // getConversationsByAdId,
+//   // updateConversation,
+// } = require("./handlers");

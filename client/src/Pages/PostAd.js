@@ -41,12 +41,6 @@ const PostAd = () => {
   console.log(year, make, type);
   console.log("CARS : ", cars);
 
-  // const uploadImage = () => {
-  //   const formData = new FormData();
-  //   // formData.append("file", image);
-  //   // formData.append("upload_preset")
-  // };
-
   // hadnleSubmit will send the info to the server
   const handleSubmit = (ev) => {
     console.log("worked");
@@ -147,7 +141,7 @@ const PostAd = () => {
           <label for="price">Price: </label>
           <input
             type="text"
-            // placeholder=""
+            // placeholdr="Your car price in CAD"
             onChange={(ev) => setPrice(ev.target.value)}
           />
           <UploadImg />
