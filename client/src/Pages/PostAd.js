@@ -149,7 +149,6 @@ const PostAd = () => {
             // placeholdr="Your car price in CAD"
             onChange={(ev) => setPrice(ev.target.value)}
           />
-          {/* <UploadImg /> */}
 
           <button type="submit">Post My Ad</button>
         </form>

@@ -57,6 +57,7 @@ const MyConversations = () => {
       <h5>
         <h4>check your messages to sellers </h4>
         {status === "idle" &&
+          conversations &&
           conversations.map((conversation, index) => {
             console.log(conversation);
             return (
