@@ -1,24 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import { CurrentUserContext } from "../CurrentUserContext";
-import styled from "styled-components";
 import { Link, NavLink, useParams, useHistory } from "react-router-dom";
-import moment from "moment";
 
-const MyMessages = () => {
-  // const [allMessages, setAllMessages] = useState([]);
-  // const [myMsgs, setMyMsgs] = useState([]);
-  const [myConversations, setMyConversations] = useState([]);
+import { CurrentUserContext } from "../CurrentUserContext";
+import moment from "moment";
+const MyConversations = () => {
+  // conversations as buyer
+  const [conversations, setConversations] = useState([]);
   const [status, setStatus] = useState("loading");
   const [msg, setMsg] = useState("");
-  // const [msgStatus, setMsgStatus] = useState(false);
   const { currentUser } = useContext(CurrentUserContext);
+  console.log(currentUser);
 
-  // get the messages that owner has received for a specific ad
   const { id } = useParams();
-  console.log("id **** :", id);
-
+  console.log("id in myconversation :", id);
   useEffect(() => {
-    fetch(`/api/conversations-by-ad/${id}`, {
+    fetch(`/api/conversations-by-buyers/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -27,7 +23,7 @@ const MyMessages = () => {
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
-        setMyConversations(response.conversations);
+        setConversations(response.conversations);
         setStatus("idle");
       })
       .catch((err) => {
@@ -35,10 +31,8 @@ const MyMessages = () => {
       });
   }, []);
 
-  console.log(msg);
-
   const handleAfterSendMsg = () => {
-    fetch(`/api/conversations-by-ad/${id}`, {
+    fetch(`/api/conversations-by-buyers/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -47,7 +41,7 @@ const MyMessages = () => {
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
-        setMyConversations(response.conversations);
+        setConversations(response.conversations);
         setStatus("idle");
       })
       .catch((err) => {
@@ -56,27 +50,23 @@ const MyMessages = () => {
     setMsg("");
   };
 
-  console.log(myConversations);
+  console.log(conversations);
   return (
     <>
-      My messages
+      MyConversations Section
       <h5>
+        <h4>check your messages to sellers </h4>
         {status === "idle" &&
-          myConversations.map((conversation, index) => {
+          conversations.map((conversation, index) => {
+            console.log(conversation);
             return (
               <div key={index}>
-                <h4>{conversation.buyer} is interested in your car</h4>
-                <h4>your ad id is : {conversation.adId} </h4>
-                <h4>your conversation id is : {conversation._id} </h4>
                 {conversation.messages.map((msg) => {
-                  console.log("msg +++++", msg);
+                  console.log(msg);
                   return (
                     <>
-                      {/* rendering all messages */}
-                      {/* user or id */}
-                      <h2>{msg.user}</h2>
-                      <h2>{msg.body}</h2>
-                      <h2>{msg.date}</h2>
+                      <h4>{msg.body}</h4>
+                      <h4>{msg.date}</h4>
                     </>
                   );
                 })}
@@ -126,4 +116,4 @@ const MyMessages = () => {
     </>
   );
 };
-export default MyMessages;
+export default MyConversations;

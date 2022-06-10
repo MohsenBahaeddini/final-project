@@ -11,7 +11,7 @@ const AdDetails = () => {
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
-
+  console.log("currentUser******", currentUser);
   const { id } = useParams();
   console.log(id);
   useEffect(() => {
@@ -48,6 +48,7 @@ const AdDetails = () => {
             },
           ],
           buyer: currentUser.email,
+          buyerId: currentUser.sub,
           seller: ad.owner,
           adId: id,
         }),
@@ -74,6 +75,7 @@ const AdDetails = () => {
   }
   return (
     <>
+      <img src={ad.imageUrl} />
       <h1>{ad.type}</h1>
       <h2>{ad.make}</h2>
       <h3>{ad.model}</h3>

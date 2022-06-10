@@ -2,7 +2,8 @@ import { useEffect, useState, useRef, useContext } from "react";
 import { years, types, makes } from "../data";
 import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
-import UploadImg from "./UploadImg";
+// import UploadImg from "./UploadImg";
+import UploadImage from "./UploadImage";
 const PostAd = () => {
   const [make, setMake] = useState("");
   const [type, setType] = useState("");
@@ -12,6 +13,7 @@ const PostAd = () => {
   const [mileage, setMileage] = useState("");
   const [cars, setCars] = useState([]);
   const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState([]);
 
   const [newAd, setNewAd] = useState({});
   const { currentUser } = useContext(CurrentUserContext);
@@ -61,6 +63,7 @@ const PostAd = () => {
           model: model,
           mileage: mileage,
           price: price,
+          imageUrl: [imageUrl],
         }),
       })
         .then((res) => res.json())
@@ -78,6 +81,8 @@ const PostAd = () => {
   if (cars.length) {
     console.log(cars);
   }
+
+  console.log("imageUrl :; ", imageUrl);
 
   return (
     <>
@@ -144,9 +149,11 @@ const PostAd = () => {
             // placeholdr="Your car price in CAD"
             onChange={(ev) => setPrice(ev.target.value)}
           />
-          <UploadImg />
-          <button type="submit">Post My Car</button>
+          {/* <UploadImg /> */}
+
+          <button type="submit">Post My Ad</button>
         </form>
+        <UploadImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
       </Wrapper>
     </>
   );

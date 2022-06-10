@@ -11,7 +11,8 @@ const SmallAd = ({ car }) => {
         <Main>
           <AdsContainer>
             <ItemContainer>
-              image
+              <img src={car.imageUrl} />
+
               <StyledLink to={`ad/${car._id}`}>
                 <H1>CAR TYPE: {car.type}</H1>
               </StyledLink>
@@ -19,6 +20,7 @@ const SmallAd = ({ car }) => {
               <H1>MODEL: {car.model}</H1>
               <H1>YEAR: {car.year}</H1>
               <H1>MILEAGE: {car.mileage}km</H1>
+              <H1>PRICE: ${car.price}</H1>
             </ItemContainer>
           </AdsContainer>
         </Main>

@@ -17,7 +17,7 @@ const options = {
 const createConversation = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   // will add date(timestamp) // actually should be added in messages object
-  const { seller, buyer, adId, messages } = req.body;
+  const { seller, buyer, buyerId, adId, messages } = req.body;
   const id = uuidv4();
   try {
     await client.connect();
@@ -27,6 +27,7 @@ const createConversation = async (req, res) => {
       // title: title,
       seller: seller,
       buyer: buyer,
+      buyerId: buyerId,
       messages: messages,
       adId: adId,
     };
@@ -114,14 +115,50 @@ const getConversationsByAdId = async (req, res) => {
   }
 };
 
+const getConversationsByBuyerId = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  // id will be currentuser.sub
+  const { id } = req.params;
+  try {
+    await client.connect();
+    const db = client.db("mba");
+    const findUser = await db.collection("users").findOne({ _id: id });
+
+    const findUserConversations = await db
+      .collection("conversations")
+      .find({ buyerId: findUser._id })
+      .toArray();
+
+    if (findUserConversations) {
+      res.status(200).json({
+        status: 200,
+        success: true,
+        conversations: findUserConversations,
+      });
+    } else {
+      res.status(400).json({
+        status: 400,
+        message: "this user has not asked any owner",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
+
 // update conversation
 const updateConversation = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const { messages } = req.body;
-  console.log(messages);
+  console.log("messages:", messages);
   const conversationId = req.params.id;
   const query = { _id: conversationId };
-  console.log(conversationId);
+  console.log("conversationId :::", conversationId);
   console.log(query);
 
   try {
@@ -130,6 +167,7 @@ const updateConversation = async (req, res) => {
     const previousMessages = await db
       .collection("conversations")
       .findOne({ _id: conversationId });
+
     console.log("previousMessages ::", previousMessages);
     const newMessages = [...previousMessages.messages];
     newMessages.push(messages);
@@ -166,4 +204,5 @@ module.exports = {
   getConversationsByAdId,
   updateConversation,
   getConverationsById,
+  getConversationsByBuyerId,
 };

@@ -16,7 +16,9 @@ const App = () => {
         <GlobalStyles />
         <Navbar />
         <Switch>
-          <Route exact path="/" component={Homepage}></Route>
+          <Route exact path="/">
+            <Homepage />
+          </Route>
           <Route exact path="/ad/:id">
             <AdDetails />
           </Route>
@@ -34,7 +36,7 @@ const App = () => {
           <Route exact path="/profile/:id">
             <Profile />
           </Route>
-          <Route exact patch="/messages/:id">
+          <Route exact path="/messages/:id">
             <MyMessages />
           </Route>
         </Switch>

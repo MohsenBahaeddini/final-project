@@ -51,6 +51,7 @@ const MyAd = ({ currentUser }) => {
         console.log(err);
       });
   };
+  console.log(myAds);
   return (
     <>
       MyAds
@@ -67,6 +68,7 @@ const MyAd = ({ currentUser }) => {
                 <h4>{ad.make}</h4>
                 <h4>{ad.model}</h4>
                 <h4>{ad.year}</h4>
+                <img src={ad.imageUrl} />
                 <button
                   onClick={(ev) => {
                     ev.preventDefault();

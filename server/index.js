@@ -18,6 +18,7 @@ const {
   getConversationsByAdId,
   updateConversation,
   getConverationsById,
+  getConversationsByBuyerId,
 } = require("./ConversationsHandlers");
 
 const { addNewUser, getUsers, getUserById } = require("./usersHandlers");
@@ -63,6 +64,9 @@ express()
 
   // get conversations for the specific ad
   .get("/api/conversations-by-ad/:id", getConversationsByAdId)
+
+  // get conversations for buyers
+  .get("/api/conversations-by-buyers/:id", getConversationsByBuyerId)
 
   // update conversation
   .patch("/api/update-conversation/:id", updateConversation)

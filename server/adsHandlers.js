@@ -77,7 +77,7 @@ const addNewAd = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   // will add user info once signin is done or check signed in with another function
   // should be able to get images as well
-  const { owner, type, make, model, year, mileage, price } = req.body;
+  const { owner, type, make, model, year, mileage, price, imageUrl } = req.body;
   const newAdId = uuidv4();
   if (!type || !make || !year || !mileage || !model || !price) {
     res.status(400).json({
@@ -98,6 +98,7 @@ const addNewAd = async (req, res) => {
       model: model,
       mileage: mileage,
       price: price,
+      imageUrl: imageUrl,
     };
     const insertNewAd = await db.collection("ads").insertOne(newAd);
     if (insertNewAd) {
