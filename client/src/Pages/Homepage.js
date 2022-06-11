@@ -149,8 +149,8 @@ const Homepage = () => {
         </div>
         <h4>Sort ads:</h4>
         <select onChange={(e) => setSort(e.target.value)}>
-          <option value="asc">Price (asc)</option>
-          <option value="desc">Price (desc)</option>
+          <option value="asc">Price ⬆</option>
+          <option value="desc">Price ⬇</option>
         </select>
         <SmallAd filters={filters} sort={sort} />
         {/* <Pagination pageNum={pageNum} setPageNum={setPageNum} /> */}

@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { Link, NavLink, useHistory } from "react-router-dom";
 
 const DisplayAds = ({ car }) => {
+  console.log(car.imageUrl);
   return (
     <>
-      <img src={car.imageUrl} />
+      <img src={car.imageUrl[0]} />
 
       <StyledLink to={`ad/${car._id}`}>
         <H1>CAR TYPE: {car.type}</H1>

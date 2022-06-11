@@ -7,7 +7,7 @@ import moment from "moment";
 
 const AdDetails = () => {
   const [ad, setAd] = useState({});
-  const [loading, setLoading] = useState("loading");
+  const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
@@ -19,7 +19,7 @@ const AdDetails = () => {
       .then((res) => res.json())
       .then((response) => {
         setAd(response.ad);
-        setLoading("idle");
+        setStatus("idle");
       })
       .catch((err) => {
         console.log(err);
@@ -73,9 +73,18 @@ const AdDetails = () => {
       </>
     );
   }
+
+  // having issue when loading
+  console.log(" ^^^^^^^^^^", ad.imageUrl);
   return (
     <>
-      <img src={ad.imageUrl} />
+      {status === "idle" &&
+        ad &&
+        ad.imageUrl.map((url, index) => {
+          console.log(url, index);
+          return <img src={url} key={index} />;
+        })}
+
       <h1>{ad.type}</h1>
       <h2>{ad.make}</h2>
       <h3>{ad.model}</h3>

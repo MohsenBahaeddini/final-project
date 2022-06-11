@@ -16,14 +16,26 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
         // events reference:
 
         if (result.event === "success") {
-          setImageUrl([...imageUrl, result.info.secure_url]);
+          if (result.info.secure_url) {
+            let myArr = imageUrl;
+            console.log(myArr);
+            myArr.push(result.info.secure_url);
+            console.log(myArr);
+            setImageUrl(myArr);
+            console.log(imageUrl);
+          }
+          // console.log(result.info);
+          // const newUrlArray = [result.info.secure_url];
+          // setImageUrl([...newUrlArray, ...imageUrl]);
         }
       }
     );
     setWidgetRef(widget);
   }, []);
+
   return (
     <>
+      {console.log("imageUrl ::", imageUrl)}
       <button onClick={() => widgetRef.open()}>upload image</button>
     </>
   );

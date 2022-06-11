@@ -54,14 +54,14 @@ const SmallAd = ({ filters, sort }) => {
     if (sort === "asc") {
       setFilteredAds((prev) => [...prev].sort((a, b) => a.price - b.price));
     } else {
-      setFilteredAds((prev) =>
-        [...prev].sort((a, b) => parseInt(b.price) - parseInt(a.price))
-      );
+      setFilteredAds((prev) => [...prev].sort((a, b) => b.price - a.price));
     }
   }, [sort]);
-  console.log("ads :", ads.length);
-  console.log("filteredAds :", filteredAds.length);
-  console.log(filteredAds);
+
+  // console.log("ads :", ads.length);
+  // console.log("filteredAds :", filteredAds.length);
+  console.log("filteredAds  +++ :", filteredAds);
+  console.log("");
   console.log("sort :::", sort);
 
   // console.log(filters);
@@ -71,7 +71,7 @@ const SmallAd = ({ filters, sort }) => {
         <Main>
           <AdsContainer>
             <ItemContainer>
-              {filteredAds.length < ads.length
+              {filteredAds.length
                 ? filteredAds.map((car, index) => (
                     <DisplayAds car={car} key={index} />
                   ))

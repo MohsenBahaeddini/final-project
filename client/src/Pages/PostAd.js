@@ -4,6 +4,8 @@ import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
 // import UploadImg from "./UploadImg";
 import UploadImage from "./UploadImage";
+import Select from "react-select";
+
 const PostAd = () => {
   const [make, setMake] = useState("");
   const [type, setType] = useState("");
@@ -117,6 +119,7 @@ const PostAd = () => {
           </select>
           <label for="year">Year: </label>
           <select
+            // placeholder="select year"
             onChange={(ev) => {
               setYear(ev.target.value);
             }}
@@ -126,16 +129,22 @@ const PostAd = () => {
             })}
           </select>
           <label for="model">Model: </label>
+
           <select
+            placeholder="select model"
             onChange={(ev) => {
               setModel(ev.target.value);
               console.log(ev.target.value);
             }}
           >
             {cars.length &&
-              cars.map((car) => {
-                return <option value={car.model}>{car.model}</option>;
-              })}
+              cars.map((car, index) =>
+                index === 0 ? (
+                  <option value="select model">select model</option>
+                ) : (
+                  <option value={car.model}>{car.model}</option>
+                )
+              )}
           </select>
           <label for="mileage">Mileage: </label>
           <input
