@@ -8,7 +8,13 @@ import { useHistory } from "react-router-dom";
 import { CurrentUserContext } from "../CurrentUserContext";
 import Filters from "./Filters";
 import { years, types, makes } from "../data";
-
+import coverPhoto from "../assets/cover-photo.png";
+import cover2 from "../assets/cover2.png";
+import cover3 from "../assets/cover3.png";
+import cover4 from "../assets/cover4.png";
+import cover5 from "../assets/cover5.png";
+import uploadImage from "../assets/uploadImage.png";
+// assetscover-photo.jpg
 const Homepage = () => {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState("loading");
@@ -94,12 +100,24 @@ const Homepage = () => {
   return (
     <>
       <Wrapper>
-        {/* <SideBar>SideBar for search filter</SideBar> */}
-        <div>
-          <Filter>
-            <h4>Filter ads:</h4>
-            <label for="type">Type: </label>
-            <select
+        <CoverTextBox>
+          <H3>Buy Your Next Car Right Now -</H3>
+          <H4>explore among more than 2000 vehicles</H4>
+        </CoverTextBox>
+        <RightCoverBox>
+          <H3>Selling Your Car?</H3> <H4>Login and list it free!</H4>
+        </RightCoverBox>
+        <CoverDiv>
+          <CoverImg src={cover3} />
+        </CoverDiv>
+        <Div>
+          <SearchDiv>
+            <H3>Seearch Cars, Trucks and SUVs</H3>
+          </SearchDiv>
+          <FiltersDiv>
+            {/* <label for="type">Type: </label> */}
+
+            <Select
               name="type"
               onChange={(ev) => {
                 setType(ev.target.value);
@@ -109,9 +127,9 @@ const Homepage = () => {
               {types.map((el) => {
                 return <option value={el}>{el}</option>;
               })}
-            </select>
-            <label for="make">Make: </label>
-            <select
+            </Select>
+            {/* <label for="make">Make: </label> */}
+            <Select
               name="make"
               onChange={(ev) => {
                 setMake(ev.target.value);
@@ -125,9 +143,9 @@ const Homepage = () => {
                   </>
                 );
               })}
-            </select>
-            <label for="year">Year: </label>
-            <select
+            </Select>
+            {/* <label for="year">Year: </label> */}
+            <Select
               name="year"
               onChange={(ev) => {
                 setYear(ev.target.value);
@@ -137,21 +155,21 @@ const Homepage = () => {
               {years.map((year) => {
                 return <option value={year}>{year}</option>;
               })}
-            </select>
-            <label for="model">Model: </label>
-            <select name="model" onChange={(ev) => handleFilters(ev)}>
+            </Select>
+            {/* <label for="model">Model: </label> */}
+            <Select name="model" onChange={(ev) => handleFilters(ev)}>
               {cars.length &&
                 cars.map((car) => {
                   return <option value={car.model}>{car.model}</option>;
                 })}
-            </select>
-          </Filter>
-        </div>
-        <h4>Sort ads:</h4>
-        <select onChange={(e) => setSort(e.target.value)}>
-          <option value="asc">Price ⬆</option>
-          <option value="desc">Price ⬇</option>
-        </select>
+            </Select>
+
+            <Select onChange={(e) => setSort(e.target.value)}>
+              <option value="asc">Price ⬆</option>
+              <option value="desc">Price ⬇</option>
+            </Select>
+          </FiltersDiv>
+        </Div>
         <SmallAd filters={filters} sort={sort} />
         {/* <Pagination pageNum={pageNum} setPageNum={setPageNum} /> */}
       </Wrapper>
@@ -160,9 +178,64 @@ const Homepage = () => {
 };
 
 const Wrapper = styled.div`
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* height: 100vh; */
+  background-color: var(--color-dark-blue);
+`;
+
+const CoverDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 400px;
+  width: 100%;
+  background-color: var(--color-dark-blue);
+`;
+const CoverImg = styled.img`
+  /* width: 100%; */
+  background-color: var(--color-dark-blue);
+`;
+const CoverTextBox = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  margin: 100px 650px -190px 0px;
 `;
-const Filter = styled.div``;
+const H3 = styled.h3`
+  color: var(--color-blue);
+`;
+const H4 = styled.h4`
+  color: var(--color-yellow);
+`;
+const RightCoverBox = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  margin: 150px 0px -190px 650px;
+`;
+const Div = styled.div`
+  display: block;
+`;
+const SearchDiv = styled.div`
+  padding-top: 20px;
+`;
+const FiltersDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* flex-direction: column; */
+  width: 700px;
+  height: 70px;
+  /* padding: 10px; */
+  margin: 5px 5px 5px 300px;
+`;
+const Select = styled.select`
+  /* font-size: 20px; */
+  padding: 5px;
+  margin: 5px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+`;
+
+// const Filter = styled.div`
+//   display: flex;
+// `;
 export default Homepage;

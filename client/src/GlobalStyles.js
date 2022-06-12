@@ -2,9 +2,12 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
   :root {
-    --color-cadmium-red: #D80026;
-    --color-alabama-crimson: #AA001E;
+    /* --color-cadmium-red: #D80026; */
+    /* --color-alabama-crimson: #AA001E; */
+    --color-darkBlue : #141824;
     --color-orange: #F79D00;
+    --color-blue:#0049FF;
+    --color-yellow: #FFB600;
     --color-selective-yellow: #FDBB01;
     --color-desert-sand: #E3C4A6;
     --font-heading: 'Permanent Marker', Arial, Helvetica, sans-serif;
@@ -44,6 +47,7 @@ export default createGlobalStyle`
   }
   body {
       line-height: 1;
+      background-color:var( --color-darkBlue)
   }
   ol, ul {
       list-style: none;
@@ -60,9 +64,12 @@ export default createGlobalStyle`
   h1,
 h2,
 h3,
+h4,
 label,
 button {
-  color: grey;
+  
+  color: var(--color-blue);
+  color: #ddd;
   font-family: var(--font-heading);
   font-size: 16px;
   text-align: center;

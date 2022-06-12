@@ -54,54 +54,80 @@ const MyAd = ({ currentUser }) => {
   console.log(myAds);
   return (
     <>
-      MyAds
-      {status === "idle" && myAds && (
-        <>
-          {myAds.map((ad, index) => {
-            return (
-              <div key={index}>
-                {console.log(ad)}
-                <StyledNavLink to={`/messages/${ad._id}`}>
-                  <h4>check messages for this ad</h4>
-                </StyledNavLink>
-                <h4>{ad.type}</h4>
-                <h4>{ad.make}</h4>
-                <h4>{ad.model}</h4>
-                <h4>{ad.year}</h4>
-                <img src={ad.imageUrl} />
-                <button
-                  onClick={(ev) => {
-                    ev.preventDefault();
-                    fetch(`/api/delete-ad/${ad._id}`, {
-                      method: "DELETE",
-                    })
-                      .then((res) => res.json())
-                      .then((response) => {
-                        console.log(response);
-                        updateMyAdsAfterDelete();
-                      });
-                  }}
-                >
-                  delete this ad
-                </button>
-              </div>
-            );
-          })}
-        </>
-      )}
-      {/* {matchedAd && (
-        <>
-          <h4>{matchedAd.type}</h4>
-          <h4>{matchedAd.make}</h4>
-          <h4>{matchedAd.model}</h4>
-          <MyMessages matchedAd={matchedAd} />
-        </>
-      )} */}
+      <Wrapper>
+        <Title>Manage My Ads</Title>
+
+        {status === "idle" && myAds && (
+          <>
+            {myAds.map((ad, index) => {
+              return (
+                <div key={index}>
+                  {console.log(ad)}
+                  <Div1>
+                    <Img src={ad.imageUrl} />
+                    <Div2>
+                      <h4>
+                        {ad.year} {ad.make} {ad.model} {ad.type}
+                      </h4>
+                      <Button
+                        onClick={(ev) => {
+                          ev.preventDefault();
+                          fetch(`/api/delete-ad/${ad._id}`, {
+                            method: "DELETE",
+                          })
+                            .then((res) => res.json())
+                            .then((response) => {
+                              console.log(response);
+                              updateMyAdsAfterDelete();
+                            });
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </Div2>
+                  </Div1>
+                  <StyledNavLink to={`/messages/${ad._id}`}>
+                    <h4>check messages for this ad</h4>
+                  </StyledNavLink>
+                  <h3> conversation1</h3>
+                  <h3> conversation2</h3>
+                </div>
+              );
+            })}
+          </>
+        )}
+      </Wrapper>
     </>
   );
 };
+const Wrapper = styled.div`
+  /* display: flex; */
+  min-width: calc(100vw / 3.5);
+  border: 1px solid #ddd;
+  margin: 10px;
+  /* justify-content: space-between; */
+`;
+const Title = styled.h2`
+  border-bottom: 1px solid #ddd;
+  padding: 5px;
+  margin: 20px;
+  text-align: left;
+`;
+const Div1 = styled.div`
+  display: flex;
+`;
+const Div2 = styled.div`
+  margin: 20px 20px 20px 0px;
+  display: flex;
+  flex-direction: column;
+`;
+const Img = styled.img`
+  width: 200px;
+  height: 130px;
+  margin: 20px 20px 5px 20px;
+`;
 const StyledNavLink = styled(NavLink)`
-  color: gray;
+  color: white;
   margin-left: 10px;
   /* font-family: var(--font-body); */
   font-size: 12px;
@@ -117,5 +143,13 @@ const StyledNavLink = styled(NavLink)`
     text-decoration: underline;
     color: #3f5efb;
   } */
+`;
+const Button = styled.button`
+  cursor: pointer;
+  color: var(--color-blue);
+  margin-top: 10px;
+  /* padding: 3px 20px; */
+  /* justify-content: right; */
+  /* margin: 20px 5px 5px 300px; */
 `;
 export default MyAd;

@@ -19,7 +19,7 @@ const Navbar = () => {
           {isAuthenticated && currentUser && (
             <>
               <StyledNavLink to={`/profile/${currentUser.sub}`}>
-                My Profile
+                My Account
               </StyledNavLink>
               <StyledNavLink to="/post-ad">Post Ad</StyledNavLink>
               <Button onClick={() => logout()}>Log out</Button>
@@ -50,7 +50,7 @@ const Button = styled.button`
   height: 25px; */
 `;
 const StyledNavLink = styled(NavLink)`
-  color: gray;
+  color: #ddd;
   margin-left: 10px;
   /* font-family: var(--font-body); */
   font-size: 12px;
@@ -79,7 +79,7 @@ const StyledLink = styled(Link)`
 `;
 const Logo = styled.h2`
   /* font-family: var(--font-heading); */
-  color: gray;
+  color: #ddd;
   font-size: 22px;
   flex-basis: 33%;
 `;

@@ -69,25 +69,15 @@ const SmallAd = ({ filters, sort }) => {
     <>
       <Wrapper>
         <Main>
-          <AdsContainer>
-            <ItemContainer>
-              {filteredAds.length
-                ? filteredAds.map((car, index) => (
-                    <DisplayAds car={car} key={index} />
-                  ))
-                : ads.map((car, index) => <DisplayAds car={car} key={index} />)}
-              {/* <img src={car.imageUrl} />
-
-              <StyledLink to={`ad/${car._id}`}>
-                <H1>CAR TYPE: {car.type}</H1>
-              </StyledLink>
-              <H1>MAKE: {car.make}</H1>
-              <H1>MODEL: {car.model}</H1>
-              <H1>YEAR: {car.year}</H1>
-              <H1>MILEAGE: {car.mileage}km</H1>
-              <H1>PRICE: ${car.price}</H1> */}
-            </ItemContainer>
-          </AdsContainer>
+          {/* <AdsContainer> */}
+          <ItemContainer>
+            {filteredAds.length
+              ? filteredAds.map((car, index) => (
+                  <DisplayAds car={car} key={index} />
+                ))
+              : ads.map((car, index) => <DisplayAds car={car} key={index} />)}
+          </ItemContainer>
+          {/* </AdsContainer> */}
         </Main>
       </Wrapper>
     </>
@@ -95,33 +85,26 @@ const SmallAd = ({ filters, sort }) => {
 };
 const Wrapper = styled.div`
   display: flex;
-  width: 100%;
-
-  padding: 10px;
+  align-content: center;
+  justify-content: center;
+  margin: 30px;
 `;
-
-const SideBar = styled.div`
-  flex-basis: 10%;
-  padding: 15px 20px 20px 10px;
-  border-radius: 10px;
-`;
-
 const Main = styled.div`
-  margin: 5px;
+  /* margin: 5px; */
+  /* margin: 5px;
   padding: 10px;
   width: 80%;
-  max-width: 1000px;
+  max-width: 1000px; */
 `;
-
 const AdsContainer = styled.div`
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
 `;
-
-const ItemContainer = styled(Link)`
-  display: flex;
+const ItemContainer = styled.div`
+  /* display: inline-block; */
+  /* display: flex;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 15px;
@@ -136,15 +119,16 @@ const ItemContainer = styled(Link)`
   :hover {
     cursor: pointer;
     transform: scale(1.1);
-  }
-`;
-const StyledLink = styled(NavLink)`
-  text-decoration: none;
-  /* display: flex; */
+  } */
 `;
 
-const H1 = styled.h1`
-  font-size: 14px;
-`;
+// const StyledLink = styled(NavLink)`
+//   text-decoration: none;
+//   /* display: flex; */
+// `;
+
+// const H1 = styled.h1`
+//   font-size: 14px;
+// `;
 
 export default SmallAd;

@@ -26,8 +26,7 @@ const AdDetails = () => {
         setError(true);
       });
   }, []);
-  // console.log(ad);
-  // console.log(msg);
+
   console.log(ad);
   const sendMessage = (ev) => {
     ev.preventDefault();
@@ -57,9 +56,6 @@ const AdDetails = () => {
         .then((response) => {
           if (response) {
             console.log(response);
-            // localStorage.setItem("_id", response._id);
-            //   setResId(response._id);
-            //   history.push("/confirmed");
           }
         });
     }
@@ -78,25 +74,43 @@ const AdDetails = () => {
   console.log(" ^^^^^^^^^^", ad.imageUrl);
   return (
     <>
-      {status === "idle" &&
-        ad &&
-        ad.imageUrl.map((url, index) => {
-          console.log(url, index);
-          return <img src={url} key={index} />;
-        })}
-
-      <h1>{ad.type}</h1>
-      <h2>{ad.make}</h2>
-      <h3>{ad.model}</h3>
-      <label>send a message to the owner:</label>
-      <textArea
-        type="text"
-        placeholder="Is this car still available?"
-        value={msg}
-        onChange={(ev) => setMsg(ev.target.value)}
-      ></textArea>
-      <button onClick={sendMessage}>Send Message</button>
+      <Wrapper>
+        {status === "idle" &&
+          ad &&
+          ad.imageUrl.map((url, index) => {
+            console.log(url, index);
+            return <img src={url} key={index} />;
+          })}
+        <Container>
+          <h1>
+            {ad.year} {ad.make} {ad.model} {ad.type}
+          </h1>
+          <h1>Message the owner</h1>
+          <textArea
+            type="text"
+            placeholder="Hi, this car looks intersting! Is it still available?"
+            value={msg}
+            onChange={(ev) => setMsg(ev.target.value)}
+          ></textArea>
+          <button onClick={sendMessage}>Send</button>
+        </Container>
+      </Wrapper>
     </>
   );
 };
+const Wrapper = styled.div`
+  display: flex;
+  /* min-width: calc(100vw / 3.5); */
+  /* border: 1px solid #ddd; */
+  margin: 80px;
+  /* justify-content: space-between; */
+`;
+const Container = styled.div`
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  margin: 0 40px;
+  min-width: 500px;
+`;
 export default AdDetails;

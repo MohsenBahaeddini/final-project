@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import styled from "styled-components";
 const UploadImage = ({ imageUrl, setImageUrl }) => {
   // maybe an object
   const [widgetRef, setWidgetRef] = useState(null);
@@ -36,9 +36,14 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
   return (
     <>
       {console.log("imageUrl ::", imageUrl)}
-      <button onClick={() => widgetRef.open()}>upload image</button>
+      <Button onClick={() => widgetRef.open()}>Add Photos</Button>
     </>
   );
 };
-
+const Button = styled.button`
+  color: var(--color-blue);
+  font-size: 18px;
+  padding: 5px 200px;
+  margin-top: 5px;
+`;
 export default UploadImage;

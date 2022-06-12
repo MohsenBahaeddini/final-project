@@ -3,7 +3,9 @@ import { years, types, makes } from "../data";
 import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
 // import UploadImg from "./UploadImg";
+// import {car-placeholder }from "../assets/car-placeholder.svg"
 import UploadImage from "./UploadImage";
+import uploadImage from "../assets/uploadImage.png";
 import Select from "react-select";
 
 const PostAd = () => {
@@ -89,79 +91,94 @@ const PostAd = () => {
   return (
     <>
       <Wrapper>
-        <h2>Enter your car details:</h2>
-        <form onSubmit={handleSubmit}>
-          <label for="type">Type: </label>
-          <select
-            name="type"
-            id="type"
-            onChange={(ev) => {
-              setType(ev.target.value);
-            }}
-          >
-            {types.map((el) => {
-              return <option value={el}>{el}</option>;
-            })}
-          </select>
-          <label for="make">Make: </label>
-          <select
-            onChange={(ev) => {
-              setMake(ev.target.value);
-            }}
-          >
-            {makes.map((make) => {
-              return (
-                <>
-                  <option value={make}>{make}</option>
-                </>
-              );
-            })}
-          </select>
-          <label for="year">Year: </label>
-          <select
-            // placeholder="select year"
-            onChange={(ev) => {
-              setYear(ev.target.value);
-            }}
-          >
-            {years.map((year) => {
-              return <option value={year}>{year}</option>;
-            })}
-          </select>
-          <label for="model">Model: </label>
-
-          <select
-            placeholder="select model"
-            onChange={(ev) => {
-              setModel(ev.target.value);
-              console.log(ev.target.value);
-            }}
-          >
-            {cars.length &&
-              cars.map((car, index) =>
-                index === 0 ? (
-                  <option value="select model">select model</option>
-                ) : (
-                  <option value={car.model}>{car.model}</option>
-                )
-              )}
-          </select>
-          <label for="mileage">Mileage: </label>
-          <input
-            type="text"
-            placeholder="Current mileage in kilometers"
-            onChange={(ev) => setMileage(ev.target.value)}
-          />
-          <label for="price">Price: </label>
-          <input
-            type="text"
-            // placeholdr="Your car price in CAD"
-            onChange={(ev) => setPrice(ev.target.value)}
-          />
-
-          <button type="submit">Post My Ad</button>
-        </form>
-        <UploadImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
+        <Div>
+          <h2>Post Ad</h2>
+        </Div>
+        <Section>
+          <Div>
+            <Form onSubmit={handleSubmit}>
+              {/* <label for="type">Type: </label> */}
+              <H3>Enter Your Car Info</H3>
+              <Select1
+                name="type"
+                id="type"
+                onChange={(ev) => {
+                  setType(ev.target.value);
+                }}
+              >
+                {types.map((el) => {
+                  return <option value={el}>{el}</option>;
+                })}
+              </Select1>
+              {/* <label for="make">Make: </label> */}
+              <Select1
+                onChange={(ev) => {
+                  setMake(ev.target.value);
+                }}
+              >
+                {makes.map((make) => {
+                  return (
+                    <>
+                      <option value={make}>{make}</option>
+                    </>
+                  );
+                })}
+              </Select1>
+              {/* <label for="year">Year: </label> */}
+              <Select1
+                // placeholder="select year"
+                onChange={(ev) => {
+                  setYear(ev.target.value);
+                }}
+              >
+                {years.map((year) => {
+                  return <option value={year}>{year}</option>;
+                })}
+              </Select1>
+              {/* <label for="model">Model: </label> */}
+              <Select1
+                placeholder="select model"
+                onChange={(ev) => {
+                  setModel(ev.target.value);
+                  console.log(ev.target.value);
+                }}
+              >
+                {cars.length &&
+                  cars.map((car, index) =>
+                    index === 0 ? (
+                      <option value="select model">select model</option>
+                    ) : (
+                      <option value={car.model}>{car.model}</option>
+                    )
+                  )}
+              </Select1>
+              {/* <label for="mileage">Mileage: </label> */}
+              <Input
+                type="text"
+                placeholder="Kilometers*"
+                onChange={(ev) => setMileage(ev.target.value)}
+              />
+              {/* <label for="price">Price: </label> */}
+              <Input
+                type="text"
+                placeholder="Price*"
+                onChange={(ev) => setPrice(ev.target.value)}
+              />
+              <TextArea
+                type="text"
+                placeholder="Description*"
+                // value={description}
+                // onChange={handleOnChange}
+              />
+              <Button type="submit">Post My Ad</Button>
+            </Form>
+          </Div>
+          <Div2>
+            <H3>Showcase the beauty of your car</H3>
+            <Img src={uploadImage} />
+            <UploadImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
+          </Div2>
+        </Section>
       </Wrapper>
     </>
   );
@@ -170,5 +187,64 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
+  border: 1px solid #ddd;
+  margin: 50px 30px;
+`;
+const Section = styled.section`
+  display: flex;
+  justify-content: space-evenly;
+`;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Div = styled.div`
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: left;
+  align-items: center;
+  margin: 20px;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+`;
+const Div2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  margin: 20px;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+`;
+const H3 = styled.h3`
+  margin-bottom: 30px;
+`;
+const Img = styled.img`
+  width: 300px;
+  height: 270px;
+`;
+const Input = styled.input`
+  margin-top: 5px;
+`;
+const Button = styled.button`
+  color: var(--color-blue);
+  font-size: 18px;
+  padding: 5px 200px;
+  margin-top: 5px;
+`;
+const TextArea = styled.textarea`
+  padding-bottom: 30px;
+  text-align: left;
+  margin-top: 5px;
+  /* font-size: 20px; */
+  /* height: 200px;
+  width: 850px; */
+  border: none;
+  outline: none;
+`;
+const Select1 = styled.select`
+  padding: 5px;
+  margin-top: 5px;
 `;
 export default PostAd;
