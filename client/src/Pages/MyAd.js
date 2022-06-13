@@ -3,15 +3,20 @@ import { useContext, useEffect, useState } from "react";
 import MyMessages from "./MyMessages";
 import { Link, NavLink, useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
+import LoadingSpinner from "./LoadingSpinner";
+import ErrorPage from "./ErrorPage";
 
 const MyAd = ({ currentUser }) => {
   const [myAds, setMyAds] = useState([]);
   const [status, setStatus] = useState("loading");
+  const [error, setError] = useState(false);
+
   const history = useHistory();
   const { id } = useParams();
 
   console.log("id ::", id);
   useEffect(() => {
+    setStatus("loading");
     fetch(`/api/ads-by-owner/${id}`, {
       headers: {
         "Content-Type": "application/json",
@@ -26,6 +31,7 @@ const MyAd = ({ currentUser }) => {
       })
       .catch((err) => {
         console.log(err);
+        setError(true);
       });
   }, []);
 
@@ -52,11 +58,16 @@ const MyAd = ({ currentUser }) => {
       });
   };
   console.log(myAds);
+
+  if (error) {
+    return <ErrorPage />;
+  }
+
   return (
     <>
       <Wrapper>
         <Title>Manage My Ads</Title>
-
+        {status === "loading" && <LoadingSpinner />}
         {status === "idle" && myAds && (
           <>
             {myAds.map((ad, index) => {
@@ -69,6 +80,10 @@ const MyAd = ({ currentUser }) => {
                       <h4>
                         {ad.year} {ad.make} {ad.model} {ad.type}
                       </h4>
+
+                      <StyledNavLink to={`/messages/${ad._id}`}>
+                        <h4>Check your ad messages</h4>
+                      </StyledNavLink>
                       <Button
                         onClick={(ev) => {
                           ev.preventDefault();
@@ -82,13 +97,10 @@ const MyAd = ({ currentUser }) => {
                             });
                         }}
                       >
-                        Delete
+                        Delete Ad
                       </Button>
                     </Div2>
                   </Div1>
-                  <StyledNavLink to={`/messages/${ad._id}`}>
-                    <h4>check messages for this ad</h4>
-                  </StyledNavLink>
                 </div>
               );
             })}

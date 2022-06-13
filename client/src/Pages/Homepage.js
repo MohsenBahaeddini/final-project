@@ -37,7 +37,7 @@ const Homepage = () => {
   const [sort, setSort] = useState("asc");
   // get all Models for the selected make,type and year from car data api
   useEffect(() => {
-    if (make && type && year) {
+    if (make) {
       fetch(
         `https://car-data.p.rapidapi.com/cars?limit=50&page=0&year=${year}&make=${make}&type=${type}`,
         {

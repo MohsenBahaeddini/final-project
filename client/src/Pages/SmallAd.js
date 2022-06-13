@@ -5,6 +5,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Pagination from "./Pagination";
 import { CurrentUserContext } from "../CurrentUserContext";
 import DisplayAds from "./DisplayAds";
+import ErrorPage from "./ErrorPage";
+import LoadingSpinner from "./LoadingSpinner";
 
 const SmallAd = ({ filters, sort }) => {
   const [filteredAds, setFilteredAds] = useState([]);
@@ -13,6 +15,7 @@ const SmallAd = ({ filters, sort }) => {
   const { user, isAuthenticated } = useAuth0();
   const [status, setStatus] = useState("loading");
   const [pageNum, setPageNum] = useState(1);
+  const [error, setError] = useState(false);
   const { currentUser } = useContext(CurrentUserContext);
   // console.log(currentUser);
   const history = useHistory();
@@ -34,6 +37,7 @@ const SmallAd = ({ filters, sort }) => {
       })
       .catch((err) => {
         console.log(err);
+        setError(true);
       });
   }, []);
   console.log(ads);
@@ -65,6 +69,15 @@ const SmallAd = ({ filters, sort }) => {
   console.log("sort :::", sort);
 
   // console.log(filters);
+
+  if (error) {
+    return <ErrorPage />;
+  }
+
+  if (loading === "loading") {
+    return <LoadingSpinner />;
+  }
+
   return (
     <>
       <Wrapper>

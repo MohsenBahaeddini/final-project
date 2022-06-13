@@ -4,11 +4,15 @@ import { Link, NavLink, useParams, useHistory } from "react-router-dom";
 import { CurrentUserContext } from "../CurrentUserContext";
 import moment from "moment";
 import styled from "styled-components";
+import ErrorPage from "./ErrorPage";
+import LoadingSpinner from "./LoadingSpinner";
 
 const MyConversations = () => {
   // conversations as buyer
   const [conversations, setConversations] = useState([]);
   const [status, setStatus] = useState("loading");
+  const [error, setError] = useState(false);
+
   const [msg, setMsg] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
   console.log(currentUser);
@@ -30,47 +34,56 @@ const MyConversations = () => {
       })
       .catch((err) => {
         console.log(err);
+        setError(true);
       });
   }, []);
 
-  const handleAfterSendMsg = () => {
-    fetch(`/api/conversations-by-buyers/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response);
-        setConversations(response.conversations);
-        setStatus("idle");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    setMsg("");
-  };
-
+  // const handleAfterSendMsg = () => {
+  //   fetch(`/api/conversations-by-buyers/${id}`, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((response) => {
+  //       console.log(response);
+  //       setConversations(response.conversations);
+  //       setStatus("idle");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   setMsg("");
+  // };
+  if (error) {
+    return <ErrorPage />;
+  }
   console.log("conversations ::::", conversations);
   return (
     <>
       <Wrapper>
         <Title>My Messages to Sellers</Title>
+
         <h5>
+          {status === "loading" && <LoadingSpinner />}
+
           {status === "idle" &&
             conversations &&
             conversations.map((conversation, index) => {
-              console.log("conversation.messages ::##", conversation.messages);
+              console.log("conversation ::##", conversation);
               return (
                 <div key={index}>
                   <h2>
+                    <h2>
+                      You were interested in
+                      <StyledNavLink to={`/ad/${conversation.adId}`}>
+                        <span>this ad</span>
+                      </StyledNavLink>
+                    </h2>
                     <StyledNavLink to={`/conversation/${conversation._id}`}>
-                      <h2>Conversation Id: {conversation._id}</h2>
+                      <h2>check your messages to {conversation.seller}</h2>
                     </StyledNavLink>
-                    <h2> Which ad? {conversation.adId}</h2>
-                    <h2>to seller {conversation.seller}</h2>
-                    {/* {conversation.messages[conversation.messages.length - 1]} */}
                   </h2>
                 </div>
               );

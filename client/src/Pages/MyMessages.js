@@ -3,13 +3,15 @@ import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
 import { Link, NavLink, useParams, useHistory } from "react-router-dom";
 import moment from "moment";
+import ErrorPage from "./ErrorPage";
+import LoadingSpinner from "./LoadingSpinner";
 
 const MyMessages = () => {
-
   const [myConversations, setMyConversations] = useState([]);
   const [status, setStatus] = useState("loading");
   const [msg, setMsg] = useState("");
-  
+  const [error, setError] = useState(false);
+
   const [chat, setChat] = useState({});
   const [chatId, setChatId] = useState("");
   const [chatStatus, setChatStatus] = useState("loading");
@@ -34,6 +36,7 @@ const MyMessages = () => {
       })
       .catch((err) => {
         console.log(err);
+        setError(true);
       });
   }, []);
 
@@ -52,6 +55,7 @@ const MyMessages = () => {
       })
       .catch((err) => {
         console.log(err);
+        setError(true);
       });
   }, [chatId]);
 
@@ -72,10 +76,16 @@ const MyMessages = () => {
       })
       .catch((err) => {
         console.log(err);
+        setError(true);
       });
     setMsg("");
   };
-
+  if (error) {
+    return <ErrorPage />;
+  }
+  if (status === "loading") {
+    return <LoadingSpinner />;
+  }
   console.log("myConversations ::: ", myConversations);
   return (
     <>
