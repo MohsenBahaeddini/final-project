@@ -8,6 +8,7 @@ import GlobalStyles from "./GlobalStyles";
 import AdDetails from "./Pages/AdDetails";
 import Profile from "./Pages/Profile";
 import MyMessages from "./Pages/MyMessages";
+import SingleConversation from "./Pages/SingleConversation";
 
 const App = () => {
   return (
@@ -38,6 +39,9 @@ const App = () => {
           </Route>
           <Route exact path="/messages/:id">
             <MyMessages />
+          </Route>
+          <Route exact path="/conversation/:id">
+            <SingleConversation />
           </Route>
         </Switch>
       </Router>

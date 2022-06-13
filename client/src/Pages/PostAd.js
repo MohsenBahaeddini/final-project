@@ -15,6 +15,14 @@ const PostAd = () => {
   const [model, setModel] = useState("");
   const [price, setPrice] = useState("");
   const [mileage, setMileage] = useState("");
+  const [description, setDescription] = useState("");
+  // const [features, setFeatures] = useState({});
+  const [airConditioning, setAirConditioning] = useState(false);
+  const [alloyWheels, setAlloyWheels] = useState(false);
+  const [bluetooth, setBluetooth] = useState(false);
+  const [heatedSeats, setHeatedSeats] = useState(false);
+  const [navigationSystem, setNavigationSystem] = useState(false);
+  const [stabilityControl, setStabilityControl] = useState(false);
   const [cars, setCars] = useState([]);
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState([]);
@@ -52,7 +60,7 @@ const PostAd = () => {
     console.log("worked");
     ev.preventDefault();
     console.log(make, model, year, type);
-    if (make && type && year && model && mileage && price) {
+    if (make && type && year && model && mileage && price && description) {
       fetch("/api/new-ad", {
         method: "POST",
         headers: {
@@ -66,17 +74,21 @@ const PostAd = () => {
           year: year,
           model: model,
           mileage: mileage,
+          description: description,
           price: price,
           imageUrl: [imageUrl],
+          airConditioning: airConditioning,
+          alloyWheels: alloyWheels,
+          bluetooth: bluetooth,
+          heatedSeats: heatedSeats,
+          navigationSystem: navigationSystem,
+          stabilityControl: stabilityControl,
         }),
       })
         .then((res) => res.json())
         .then((response) => {
           if (response) {
             console.log(response);
-            // localStorage.setItem("_id", response._id);
-            //   setResId(response._id);
-            //   history.push("/confirmed");
           }
         });
     }
@@ -87,7 +99,7 @@ const PostAd = () => {
   }
 
   console.log("imageUrl :; ", imageUrl);
-
+  console.log(airConditioning);
   return (
     <>
       <Wrapper>
@@ -164,11 +176,75 @@ const PostAd = () => {
                 placeholder="Price*"
                 onChange={(ev) => setPrice(ev.target.value)}
               />
+              <Options>
+                <Div3>
+                  <Div4>
+                    <input
+                      type="checkbox"
+                      value="Air conditioning"
+                      name="airConditioning"
+                      onChange={(ev) => setAirConditioning(ev.target.checked)}
+                    />
+                    <label for="airConditioning">Air conditioning</label>
+                  </Div4>
+                  <Div4>
+                    <input
+                      type="checkbox"
+                      value="Alloy wheels"
+                      name="alloyWheels"
+                      onChange={(ev) => setAlloyWheels(ev.target.checked)}
+                    />
+                    <label for="alloyWheels">Alloy wheels</label>
+                  </Div4>
+                </Div3>
+                <Div3>
+                  <Div4>
+                    <input
+                      type="checkbox"
+                      value="Bluetooth"
+                      name="bluetooth"
+                      onChange={(ev) => setBluetooth(ev.target.checked)}
+                    />
+                    <label for="bluetooth">Bluetooth</label>
+                  </Div4>
+
+                  <Div4>
+                    <input
+                      type="checkbox"
+                      value="Heated seats"
+                      name="heatedSeats"
+                      onChange={(ev) => setHeatedSeats(ev.target.checked)}
+                    />
+                    <label for="heatedSeats">Heated seats</label>
+                  </Div4>
+                </Div3>
+                <Div3>
+                  <Div4>
+                    <input
+                      type="checkbox"
+                      value="Navigation system"
+                      name="navigationSystem"
+                      onChange={(ev) => setHeatedSeats(ev.target.checked)}
+                    />
+                    <label for="navigationSystem">Navigation system</label>
+                  </Div4>
+                  <Div4>
+                    <input
+                      type="checkbox"
+                      value="Stability control"
+                      name="stabilityControl"
+                      onChange={(ev) => setStabilityControl(ev.target.checked)}
+                    />
+                    <label for="stabilityControl">Stability control</label>
+                  </Div4>
+                </Div3>
+              </Options>
+
               <TextArea
                 type="text"
                 placeholder="Description*"
                 // value={description}
-                // onChange={handleOnChange}
+                onChange={(ev) => setDescription(ev.target.value)}
               />
               <Button type="submit">Post My Ad</Button>
             </Form>
@@ -217,11 +293,26 @@ const Div2 = styled.div`
   border-bottom: 1px solid #ddd;
   padding: 10px;
 `;
+const Div3 = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* align-items: ; */
+`;
+const Div4 = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+const Options = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+`;
 const H3 = styled.h3`
   margin-bottom: 30px;
 `;
 const Img = styled.img`
-  width: 300px;
+  width: 320px;
   height: 270px;
 `;
 const Input = styled.input`

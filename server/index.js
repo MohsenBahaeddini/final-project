@@ -62,6 +62,9 @@ express()
   // create new conversation
   .post("/api/new-conversation", createConversation)
 
+  // get conversation by conversationId
+  .get("/api/conversation-by-id/:id", getConverationsById)
+
   // get conversations for the specific ad
   .get("/api/conversations-by-ad/:id", getConversationsByAdId)
 

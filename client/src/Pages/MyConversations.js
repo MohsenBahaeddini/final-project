@@ -52,7 +52,7 @@ const MyConversations = () => {
     setMsg("");
   };
 
-  console.log(conversations);
+  console.log("conversations ::::", conversations);
   return (
     <>
       <Wrapper>
@@ -61,57 +61,17 @@ const MyConversations = () => {
           {status === "idle" &&
             conversations &&
             conversations.map((conversation, index) => {
-              console.log(conversation);
+              console.log("conversation.messages ::##", conversation.messages);
               return (
                 <div key={index}>
-                  {conversation.messages.map((msg) => {
-                    console.log(msg);
-                    return (
-                      <>
-                        <h4>{msg.body}</h4>
-                        <h4>{msg.date}</h4>
-                      </>
-                    );
-                  })}
-                  <label>send message:</label>
-                  <textArea
-                    type="text"
-                    placeholder="You can type here"
-                    value={msg}
-                    onChange={(ev) => setMsg(ev.target.value)}
-                  ></textArea>
-                  <button
-                    onClick={(ev) => {
-                      ev.preventDefault();
-                      console.log("working&&&&&&");
-                      if (msg) {
-                        fetch(`/api/update-conversation/${conversation._id}`, {
-                          method: "PATCH",
-                          headers: {
-                            "Content-Type": "application/json",
-                            Accept: "application/json",
-                          },
-                          body: JSON.stringify({
-                            messages: {
-                              user: currentUser.email,
-                              body: msg,
-                              date: moment().format("h:mm A - MMMM Do, YYYY"),
-                            },
-                          }),
-                        })
-                          .then((res) => res.json())
-                          .then((response) => {
-                            if (response) {
-                              console.log(response);
-                              // localStorage.setItem("_id", response._id);
-                              handleAfterSendMsg();
-                            }
-                          });
-                      }
-                    }}
-                  >
-                    Send Message
-                  </button>
+                  <h2>
+                    <StyledNavLink to={`/conversation/${conversation._id}`}>
+                      <h2>Conversation Id: {conversation._id}</h2>
+                    </StyledNavLink>
+                    <h2> Which ad? {conversation.adId}</h2>
+                    <h2>to seller {conversation.seller}</h2>
+                    {/* {conversation.messages[conversation.messages.length - 1]} */}
+                  </h2>
                 </div>
               );
             })}
@@ -133,4 +93,24 @@ const Title = styled.h2`
   margin: 20px;
   text-align: left;
 `;
+
+const StyledNavLink = styled(NavLink)`
+  color: #ddd;
+  margin-left: 10px;
+  /* font-family: var(--font-body); */
+  font-size: 12px;
+  text-decoration: none;
+  outline: none;
+
+  &:hover {
+    color: #3f5efb;
+    text-decoration: underline;
+  }
+  /* 
+  &.active {
+    text-decoration: underline;
+    color: #3f5efb;
+  } */
+`;
+
 export default MyConversations;

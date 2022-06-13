@@ -6,7 +6,7 @@ import { CurrentUserContext } from "../CurrentUserContext";
 const Navbar = () => {
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const { currentUser } = useContext(CurrentUserContext);
-  console.log("currentUser in navbar :", currentUser);
+  // console.log("currentUser in navbar :", currentUser);
   // const { id } = useParams();
   // console.log(id);
   return (
@@ -67,6 +67,7 @@ const StyledNavLink = styled(NavLink)`
     color: #3f5efb;
   } */
 `;
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;

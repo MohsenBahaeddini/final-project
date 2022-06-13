@@ -89,8 +89,6 @@ const MyAd = ({ currentUser }) => {
                   <StyledNavLink to={`/messages/${ad._id}`}>
                     <h4>check messages for this ad</h4>
                   </StyledNavLink>
-                  <h3> conversation1</h3>
-                  <h3> conversation2</h3>
                 </div>
               );
             })}
