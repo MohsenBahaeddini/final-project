@@ -41,9 +41,16 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
   );
 };
 const Button = styled.button`
-  color: var(--color-blue);
-  font-size: 18px;
+  color: var(--color-dark-blue);
+  font-size: 16px;
   padding: 5px 200px;
   margin-top: 5px;
+  cursor: pointer;
+
+  &:hover {
+    /* background-color: rgba(120, 192, 227, 0.5); */
+    transform: scale(1.01, 1.01);
+    outline: none;
+  }
 `;
 export default UploadImage;

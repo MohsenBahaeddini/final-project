@@ -73,6 +73,7 @@ button {
   font-family: var(--font-heading);
   font-size: 16px;
   text-align: center;
+  
 }
 p,
 a,

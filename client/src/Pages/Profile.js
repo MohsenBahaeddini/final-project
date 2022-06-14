@@ -80,5 +80,10 @@ const Button = styled.button`
   font-size: 16px;
   /* justify-content: right; */
   margin: 10px 5px 5px 20px;
+  &:hover {
+    /* background-color: rgba(120, 192, 227, 0.5); */
+    transform: scale(1.01, 1.01);
+    outline: none;
+  }
 `;
 export default Profile;

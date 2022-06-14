@@ -315,8 +315,8 @@ const TextArea = styled.textarea`
 `;
 const Button = styled.button`
   cursor: pointer;
-  color: var(--color-blue);
-  color: grey;
+  color: var(--color-dark-blue);
+
   margin-top: 10px;
 `;
 export default AdDetails;

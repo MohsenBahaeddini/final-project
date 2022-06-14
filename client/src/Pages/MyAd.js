@@ -75,14 +75,16 @@ const MyAd = ({ currentUser }) => {
                 <div key={index}>
                   {console.log(ad)}
                   <Div1>
-                    <Img src={ad.imageUrl[0]} />
+                    <StyledNavLink to={`/ad/${ad._id}`}>
+                      <Img src={ad.imageUrl[0]} />
+                    </StyledNavLink>
                     <Div2>
-                      <h4>
+                      <H2>
                         {ad.year} {ad.make} {ad.model} {ad.type}
-                      </h4>
+                      </H2>
 
                       <StyledNavLink to={`/messages/${ad._id}`}>
-                        <h4>Check your ad messages</h4>
+                        <H3>Check your ad messages</H3>
                       </StyledNavLink>
                       <Button
                         onClick={(ev) => {
@@ -131,10 +133,19 @@ const Div2 = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const H2 = styled.h2`
+  padding: 5px;
+`;
+const H3 = styled.h2`
+  padding: 5px;
+  font-size: 15px;
+`;
 const Img = styled.img`
   width: 200px;
   height: 130px;
   margin: 20px 20px 5px 20px;
+  padding: 2px;
+  border: 1px solid var(--color-blue);
 `;
 const StyledNavLink = styled(NavLink)`
   color: white;
@@ -156,8 +167,13 @@ const StyledNavLink = styled(NavLink)`
 `;
 const Button = styled.button`
   cursor: pointer;
-  color: var(--color-blue);
+  color: var(--color-dark-blue);
   margin-top: 10px;
+  &:hover {
+    /* background-color: rgba(120, 192, 227, 0.5); */
+    transform: scale(1.01, 1.01);
+    outline: none;
+  }
   /* padding: 3px 20px; */
   /* justify-content: right; */
   /* margin: 20px 5px 5px 300px; */

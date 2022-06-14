@@ -104,7 +104,7 @@ const PostAd = () => {
     <>
       <Wrapper>
         <Div>
-          <h2>Post Ad</h2>
+          <H1>Post Ad</H1>
         </Div>
         <Section>
           <Div>
@@ -193,10 +193,11 @@ const PostAd = () => {
               {/* <label for="price">Price: </label> */}
               <Input
                 type="text"
-                placeholder="Price*"
+                placeholder="$ Price*"
                 onChange={(ev) => setPrice(ev.target.value)}
               />
               <Options>
+                {/* <Features> */}
                 <Div3>
                   <Div4>
                     <input
@@ -217,6 +218,7 @@ const PostAd = () => {
                     <label for="alloyWheels">Alloy wheels</label>
                   </Div4>
                 </Div3>
+
                 <Div3>
                   <Div4>
                     <input
@@ -258,6 +260,7 @@ const PostAd = () => {
                     <label for="stabilityControl">Stability control</label>
                   </Div4>
                 </Div3>
+                {/* </Features> */}
               </Options>
 
               <TextArea
@@ -286,6 +289,9 @@ const Wrapper = styled.div`
   border: 1px solid #ddd;
   margin: 50px 30px;
 `;
+const H1 = styled.h1`
+  font-size: 20px;
+`;
 const Section = styled.section`
   display: flex;
   justify-content: space-evenly;
@@ -313,9 +319,15 @@ const Div2 = styled.div`
   border-bottom: 1px solid #ddd;
   padding: 10px;
 `;
+const Features = styled.div`
+  /* display: flex; */
+  /* flex-direction: column; */
+  border: 1px solid #fff;
+`;
 const Div3 = styled.div`
   display: flex;
   flex-direction: column;
+  /* border: 1px solid #fff; */
   /* align-items: ; */
 `;
 const Div4 = styled.div`
@@ -323,6 +335,7 @@ const Div4 = styled.div`
   flex-direction: row;
   align-items: center;
 `;
+
 const Options = styled.div`
   display: flex;
   justify-content: left;
@@ -330,24 +343,34 @@ const Options = styled.div`
 `;
 const H3 = styled.h3`
   margin-bottom: 30px;
+  font-size: 18px;
 `;
 const Img = styled.img`
-  width: 320px;
-  height: 270px;
+  width: 380px;
+  height: 330px;
 `;
 const Input = styled.input`
   margin-top: 5px;
+  border: none;
 `;
 const Button = styled.button`
-  color: var(--color-blue);
-  font-size: 18px;
+  color: var(--color-dark-blue);
+  font-size: 16px;
   padding: 5px 200px;
   margin-top: 5px;
+  cursor: pointer;
+
+  &:hover {
+    /* background-color: rgba(120, 192, 227, 0.5); */
+    transform: scale(1.01, 1.01);
+    outline: none;
+  }
 `;
 const TextArea = styled.textarea`
   padding-bottom: 30px;
   text-align: left;
   margin-top: 5px;
+  font-size: 16px;
   /* font-size: 20px; */
   /* height: 200px;
   width: 850px; */

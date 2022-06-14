@@ -78,11 +78,11 @@ const MyConversations = () => {
                     <h2>
                       You were interested in
                       <StyledNavLink to={`/ad/${conversation.adId}`}>
-                        <span>this ad</span>
+                        <Span>this ad</Span>
                       </StyledNavLink>
                     </h2>
                     <StyledNavLink to={`/conversation/${conversation._id}`}>
-                      <h2>check your messages to {conversation.seller}</h2>
+                      <h2>Check your messages to {conversation.seller}</h2>
                     </StyledNavLink>
                   </h2>
                 </div>
@@ -125,5 +125,7 @@ const StyledNavLink = styled(NavLink)`
     color: #3f5efb;
   } */
 `;
-
+const Span = styled.span`
+  font-size: 16px;
+`;
 export default MyConversations;
