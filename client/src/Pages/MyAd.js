@@ -75,7 +75,7 @@ const MyAd = ({ currentUser }) => {
                 <div key={index}>
                   {console.log(ad)}
                   <Div1>
-                    <Img src={ad.imageUrl} />
+                    <Img src={ad.imageUrl[0]} />
                     <Div2>
                       <h4>
                         {ad.year} {ad.make} {ad.model} {ad.type}
@@ -118,7 +118,7 @@ const Wrapper = styled.div`
   /* justify-content: space-between; */
 `;
 const Title = styled.h2`
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-blue);
   padding: 5px;
   margin: 20px;
   text-align: left;

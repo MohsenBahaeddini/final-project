@@ -20,15 +20,15 @@ const Profile = () => {
               <div>
                 <El>
                   <H3>First name</H3>
-                  <h4>{user.given_name}</h4>
+                  <H4>{user.given_name}</H4>
                 </El>
                 <El>
                   <H3>Last name</H3>
-                  <h4>{user.family_name}</h4>
+                  <H4>{user.family_name}</H4>
                 </El>
                 <El>
                   <Email>Email</Email>
-                  <h4>{user.email}</h4>
+                  <H4>{user.email}</H4>
                 </El>
               </div>
             </div>
@@ -44,7 +44,6 @@ const Profile = () => {
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  /* justify-content: space-between; */
   margin: 20px 40px;
 `;
 const AccProfile = styled.div`
@@ -53,10 +52,11 @@ const AccProfile = styled.div`
   min-width: calc(100vw / 3.5);
 `;
 const Title = styled.h2`
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-blue);
   padding: 5px;
   margin: 20px;
   text-align: left;
+  font-size: 18px;
 `;
 const El = styled.div`
   display: flex;
@@ -64,16 +64,21 @@ const El = styled.div`
   padding: 10px 10px 10px 20px;
 `;
 const H3 = styled.h3`
-  padding-right: 50px;
+  padding-right: 40px;
+  font-size: 16px;
+`;
+const H4 = styled.h3`
+  font-size: 16px;
 `;
 const Email = styled.h3`
-  padding-right: 88px;
+  padding-right: 78px;
 `;
 const Button = styled.button`
   cursor: pointer;
-  color: var(--color-blue);
-  padding: 3px 20px;
+  color: var(--color-dark-blue);
+  padding: 1px 15px;
+  font-size: 16px;
   /* justify-content: right; */
-  margin: 20px 5px 5px 300px;
+  margin: 10px 5px 5px 20px;
 `;
 export default Profile;

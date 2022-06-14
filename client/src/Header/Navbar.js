@@ -13,7 +13,7 @@ const Navbar = () => {
     <>
       <Wrapper>
         <StyledLink to="/">
-          <Logo>M.B.A</Logo>
+          <Logo>Auto-Explorer</Logo>
         </StyledLink>
         <Container>
           {isAuthenticated && currentUser && (
@@ -36,6 +36,9 @@ const Navbar = () => {
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 10px;
+  margin: 10px;
+  border-bottom: 1px solid var(--color-blue);
 `;
 const Container = styled.div`
   text-align: right;
@@ -48,26 +51,11 @@ const Button = styled.button`
   font-size: 14px;
   /* width: 0px;
   height: 25px; */
-`;
-const StyledNavLink = styled(NavLink)`
-  color: #ddd;
-  margin-left: 10px;
-  /* font-family: var(--font-body); */
-  font-size: 12px;
-  text-decoration: none;
-  outline: none;
-
   &:hover {
-    color: #3f5efb;
-    text-decoration: underline;
+    color: var(--color-blue);
+    // text-decoration: underline;
   }
-  /* 
-  &.active {
-    text-decoration: underline;
-    color: #3f5efb;
-  } */
 `;
-
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -78,10 +66,30 @@ const StyledLink = styled(Link)`
     color: inherit;
   }
 `;
+
 const Logo = styled.h2`
-  /* font-family: var(--font-heading); */
+  font-family: var(--font-heading);
   color: #ddd;
+  /* color: var(--color-blue); */
   font-size: 22px;
   flex-basis: 33%;
 `;
+const StyledNavLink = styled(NavLink)`
+  color: #ddd;
+  margin-left: 10px;
+  /* font-family: var(--font-body); */
+  font-size: 14px;
+  text-decoration: none;
+  outline: none;
+
+  &:hover {
+    color: var(--color-blue);
+  }
+  &.active {
+    color: var(--color-yellow);
+
+    border: none;
+  }
+`;
+
 export default Navbar;

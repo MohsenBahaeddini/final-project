@@ -19,18 +19,17 @@ const Homepage = () => {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState("loading");
   const { user, isAuthenticated } = useAuth0();
-  // const [currentUser, setCurrentUser] = useState(null);
-  // to get models from api
+
   const [cars, setCars] = useState([]);
   const [make, setMake] = useState("");
   const [type, setType] = useState("");
   const [year, setYear] = useState("");
-
+  const [model, setModel] = useState("");
   const [status, setStatus] = useState("loading");
   const [pageNum, setPageNum] = useState(1);
 
   const { currentUser } = useContext(CurrentUserContext);
-  console.log(currentUser);
+  // console.log(currentUser);
   const history = useHistory();
 
   const [filters, setFilters] = useState({});
@@ -57,16 +56,26 @@ const Homepage = () => {
     }
   }, [make, type, year]);
 
-  const handleFilters = (e) => {
-    const value = e.target.value;
+  const handleFilters = (ev) => {
+    let value = ev.target.value;
+    // if (
+    //   value === "Select Make" &&
+    //   "Select Type" &&
+    //   "Select Year" &&
+    //   "Select Model"
+    // ) {
+    //   value = "";
+    // }
+    console.log("###########value :::", value);
+
     setFilters({
       ...filters,
-      [e.target.name]: value,
+      [ev.target.name]: value,
     });
   };
 
   const addNewUser = async () => {
-    console.log("user: ", user);
+    // console.log("user: ", user);
 
     if (isAuthenticated) {
       try {
@@ -100,42 +109,45 @@ const Homepage = () => {
   return (
     <>
       <Wrapper>
-        <CoverTextBox>
-          <H3>Buy Your Next Car Right Now -</H3>
-          <H4>explore among more than 2000 vehicles</H4>
-        </CoverTextBox>
-        <RightCoverBox>
-          <H3>Selling Your Car?</H3> <H4>Login and list it free!</H4>
-        </RightCoverBox>
+        <CoverTextBox></CoverTextBox>
+        <RightCoverBox></RightCoverBox>
         <CoverDiv>
           <CoverImg src={cover3} />
         </CoverDiv>
         <Div>
           <SearchDiv>
-            <H3>Seearch Cars, Trucks and SUVs</H3>
+            <H3>Search Cars, Trucks and SUVs</H3>
           </SearchDiv>
           <FiltersDiv>
-            {/* <label for="type">Type: </label> */}
-
             <Select
+              // defaultValue={"default"}
               name="type"
               onChange={(ev) => {
                 setType(ev.target.value);
                 handleFilters(ev);
               }}
             >
+              {/* <option value={"default"} disabled>
+                Select Type
+              </option> */}
+              <option value={""}>Any Type</option>
               {types.map((el) => {
                 return <option value={el}>{el}</option>;
               })}
             </Select>
-            {/* <label for="make">Make: </label> */}
+
             <Select
+              // defaultValue={"default"}
               name="make"
               onChange={(ev) => {
                 setMake(ev.target.value);
                 handleFilters(ev);
               }}
             >
+              {/* <option value={"default"} disabled>
+                Select Make
+              </option> */}
+              <option value={""}>Any Make</option>
               {makes.map((make) => {
                 return (
                   <>
@@ -146,31 +158,56 @@ const Homepage = () => {
             </Select>
             {/* <label for="year">Year: </label> */}
             <Select
+              // defaultValue={"default"}
               name="year"
               onChange={(ev) => {
                 setYear(ev.target.value);
                 handleFilters(ev);
               }}
             >
+              {/* <option value={"default"} disabled>
+                Select Year
+              </option> */}
+              <option value={""}>Any Year</option>
               {years.map((year) => {
                 return <option value={year}>{year}</option>;
               })}
             </Select>
             {/* <label for="model">Model: </label> */}
-            <Select name="model" onChange={(ev) => handleFilters(ev)}>
+            <Select
+              name="model"
+              onChange={(ev) => {
+                setModel(ev.target.value);
+                handleFilters(ev);
+              }}
+            >
+              <option value={""}>Any Model</option>
               {cars.length &&
                 cars.map((car) => {
                   return <option value={car.model}>{car.model}</option>;
                 })}
             </Select>
 
-            <Select onChange={(e) => setSort(e.target.value)}>
+            <Select
+              defaultValue={"default"}
+              onChange={(e) => setSort(e.target.value)}
+            >
+              <option value={"default"} disabled>
+                Sort
+              </option>
               <option value="asc">Price ⬆</option>
               <option value="desc">Price ⬇</option>
             </Select>
           </FiltersDiv>
         </Div>
-        <SmallAd filters={filters} sort={sort} />
+        <SmallAd
+          filters={filters}
+          sort={sort}
+          make={make}
+          year={year}
+          type={type}
+          model={model}
+        />
         {/* <Pagination pageNum={pageNum} setPageNum={setPageNum} /> */}
       </Wrapper>
     </>
@@ -202,6 +239,8 @@ const CoverTextBox = styled.div`
 `;
 const H3 = styled.h3`
   color: var(--color-blue);
+  color: #fff;
+  font-size: 21px;
 `;
 const H4 = styled.h4`
   color: var(--color-yellow);
@@ -213,7 +252,10 @@ const RightCoverBox = styled.div`
   margin: 150px 0px -190px 650px;
 `;
 const Div = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 const SearchDiv = styled.div`
   padding-top: 20px;
@@ -222,17 +264,17 @@ const FiltersDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  /* border-bottom: 1px solid var(--color-blue); */
   /* flex-direction: column; */
   width: 700px;
   height: 70px;
   /* padding: 10px; */
-  margin: 5px 5px 5px 300px;
+  /* margin: 5px 5px 5px 300px; */
 `;
 const Select = styled.select`
-  /* font-size: 20px; */
-  padding: 5px;
+  font-size: 14px;
+  padding: 5px 20px;
   margin: 5px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 `;
 
 // const Filter = styled.div`

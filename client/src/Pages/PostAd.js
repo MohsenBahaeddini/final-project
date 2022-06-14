@@ -76,7 +76,7 @@ const PostAd = () => {
           mileage: mileage,
           description: description,
           price: price,
-          imageUrl: [imageUrl],
+          imageUrl: imageUrl,
           airConditioning: airConditioning,
           alloyWheels: alloyWheels,
           bluetooth: bluetooth,
@@ -112,22 +112,30 @@ const PostAd = () => {
               {/* <label for="type">Type: </label> */}
               <H3>Enter Your Car Info</H3>
               <Select1
+                defaultValue={"default"}
                 name="type"
                 id="type"
                 onChange={(ev) => {
                   setType(ev.target.value);
                 }}
               >
+                <option value={"default"} disabled>
+                  Select Type
+                </option>
                 {types.map((el) => {
                   return <option value={el}>{el}</option>;
                 })}
               </Select1>
               {/* <label for="make">Make: </label> */}
               <Select1
+                defaultValue={"default"}
                 onChange={(ev) => {
                   setMake(ev.target.value);
                 }}
               >
+                <option value={"default"} disabled>
+                  Select Make
+                </option>
                 {makes.map((make) => {
                   return (
                     <>
@@ -138,31 +146,43 @@ const PostAd = () => {
               </Select1>
               {/* <label for="year">Year: </label> */}
               <Select1
-                // placeholder="select year"
+                defaultValue={"default"}
                 onChange={(ev) => {
                   setYear(ev.target.value);
                 }}
               >
+                <option value={"default"} disabled>
+                  Select Year
+                </option>
                 {years.map((year) => {
                   return <option value={year}>{year}</option>;
                 })}
               </Select1>
               {/* <label for="model">Model: </label> */}
               <Select1
-                placeholder="select model"
+                defaultValue={"default"}
                 onChange={(ev) => {
                   setModel(ev.target.value);
                   console.log(ev.target.value);
                 }}
               >
+                <option value={"default"} disabled>
+                  Select Model
+                </option>
                 {cars.length &&
+                  cars.map((car, index) => (
+                    <option key={index} value={car.model}>
+                      {car.model}
+                    </option>
+                  ))}
+                {/* {cars.length &&
                   cars.map((car, index) =>
                     index === 0 ? (
                       <option value="select model">select model</option>
                     ) : (
                       <option value={car.model}>{car.model}</option>
                     )
-                  )}
+                  )} */}
               </Select1>
               {/* <label for="mileage">Mileage: </label> */}
               <Input

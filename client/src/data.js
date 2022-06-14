@@ -1,5 +1,4 @@
 export const types = [
-  "Select Type",
   "SUV",
   "Sedan",
   "Coupe",
@@ -10,7 +9,6 @@ export const types = [
 ];
 
 export const years = [
-  "Select Year",
   "2022",
   "2021",
   "2020",
@@ -44,7 +42,6 @@ export const years = [
   "1992",
 ];
 export const makes = [
-  "Select Make",
   "Buick",
   "MINI",
   "Volvo",

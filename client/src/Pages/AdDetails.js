@@ -9,15 +9,17 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoCheckmarkCircleOutline, IoCloseCircle } from "react-icons/io5";
 import { FcCheckmark } from "react-icons/fc";
 import { RiCloseCircleLine } from "react-icons/ri";
+import LoadingSpinner from "./LoadingSpinner";
+import SlideShow from "./SlideShow";
 const AdDetails = () => {
   const [ad, setAd] = useState({});
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
-  console.log("currentUser******", currentUser);
+  // console.log("currentUser******", currentUser);
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
   useEffect(() => {
     fetch(`/api/ad/${id}`)
       .then((res) => res.json())
@@ -31,10 +33,10 @@ const AdDetails = () => {
       });
   }, []);
 
-  console.log(ad);
+  // console.log(ad);
   const sendMessage = (ev) => {
     ev.preventDefault();
-    console.log("working");
+    // console.log("working");
     if (msg) {
       fetch("/api/new-conversation", {
         method: "POST",
@@ -59,12 +61,12 @@ const AdDetails = () => {
         .then((res) => res.json())
         .then((response) => {
           if (response) {
-            console.log(response);
+            // console.log(response);
           }
         });
     }
   };
-  console.log(msg);
+  // console.log(msg);
 
   if (error) {
     return (
@@ -73,25 +75,30 @@ const AdDetails = () => {
       </>
     );
   }
+  if (status === "loading") {
+    return <LoadingSpinner />;
+  }
 
-  // having issue when loading
-  console.log(" ^^^^^^^^^^", ad.imageUrl);
   console.log(ad);
+  console.log(" ^^^^^^^^^^", ad.imageUrl);
+
   return (
     <>
       <Wrapper>
+        {/* before slideshow
         {status === "idle" &&
           ad &&
           ad.imageUrl.map((url, index) => {
             console.log(url, index);
             return <Img src={url} key={index} />;
-          })}
+          })} */}
+        {status === "idle" && ad && <SlideShow imgs={ad.imageUrl} />}
         <Container>
           <Details>
             <H1>
               {ad.year} {ad.make} {ad.model} {ad.type}
             </H1>
-            <H1>Features & Options</H1>
+            <Features>Features & Options</Features>
             <Div3>
               <Div4>
                 <H2>
@@ -103,7 +110,12 @@ const AdDetails = () => {
                       }}
                     ></IoCheckmarkCircleOutline>
                   ) : (
-                    <RiCloseCircleLine></RiCloseCircleLine>
+                    <RiCloseCircleLine
+                      style={{
+                        color: "red",
+                        fontSize: "22px",
+                      }}
+                    ></RiCloseCircleLine>
                   )}
                   Air conditioning
                 </H2>
@@ -116,27 +128,61 @@ const AdDetails = () => {
                       }}
                     ></IoIosCheckmarkCircle>
                   ) : (
-                    <RiCloseCircleLine></RiCloseCircleLine>
+                    <RiCloseCircleLine
+                      style={{
+                        color: "red",
+                        fontSize: "22px",
+                      }}
+                    ></RiCloseCircleLine>
                   )}
                   Alloy wheels
                 </H2>
                 <H2>
-                  {ad.bluetooth ? "✔" : <RiCloseCircleLine></RiCloseCircleLine>}{" "}
+                  {ad.bluetooth ? (
+                    <IoCheckmarkCircleOutline
+                      style={{
+                        color: "green",
+                        fontSize: "22px",
+                      }}
+                    ></IoCheckmarkCircleOutline>
+                  ) : (
+                    <RiCloseCircleLine
+                      style={{
+                        color: "red",
+                        fontSize: "22px",
+                      }}
+                    ></RiCloseCircleLine>
+                  )}{" "}
                   Bluetooth
                 </H2>
               </Div4>
               <Div4>
                 <H2>
                   {ad.heatedSeats ? (
-                    "✔"
+                    <IoCheckmarkCircleOutline
+                      style={{
+                        color: "green",
+                        fontSize: "22px",
+                      }}
+                    ></IoCheckmarkCircleOutline>
                   ) : (
-                    <RiCloseCircleLine></RiCloseCircleLine>
-                  )}{" "}
+                    <RiCloseCircleLine
+                      style={{
+                        color: "red",
+                        fontSize: "22px",
+                      }}
+                    ></RiCloseCircleLine>
+                  )}
                   Heated seats
                 </H2>
                 <H2>
                   {ad.navigationSystem ? (
-                    "✔"
+                    <IoCheckmarkCircleOutline
+                      style={{
+                        color: "green",
+                        fontSize: "22px",
+                      }}
+                    ></IoCheckmarkCircleOutline>
                   ) : (
                     <RiCloseCircleLine
                       style={{
@@ -149,20 +195,25 @@ const AdDetails = () => {
                 </H2>
                 <H2>
                   {ad.stabilityControl ? (
-                    "✔"
+                    <IoCheckmarkCircleOutline
+                      style={{
+                        color: "green",
+                        fontSize: "22px",
+                      }}
+                    ></IoCheckmarkCircleOutline>
                   ) : (
-                    <IoCloseCircle
+                    <RiCloseCircleLine
                       style={{
                         color: "red",
                         fontSize: "22px",
                       }}
-                    ></IoCloseCircle>
+                    ></RiCloseCircleLine>
                   )}
                   Stability control
                 </H2>
               </Div4>
             </Div3>
-            <H2>Descriptions</H2>
+            <Desc>Descriptions</Desc>
             <Description>{ad.description}</Description>
           </Details>
           {currentUser && (
@@ -187,6 +238,7 @@ const Wrapper = styled.div`
   /* min-width: calc(100vw / 3.5); */
   /* border: 1px solid #ddd; */
   margin: 80px;
+  max-height: 500px;
   /* justify-content: space-between; */
 `;
 const Container = styled.div`
@@ -207,7 +259,6 @@ const Img = styled.img`
 const Details = styled.div`
   display: flex;
   flex-direction: column;
-
   margin-bottom: 30px;
 `;
 const Div3 = styled.div`
@@ -224,15 +275,35 @@ const H1 = styled.h1`
   display: flex;
   justify-content: left;
   margin-bottom: 10px;
+  font-size: 16px;
+`;
+const Features = styled.h1`
+  display: flex;
+  justify-content: left;
+  margin: 10px 0;
+  font-size: 16px;
 `;
 const H2 = styled.h2`
   display: flex;
   justify-content: left;
   align-items: center;
+  padding-top: 5px;
+  font-size: 14px;
+`;
+
+const Desc = styled.h2`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-top: 5px;
+  margin-top: 10px;
+  font-size: 16px;
 `;
 const Description = styled.p`
+  /* margin-top: 10px; */
   padding-top: 10px;
   color: #ddd;
+  font-size: 14px;
 `;
 const Div = styled.div`
   display: flex;
@@ -240,10 +311,12 @@ const Div = styled.div`
 `;
 const TextArea = styled.textarea`
   padding: 10px 10px 60px 10px;
+  font-size: 14px;
 `;
 const Button = styled.button`
   cursor: pointer;
   color: var(--color-blue);
+  color: grey;
   margin-top: 10px;
 `;
 export default AdDetails;

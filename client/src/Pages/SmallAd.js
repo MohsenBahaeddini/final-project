@@ -8,9 +8,9 @@ import DisplayAds from "./DisplayAds";
 import ErrorPage from "./ErrorPage";
 import LoadingSpinner from "./LoadingSpinner";
 
-const SmallAd = ({ filters, sort }) => {
-  const [filteredAds, setFilteredAds] = useState([]);
+const SmallAd = ({ filters, sort, make, year, type, model }) => {
   const [ads, setAds] = useState([]);
+  const [filteredAds, setFilteredAds] = useState([ads]);
   const [loading, setLoading] = useState("loading");
   const { user, isAuthenticated } = useAuth0();
   const [status, setStatus] = useState("loading");
@@ -20,6 +20,7 @@ const SmallAd = ({ filters, sort }) => {
   // console.log(currentUser);
   const history = useHistory();
 
+  // console.log("++++++++++++++++", make, year, model); // ok
   /// fetch all ads
   // // would change thiis to have pagination
   useEffect(() => {
@@ -31,7 +32,7 @@ const SmallAd = ({ filters, sort }) => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response.ads);
+        // console.log(response.ads);
         setAds(response.ads);
         setLoading("idle");
       })
@@ -40,19 +41,83 @@ const SmallAd = ({ filters, sort }) => {
         setError(true);
       });
   }, []);
-  console.log(ads);
+
+  // ******************************** New Approach to filter items
+  const filterByMake = (filteredData) => {
+    // Avoid filter for empty string
+    if (!make) {
+      return filteredData;
+    }
+
+    const filteredCars = filteredData.filter(
+      (car) => car.make.split(" ").indexOf(make) !== -1
+    );
+    return filteredCars;
+  };
+
+  const filterByYear = (filteredData) => {
+    // Avoid filter for null value
+    if (!year) {
+      return filteredData;
+    }
+
+    const filteredCars = filteredData.filter((car) => car.year === year);
+    return filteredCars;
+  };
+
+  const filterByType = (filteredData) => {
+    // Avoid filter for empty string
+    if (!type) {
+      return filteredData;
+    }
+
+    const filteredCars = filteredData.filter(
+      (car) => car.type.split(" ").indexOf(type) !== -1
+    );
+    return filteredCars;
+  };
+  const filterByModel = (filteredData) => {
+    // console.log(filteredData);
+    // Avoid filter for empty string
+    if (!model) {
+      return filteredData;
+    }
+
+    const filteredCars = filteredData.filter(
+      (car) => car.model.split(" ").indexOf(model) !== -1
+    );
+    return filteredCars;
+  };
+  useEffect(() => {
+    var filteredData = filterByMake(ads);
+    filteredData = filterByYear(filteredData);
+    filteredData = filterByType(filteredData);
+    filteredData = filterByModel(filteredData);
+    console.log(" %%%%%%%   filteredData :", filteredData.length);
+    if (filteredData.length === 0) {
+      return setFilteredAds(ads);
+    }
+    setFilteredAds(filteredData);
+  }, [make, year, type, model]);
 
   // then apply filters if there is any
-
-  useEffect(() => {
-    setFilteredAds(
-      ads.filter((item) =>
-        Object.entries(filters).every(([key, value]) =>
-          item[key].includes(value)
-        )
-      )
-    );
-  }, [ads, filters]);
+  // useEffect(() => {
+  //   console.log("$$$$$ filters", filters);
+  //   if (
+  //     filters.type === "Any Type" &&
+  //     filters.make === "Any Make" &&
+  //     filters.year === "Any Year"
+  //   ) {
+  //     return setFilteredAds(ads);
+  //   }
+  //   setFilteredAds(
+  //     ads.filter((item) =>
+  //       Object.entries(filters).every(([key, value]) =>
+  //         item[key].includes(value)
+  //       )
+  //     )
+  //   );
+  // }, [ads, filters]);
 
   useEffect(() => {
     if (sort === "asc") {
@@ -64,9 +129,10 @@ const SmallAd = ({ filters, sort }) => {
 
   // console.log("ads :", ads.length);
   // console.log("filteredAds :", filteredAds.length);
-  console.log("filteredAds  +++ :", filteredAds);
-  console.log("");
-  console.log("sort :::", sort);
+  // console.log("ads &&& :", ads);
+  // console.log("filteredAds  +++ :", filteredAds);
+  // console.log("");
+  // console.log("sort :::", sort);
 
   // console.log(filters);
 
@@ -77,18 +143,30 @@ const SmallAd = ({ filters, sort }) => {
   if (loading === "loading") {
     return <LoadingSpinner />;
   }
-
+  console.log(filteredAds);
   return (
     <>
       <Wrapper>
         <Main>
           {/* <AdsContainer> */}
           <ItemContainer>
-            {filteredAds.length
+            {filteredAds.map((car, index) => (
+              <DisplayAds car={car} key={index} />
+            ))}
+            {/* {filteredAds.length ? (
+              filteredAds.map((car, index) => (
+                <DisplayAds car={car} key={index} />
+              ))
+            ) : (
+              <>
+                <h1>No items matched</h1>
+              </>
+            )} */}
+            {/* {filteredAds.length
               ? filteredAds.map((car, index) => (
                   <DisplayAds car={car} key={index} />
                 ))
-              : ads.map((car, index) => <DisplayAds car={car} key={index} />)}
+              : ads.map((car, index) => <DisplayAds car={car} key={index} />)} */}
           </ItemContainer>
           {/* </AdsContainer> */}
         </Main>

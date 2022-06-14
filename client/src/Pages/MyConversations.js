@@ -101,7 +101,7 @@ const Wrapper = styled.div`
   /* justify-content: space-between; */
 `;
 const Title = styled.h2`
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-blue);
   padding: 5px;
   margin: 20px;
   text-align: left;
