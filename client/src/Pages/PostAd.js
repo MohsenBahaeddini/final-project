@@ -269,7 +269,22 @@ const PostAd = () => {
                 // value={description}
                 onChange={(ev) => setDescription(ev.target.value)}
               />
-              <Button type="submit">Post My Ad</Button>
+              <Button
+                disabled={
+                  !type ||
+                  !make ||
+                  !year ||
+                  !model ||
+                  !description ||
+                  !price ||
+                  !mileage
+                    ? true
+                    : false
+                }
+                type="submit"
+              >
+                Post My Ad
+              </Button>
             </Form>
           </Div>
           <Div2>
@@ -334,6 +349,7 @@ const Div4 = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding-right: 30px;
 `;
 
 const Options = styled.div`
@@ -352,6 +368,8 @@ const Img = styled.img`
 const Input = styled.input`
   margin-top: 5px;
   border: none;
+  border-radius: 2px;
+  /* font-family: var(--font-body); */
 `;
 const Button = styled.button`
   color: var(--color-dark-blue);
@@ -359,22 +377,33 @@ const Button = styled.button`
   padding: 5px 200px;
   margin-top: 5px;
   cursor: pointer;
+  border-radius: 2px;
+  border: 1px solid #fff;
 
-  &:hover {
+  &:disabled {
+    background-color: grey;
+    border: 1px solid grey;
+    cursor: auto;
+  }
+  &:hover:enabled {
     /* background-color: rgba(120, 192, 227, 0.5); */
     transform: scale(1.01, 1.01);
     outline: none;
+    border-radius: 2px;
+    border: 1px solid #fff;
   }
 `;
 const TextArea = styled.textarea`
   padding-bottom: 30px;
   text-align: left;
   margin-top: 5px;
-  font-size: 16px;
+  font-size: 15px;
+  font-family: var(--font-body);
   /* font-size: 20px; */
   /* height: 200px;
   width: 850px; */
   border: none;
+  border-radius: 2px;
   outline: none;
 `;
 const Select1 = styled.select`

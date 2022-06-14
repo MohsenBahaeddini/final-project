@@ -5,6 +5,8 @@ import moment from "moment";
 import styled from "styled-components";
 import ErrorPage from "./ErrorPage";
 import LoadingSpinner from "./LoadingSpinner";
+import MsgSent from "./MsgSent";
+import MsgReceived from "./MsgRecieved";
 
 const SingleConversation = () => {
   const [conversation, setConversation] = useState({});
@@ -69,7 +71,7 @@ const SingleConversation = () => {
         <>
           <Container>
             <Chat>
-              <Title>Chat</Title>
+              <Title>My Chat with</Title>
               <Seller> {conversation.seller}</Seller>
             </Chat>
 
@@ -110,6 +112,12 @@ const SingleConversation = () => {
                         {message.date}
                       </Date>
                     </Div2>
+                    <Bubble>
+                      {message.user === conversation.seller && <MsgSent />}
+                    </Bubble>
+                    <BubbleSent>
+                      {message.user !== conversation.seller && <MsgReceived />}
+                    </BubbleSent>
                   </Div>
                 </>
               );
@@ -205,11 +213,22 @@ const Div = styled.div`
     justify-content: left;
   }
 `;
+const Bubble = styled.div`
+  position: absolute;
+  left: 891px;
+  bottom: 252px;
+`;
+const BubbleSent = styled.div`
+  left: 432px;
+  position: absolute;
+  right: 906px;
+  margin-top: 50px;
+`;
 const Div2 = styled.div`
   max-width: 250px;
   word-break: break-all;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 20px;
   padding: 5px;
   background-color: #fff;
   display: flex;

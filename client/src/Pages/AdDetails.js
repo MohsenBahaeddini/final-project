@@ -225,7 +225,9 @@ const AdDetails = () => {
                 value={msg}
                 onChange={(ev) => setMsg(ev.target.value)}
               ></TextArea>
-              <Button onClick={sendMessage}>Send</Button>
+              <Button disabled={!msg ? true : false} onClick={sendMessage}>
+                Send
+              </Button>
             </Div>
           )}
         </Container>
@@ -312,11 +314,25 @@ const Div = styled.div`
 const TextArea = styled.textarea`
   padding: 10px 10px 60px 10px;
   font-size: 14px;
+  outline: none;
 `;
 const Button = styled.button`
   cursor: pointer;
   color: var(--color-dark-blue);
-
   margin-top: 10px;
+  border-radius: 2px;
+  border: 1px solid #fff;
+  &:disabled {
+    background-color: grey;
+    border: 1px solid grey;
+    cursor: auto;
+  }
+  &:hover:enabled {
+    /* background-color: rgba(120, 192, 227, 0.5); */
+    transform: scale(1.01, 1.01);
+    outline: none;
+    border-radius: 2px;
+    border: 1px solid #fff;
+  }
 `;
 export default AdDetails;

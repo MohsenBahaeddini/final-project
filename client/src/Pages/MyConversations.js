@@ -75,14 +75,15 @@ const MyConversations = () => {
               return (
                 <div key={index}>
                   <h2>
-                    <h2>
+                    <H2>
                       You were interested in
                       <StyledNavLink to={`/ad/${conversation.adId}`}>
                         <Span>this ad</Span>
                       </StyledNavLink>
-                    </h2>
+                      !
+                    </H2>
                     <StyledNavLink to={`/conversation/${conversation._id}`}>
-                      <h2>Check your messages to {conversation.seller}</h2>
+                      <H3>Check your messages to {conversation.seller}</H3>
                     </StyledNavLink>
                   </h2>
                 </div>
@@ -116,8 +117,7 @@ const StyledNavLink = styled(NavLink)`
   outline: none;
 
   &:hover {
-    color: #3f5efb;
-    text-decoration: underline;
+    color: var(--color-blue);
   }
   /* 
   &.active {
@@ -127,5 +127,15 @@ const StyledNavLink = styled(NavLink)`
 `;
 const Span = styled.span`
   font-size: 16px;
+`;
+
+const H2 = styled.h2`
+  padding-top: 10px;
+`;
+const H3 = styled.h3`
+  font-size: 16px;
+  &:hover {
+    color: var(--color-blue);
+  }
 `;
 export default MyConversations;

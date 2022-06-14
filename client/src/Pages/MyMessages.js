@@ -5,6 +5,8 @@ import { Link, NavLink, useParams, useHistory } from "react-router-dom";
 import moment from "moment";
 import ErrorPage from "./ErrorPage";
 import LoadingSpinner from "./LoadingSpinner";
+import MsgSent from "./MsgSent";
+import MsgReceived from "./MsgRecieved";
 
 const MyMessages = () => {
   const [myConversations, setMyConversations] = useState([]);
@@ -15,6 +17,8 @@ const MyMessages = () => {
   const [chat, setChat] = useState({});
   const [chatId, setChatId] = useState("");
   const [chatStatus, setChatStatus] = useState("loading");
+
+  const [active, setActive] = useState();
   const { currentUser } = useContext(CurrentUserContext);
 
   // get the messages that owner has received for a specific ad
@@ -86,6 +90,7 @@ const MyMessages = () => {
   if (status === "loading") {
     return <LoadingSpinner />;
   }
+  console.log(currentUser);
   console.log("myConversations ::: ", myConversations);
   return (
     <>
@@ -101,7 +106,12 @@ const MyMessages = () => {
                     {/* <h4>{conversation.buyer}</h4> */}
                     <Email
                       // className="active"
+                      id={conversation.id}
+                      className={
+                        active === conversation.id ? "inactive" : "active"
+                      }
                       onClick={(ev) => {
+                        console.log(ev);
                         ev.preventDefault();
                         fetch(`/api/conversation-by-id/${conversation._id}`, {
                           headers: {
@@ -118,6 +128,7 @@ const MyMessages = () => {
                             setChatStatus("idle");
                             console.log("chatId ****************** ", chatId);
                           });
+                        setActive(ev.target.id);
                       }}
                     >
                       {conversation.buyer}
@@ -170,6 +181,12 @@ const MyMessages = () => {
                           {message.date}
                         </Date>
                       </Div5>
+                      <Bubble>
+                        {message.user === chat.buyer && <MsgSent />}
+                      </Bubble>
+                      <BubbleSent>
+                        {message.user !== chat.buyer && <MsgReceived />}
+                      </BubbleSent>
                     </Div4>
                   </>
                 );
@@ -264,7 +281,9 @@ const Div4 = styled.div`
 `;
 const Div5 = styled.div`
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 20px;
+  word-break: break-all;
+
   padding: 5px;
   background-color: #fff;
   display: flex;
@@ -274,6 +293,20 @@ const Div5 = styled.div`
   }
   &.buyer {
   }
+`;
+const Bubble = styled.div`
+  position: absolute;
+  /* display: flex; */
+  /* margin: 60px 0px -10px -180px; */
+  left: 1155px;
+  z-index: -1;
+  margin-top: 50px;
+`;
+const BubbleSent = styled.div`
+  position: absolute;
+  left: 757px;
+  z-index: -1;
+  margin-top: 50px;
 `;
 const User = styled.h2`
   font-size: 14px;
@@ -353,10 +386,16 @@ const Email = styled.button`
   &:focus {
     color: var(--color-yellow);
   }
+  &.active {
+    color: var(--color-yellow);
+    font-size: 16px;
+    border: none;
+  }
 `;
 const TextArea = styled.textarea`
   padding: 10px 10px 40px 10px;
   margin: 20px;
   font-size: 14px;
+  outline: none;
 `;
 export default MyMessages;

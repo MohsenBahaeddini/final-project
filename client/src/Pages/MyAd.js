@@ -138,7 +138,11 @@ const H2 = styled.h2`
 `;
 const H3 = styled.h2`
   padding: 5px;
+
   font-size: 15px;
+  &:hover {
+    color: var(--color-blue);
+  }
 `;
 const Img = styled.img`
   width: 200px;
@@ -146,6 +150,9 @@ const Img = styled.img`
   margin: 20px 20px 5px 20px;
   padding: 2px;
   border: 1px solid var(--color-blue);
+  &:hover {
+    transform: scale(1.02);
+  }
 `;
 const StyledNavLink = styled(NavLink)`
   color: white;
@@ -157,7 +164,7 @@ const StyledNavLink = styled(NavLink)`
 
   &:hover {
     color: #3f5efb;
-    text-decoration: underline;
+    /* text-decoration: underline; */
   }
   /* 
   &.active {

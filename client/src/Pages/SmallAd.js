@@ -23,101 +23,130 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
   // console.log("++++++++++++++++", make, year, model); // ok
   /// fetch all ads
   // // would change thiis to have pagination
-  useEffect(() => {
-    fetch(`/api/ads?page=${pageNum}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        // console.log(response.ads);
-        setAds(response.ads);
-        setLoading("idle");
+
+  const fetchAds = async () => {
+    try {
+      await fetch(`/api/ads?page=${pageNum}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
       })
-      .catch((err) => {
-        console.log(err);
-        setError(true);
-      });
+        .then((res) => res.json())
+        .then((response) => {
+          // console.log(response.ads);
+          setAds(response.ads);
+          setLoading("idle");
+        });
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    }
+  };
+  useEffect(() => {
+    fetchAds();
   }, []);
+  // useEffect(() => {
+  //   fetch(`/api/ads?page=${pageNum}`, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((response) => {
+  //       // console.log(response.ads);
+  //       setAds(response.ads);
+  //       setLoading("idle");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setError(true);
+  //     });
+  // }, []);
 
   // ******************************** New Approach to filter items
-  const filterByMake = (filteredData) => {
-    // Avoid filter for empty string
-    if (!make) {
-      return filteredData;
-    }
 
-    const filteredCars = filteredData.filter(
-      (car) => car.make.split(" ").indexOf(make) !== -1
-    );
-    return filteredCars;
-  };
+  // const filterByMake = (filteredData) => {
+  //   console.log(filteredData);
+  //   // Avoid filter for empty string
+  //   if (!make) {
+  //     return filteredData;
+  //   }
 
-  const filterByYear = (filteredData) => {
-    // Avoid filter for null value
-    if (!year) {
-      return filteredData;
-    }
+  //   const filteredCars = filteredData.filter(
+  //     (car) => car.make.split(" ").indexOf(make) !== -1
+  //   );
+  //   console.log("filteredCars:: ", filteredCars);
+  //   return filteredCars;
+  // };
 
-    const filteredCars = filteredData.filter((car) => car.year === year);
-    return filteredCars;
-  };
+  // const filterByYear = (filteredData) => {
+  //   // Avoid filter for null value
+  //   if (!year) {
+  //     return filteredData;
+  //   }
 
-  const filterByType = (filteredData) => {
-    // Avoid filter for empty string
-    if (!type) {
-      return filteredData;
-    }
+  //   const filteredCars = filteredData.filter((car) => car.year === year);
+  //   return filteredCars;
+  // };
 
-    const filteredCars = filteredData.filter(
-      (car) => car.type.split(" ").indexOf(type) !== -1
-    );
-    return filteredCars;
-  };
-  const filterByModel = (filteredData) => {
-    // console.log(filteredData);
-    // Avoid filter for empty string
-    if (!model) {
-      return filteredData;
-    }
+  // const filterByType = (filteredData) => {
+  //   // Avoid filter for empty string
+  //   if (!type) {
+  //     return filteredData;
+  //   }
 
-    const filteredCars = filteredData.filter(
-      (car) => car.model.split(" ").indexOf(model) !== -1
-    );
-    return filteredCars;
-  };
-  useEffect(() => {
-    var filteredData = filterByMake(ads);
-    filteredData = filterByYear(filteredData);
-    filteredData = filterByType(filteredData);
-    filteredData = filterByModel(filteredData);
-    console.log(" %%%%%%%   filteredData :", filteredData.length);
-    if (filteredData.length === 0) {
-      return setFilteredAds(ads);
-    }
-    setFilteredAds(filteredData);
-  }, [make, year, type, model]);
+  //   const filteredCars = filteredData.filter(
+  //     (car) => car.type.split(" ").indexOf(type) !== -1
+  //   );
+  //   return filteredCars;
+  // };
+  // const filterByModel = (filteredData) => {
+  //   // console.log(filteredData);
+  //   // Avoid filter for empty string
+  //   if (!model) {
+  //     return filteredData;
+  //   }
 
-  // then apply filters if there is any
+  //   const filteredCars = filteredData.filter(
+  //     (car) => car.model.split(" ").indexOf(model) !== -1
+  //   );
+  //   return filteredCars;
+  // };
+  // console.log(ads);
   // useEffect(() => {
-  //   console.log("$$$$$ filters", filters);
-  //   if (
-  //     filters.type === "Any Type" &&
-  //     filters.make === "Any Make" &&
-  //     filters.year === "Any Year"
-  //   ) {
+  //   var filteredData = ads;
+  //   console.log(" %%%%%%%   filteredData :", filteredData);
+  //   filteredData = filterByMake(filteredData);
+  //   filteredData = filterByYear(filteredData);
+  //   filteredData = filterByType(filteredData);
+  //   // filteredData = filterByModel(filteredData);
+
+  //   if (filteredData.length === 0) {
   //     return setFilteredAds(ads);
   //   }
-  //   setFilteredAds(
-  //     ads.filter((item) =>
-  //       Object.entries(filters).every(([key, value]) =>
-  //         item[key].includes(value)
-  //       )
-  //     )
-  //   );
-  // }, [ads, filters]);
+  //   setFilteredAds(filteredData);
+  // }, [make, year, type, model]);
+
+  // then apply filters if there is any
+  useEffect(() => {
+    console.log("$$$$$ filters", filters);
+    if (
+      filters.type === "Any Type" &&
+      filters.make === "Any Make" &&
+      filters.year === "Any Year"
+    ) {
+      return setFilteredAds(ads);
+    }
+    setFilteredAds(
+      ads.filter((item) =>
+        Object.entries(filters).every(([key, value]) =>
+          item[key].includes(value)
+        )
+      )
+    );
+  }, [ads, filters]);
 
   useEffect(() => {
     if (sort === "asc") {
@@ -144,15 +173,31 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
     return <LoadingSpinner />;
   }
   console.log(filteredAds);
+
   return (
     <>
       <Wrapper>
         <Main>
           {/* <AdsContainer> */}
           <ItemContainer>
-            {filteredAds.map((car, index) => (
-              <DisplayAds car={car} key={index} />
-            ))}
+            {loading === "idle" &&
+              ads &&
+              filteredAds &&
+              (filteredAds.length ? (
+                filteredAds.map((car, index) => (
+                  <DisplayAds car={car} key={index} />
+                ))
+              ) : (
+                <>
+                  <FilterErr>
+                    No result found for{" "}
+                    {Object.values(filters).map((value) => {
+                      return <>{value} </>;
+                    })}
+                    .<FilterErr>Try changing your search filters.</FilterErr>
+                  </FilterErr>
+                </>
+              ))}
             {/* {filteredAds.length ? (
               filteredAds.map((car, index) => (
                 <DisplayAds car={car} key={index} />
@@ -179,6 +224,10 @@ const Wrapper = styled.div`
   align-content: center;
   justify-content: center;
   margin: 30px;
+`;
+const FilterErr = styled.h1`
+  color: var(--color-yellow);
+  padding: 10px;
 `;
 const Main = styled.div`
   /* margin: 5px; */
