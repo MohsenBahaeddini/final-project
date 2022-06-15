@@ -14,7 +14,7 @@ const MyAd = ({ currentUser }) => {
   const history = useHistory();
   const { id } = useParams();
 
-  console.log("id ::", id);
+  // Get all my ads 
   useEffect(() => {
     setStatus("loading");
     fetch(`/api/ads-by-owner/${id}`, {
@@ -25,7 +25,6 @@ const MyAd = ({ currentUser }) => {
     })
       .then((res) => res.json())
       .then((response) => {
-        // console.log(response);
         setMyAds(response.ads);
         setStatus("idle");
       })
@@ -35,11 +34,6 @@ const MyAd = ({ currentUser }) => {
       });
   }, []);
 
-  // const deleteAd = (ev) => {
-  //   ev.preventDefault();
-  //   fetch(`/api/delete-ad/${ad._id}`,{})
-
-  // };
   const updateMyAdsAfterDelete = () => {
     fetch(`/api/ads-by-owner/${id}`, {
       headers: {
@@ -49,7 +43,6 @@ const MyAd = ({ currentUser }) => {
     })
       .then((res) => res.json())
       .then((response) => {
-        // console.log(response);
         setMyAds(response.ads);
         setStatus("idle");
       })
@@ -57,7 +50,7 @@ const MyAd = ({ currentUser }) => {
         console.log(err);
       });
   };
-  console.log(myAds);
+
 
   if (error) {
     return <ErrorPage />;
@@ -113,14 +106,12 @@ const MyAd = ({ currentUser }) => {
   );
 };
 const Wrapper = styled.div`
-  /* display: flex; */
   min-width: calc(100vw / 3.5);
   border: 1px solid #ddd;
   margin: 10px;
   min-height: 230px;
   height: fit-content;
   padding-bottom: 5px;
-  /* justify-content: space-between; */
 `;
 const Title = styled.h2`
   border-bottom: 1px solid var(--color-blue);
@@ -160,32 +151,21 @@ const Img = styled.img`
 const StyledNavLink = styled(NavLink)`
   color: white;
   margin-left: 10px;
-  /* font-family: var(--font-body); */
   font-size: 12px;
   text-decoration: none;
   outline: none;
 
   &:hover {
     color: #3f5efb;
-    /* text-decoration: underline; */
   }
-  /* 
-  &.active {
-    text-decoration: underline;
-    color: #3f5efb;
-  } */
 `;
 const Button = styled.button`
   cursor: pointer;
   color: var(--color-dark-blue);
   margin-top: 10px;
   &:hover {
-    /* background-color: rgba(120, 192, 227, 0.5); */
     transform: scale(1.01, 1.01);
     outline: none;
   }
-  /* padding: 3px 20px; */
-  /* justify-content: right; */
-  /* margin: 20px 5px 5px 300px; */
 `;
 export default MyAd;

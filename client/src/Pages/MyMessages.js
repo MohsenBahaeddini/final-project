@@ -21,10 +21,9 @@ const MyMessages = () => {
   const [active, setActive] = useState();
   const { currentUser } = useContext(CurrentUserContext);
 
-  // get the messages that owner has received for a specific ad
   const { id } = useParams();
-  console.log("id **** :", id);
-
+ 
+  // get the messages that owner has received for a specific ad
   useEffect(() => {
     fetch(`/api/conversations-by-ad/${id}`, {
       headers: {
@@ -34,7 +33,7 @@ const MyMessages = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
+        
         setMyConversations(response.conversations);
         setStatus("idle");
       })
@@ -44,6 +43,7 @@ const MyMessages = () => {
       });
   }, []);
 
+  // Get conversation by id 
   useEffect(() => {
     fetch(`/api/conversation-by-id/${chatId}`, {
       headers: {
@@ -53,7 +53,7 @@ const MyMessages = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log("__________ ---", response);
+        
         setChat(response.conversation);
         setChatStatus("idle");
       })
@@ -63,9 +63,8 @@ const MyMessages = () => {
       });
   }, [chatId]);
 
-  console.log("chatId ^^^^^^^^", chatId);
+  // re-fetch messages once the new msg has been sent and dispaly on screen 
   const handleAfterSendMsg = () => {
-    console.log("chatId ++++++++++++ :", chatId);
     fetch(`/api/conversation-by-id/${chatId}`, {
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +73,7 @@ const MyMessages = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
+       
         setChat(response.conversation);
         setChatStatus("idle");
       })
@@ -90,22 +89,21 @@ const MyMessages = () => {
   if (status === "loading") {
     return <LoadingSpinner />;
   }
-  console.log(currentUser);
-  console.log("myConversations ::: ", myConversations);
+ 
   return (
     <>
       <Wrapper>
         <Preview>
           <Title>My Chats</Title>
-          {/* <h3>All messages for the specific ad</h3> */}
+          
           <h5>
             {status === "idle" &&
               myConversations.map((conversation, index) => {
                 return (
                   <Chat key={index}>
-                    {/* <h4>{conversation.buyer}</h4> */}
+                    
                     <Email
-                      // className="active"
+                      
                       id={conversation.id}
                       className={
                         active === conversation.id ? "inactive" : "active"
@@ -121,12 +119,10 @@ const MyMessages = () => {
                         })
                           .then((res) => res.json())
                           .then((response) => {
-                            console.log(response);
-                            setChat(response.conversation);
-                            console.log("chat >>>>", chat);
-                            setChatId(response.conversation._id);
+                                                        setChat(response.conversation);
+                                                        setChatId(response.conversation._id);
                             setChatStatus("idle");
-                            console.log("chatId ****************** ", chatId);
+                            
                           });
                         setActive(ev.target.id);
                       }}
@@ -138,16 +134,13 @@ const MyMessages = () => {
               })}
           </h5>
         </Preview>
-        {/* <Main> */}
+        
         <Div>
           <Title>Messages</Title>
-          {/* <h3>
-            section that displays the messages when user clicks on the
-            conversation
-          </h3> */}
+          
           {chatStatus === "idle" && chat && (
             <>
-              {/* <h1>Chat with {chat.buyer}</h1> */}
+             
               {chat.messages.map((message, index) => {
                 console.log(message);
                 return (
@@ -201,7 +194,7 @@ const MyMessages = () => {
                 <Button
                   onClick={(ev) => {
                     ev.preventDefault();
-                    console.log("working&&&&&&");
+                    
                     if (msg) {
                       fetch(`/api/update-conversation/${chat._id}`, {
                         method: "PATCH",
@@ -233,7 +226,7 @@ const MyMessages = () => {
             </>
           )}
         </Div>
-        {/* </Main> */}
+        
       </Wrapper>
     </>
   );
@@ -264,9 +257,6 @@ const Div = styled.div`
   max-width: calc(100vw / 3);
   min-height: 600px;
   margin: 10px;
-  /* display: flex;
-  flex-direction: column;  
-   */
 `;
 const Div4 = styled.div`
   display: flex;
@@ -296,8 +286,6 @@ const Div5 = styled.div`
 `;
 const Bubble = styled.div`
   position: absolute;
-  /* display: flex; */
-  /* margin: 60px 0px -10px -180px; */
   left: 1155px;
   z-index: -1;
   margin-top: 50px;
@@ -349,7 +337,6 @@ const Date = styled.h2`
   }
 `;
 const Div6 = styled.div`
-  /* border: 1px solid #ddd; */
   display: flex;
   flex-direction: column;
 `;
@@ -365,7 +352,6 @@ const Button = styled.button`
   color: #fff;
   padding: 3px 20px;
   font-size: 16px;
-  /* justify-content: right; */
   margin: -10px 20px 20px 20px;
   background-color: var(--color-dark-blue);
   border: none;
@@ -375,7 +361,6 @@ const Email = styled.button`
   color: #fff;
   padding: 3px 20px;
   font-size: 16px;
-  /* justify-content: right; */
   margin: 20px 5px 5px 20px;
   background-color: var(--color-dark-blue);
   border: none;
@@ -389,11 +374,6 @@ const Email = styled.button`
     color: var(--color-yellow);
     font-size: 16px;
   }
-  /* &.active {
-    color: var(--color-yellow);
-    font-size: 16px;
-    border: none;
-  } */
 `;
 const TextArea = styled.textarea`
   padding: 10px 10px 40px 10px;

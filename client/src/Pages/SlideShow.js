@@ -6,7 +6,7 @@ import "./SlideShow.css";
 import { FcPrevious, FcNext } from "react-icons/fc";
 
 const SlideShow = ({ imgs }) => {
-  console.log(imgs);
+  // implementing slideShow on the adDetails page
   const [index, setIndex] = useState(0);
 
   useEffect(() => {

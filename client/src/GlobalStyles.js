@@ -2,8 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
   :root {
-    /* --color-cadmium-red: #D80026; */
-    /* --color-alabama-crimson: #AA001E; */
+    
     --color-darkBlue : #141824;
     --color-orange: #F79D00;
     --color-blue:#0049FF;

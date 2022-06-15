@@ -24,7 +24,6 @@ const createConversation = async (req, res) => {
     const db = client.db("mba");
     const newConversation = {
       _id: id,
-      // title: title,
       seller: seller,
       buyer: buyer,
       buyerId: buyerId,

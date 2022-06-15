@@ -56,7 +56,6 @@ const Loading = styled.div`
     animation-delay: 0s;
     top: 37px;
     left: 66px;
-    /* border-color: red; */
   }
   &:nth-child(2) {
     animation-delay: -0.1s;

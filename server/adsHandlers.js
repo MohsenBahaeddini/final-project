@@ -75,8 +75,8 @@ const getAd = async (req, res) => {
 // add new ad to db
 const addNewAd = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  // will add user info once signin is done or check signed in with another function
-  // should be able to get images as well
+  
+  
   const {
     owner,
     type,
@@ -144,9 +144,9 @@ const addNewAd = async (req, res) => {
 // update an ad
 const updateAd = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  // will probably add user info , etc to be updatable
+  
   const { type, make, year, model, mileage } = req.body;
-  console.log(req.body);
+  
   const adId = req.params.id;
   const query = { _id: adId };
   try {
@@ -210,14 +210,14 @@ const deleteAd = async (req, res) => {
 // get ads by owner
 const getAdsByOwners = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  // userId like _id:"google-oauth2|115624167694773099675"
+  
   const { id } = req.params;
   try {
     await client.connect();
     const db = client.db("mba");
 
     const findUser = await db.collection("users").findOne({ _id: id });
-    // console.log("findUser ::", findUser);
+    
 
     const findUserAds = await db
       .collection("ads")

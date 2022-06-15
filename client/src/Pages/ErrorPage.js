@@ -1,5 +1,6 @@
 import styled from "styled-components";
 const ErrorPage = () => {
+  // This will be displayed if an error happens while loading the page
   return (
     <Wrapper>
       <Div>
@@ -11,7 +12,8 @@ const ErrorPage = () => {
 };
 const Wrapper = styled.div`
   display: flex;
-  margin: auto;
+  flex-direction: column;
+  align-items: center;
 `;
 const Div = styled.div`
   display: flex;
@@ -23,5 +25,6 @@ const Div = styled.div`
 
 const P = styled.p`
   font-size: 20px;
+  color: #ddd;
 `;
 export default ErrorPage;

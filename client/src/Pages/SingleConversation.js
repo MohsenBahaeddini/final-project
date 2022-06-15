@@ -12,14 +12,13 @@ const SingleConversation = () => {
   const [conversation, setConversation] = useState({});
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
-
   const [msg, setMsg] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
-  //   console.log(currentUser);
+  
 
   const { id } = useParams();
-  console.log("id &&&& :", id);
-
+ 
+// Get a specific conversation by id
   useEffect(() => {
     fetch(`/api/conversation-by-id/${id}`, {
       headers: {
@@ -38,6 +37,7 @@ const SingleConversation = () => {
       });
   }, []);
 
+  // refetch to re-render the conversation after a new message has been sent
   const handleAfterSendMsg = () => {
     fetch(`/api/conversation-by-id/${id}`, {
       headers: {
@@ -47,7 +47,7 @@ const SingleConversation = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
+        
         setConversation(response.conversation);
         setStatus("idle");
       })
@@ -58,10 +58,11 @@ const SingleConversation = () => {
     setMsg("");
   };
 
-  console.log("conversation.messages ::", conversation.messages);
+  // Display errorPage if an error occurred
   if (error) {
     return <ErrorPage />;
   }
+  // Display loading page while the page is being loaded
   if (status === "loading") {
     return <LoadingSpinner />;
   }
@@ -76,7 +77,7 @@ const SingleConversation = () => {
             </Chat>
 
             {conversation.messages.map((message, index) => {
-              console.log(message);
+              
               return (
                 <>
                   <Div
@@ -132,7 +133,7 @@ const SingleConversation = () => {
               <Button
                 onClick={(ev) => {
                   ev.preventDefault();
-                  console.log("working&&&&&&");
+                  
                   if (msg) {
                     fetch(`/api/update-conversation/${conversation._id}`, {
                       method: "PATCH",
@@ -150,9 +151,7 @@ const SingleConversation = () => {
                     })
                       .then((res) => res.json())
                       .then((response) => {
-                        if (response) {
-                          console.log(response);
-                          // localStorage.setItem("_id", response._id);
+                        if (response) {                         
                           handleAfterSendMsg();
                         }
                       });
@@ -180,13 +179,10 @@ const Wrapper = styled.div`
 `;
 const Title = styled.h1`
   padding: 10px 10px 0 10px;
-
-  /* border-bottom: 1px solid var(--color-blue); */
   margin-bottom: 10px;
 `;
 const Seller = styled.h1`
   padding: 10px 10px 0 10px;
-  /* border-bottom: 1px solid var(--color-blue); */
   text-align: right;
   margin-bottom: 10px;
 `;
@@ -199,13 +195,13 @@ const Chat = styled.div`
   border-bottom: 1px solid var(--color-blue);
 `;
 const Container = styled.div`
-  /* border: 1px solid #fff; */
+  
 `;
 const Div = styled.div`
   display: flex;
   padding: 5px;
   margin: 0 20px;
-  /* flex-direction: column; */
+  
   &.me {
     justify-content: right;
   }
@@ -312,12 +308,7 @@ const Div3 = styled.div`
   justify-content: center;
   margin: 10px 0;
 `;
-// const Button = styled.button`
-//   color: var(--color-blue);
-//   font-size: 18px;
-//   padding: 5px 200px;
-//   margin-top: 5px;
-// `;
+
 const TextArea = styled.textarea`
   padding: 10px 280px 40px 10px;
   margin: 20px;
@@ -328,7 +319,6 @@ const Button = styled.button`
   color: #fff;
   padding: 3px 20px;
   font-size: 16px;
-  /* justify-content: right; */
   margin: -10px 20px 20px 20px;
   background-color: var(--color-dark-blue);
   border: none;

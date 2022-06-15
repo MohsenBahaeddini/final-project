@@ -4,13 +4,12 @@ import { useHistory } from "react-router-dom";
 
 import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
-// import UploadImg from "./UploadImg";
-// import {car-placeholder }from "../assets/car-placeholder.svg"
 import UploadImage from "./UploadImage";
 import uploadImage from "../assets/uploadImage.png";
 import Select from "react-select";
 
 const PostAd = () => {
+// useState to update different options when entering the car info 
   const [make, setMake] = useState("");
   const [type, setType] = useState("");
   const [year, setYear] = useState("");
@@ -18,7 +17,6 @@ const PostAd = () => {
   const [price, setPrice] = useState("");
   const [mileage, setMileage] = useState("");
   const [description, setDescription] = useState("");
-  // const [features, setFeatures] = useState({});
   const [airConditioning, setAirConditioning] = useState(false);
   const [alloyWheels, setAlloyWheels] = useState(false);
   const [bluetooth, setBluetooth] = useState(false);
@@ -29,10 +27,9 @@ const PostAd = () => {
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState([]);
   const history = useHistory();
-
   const [newAd, setNewAd] = useState({});
   const { currentUser } = useContext(CurrentUserContext);
-  console.log("currentuser :", currentUser);
+  
 
   // get all Models for the selected make,type and year from car data api
   useEffect(() => {
@@ -49,20 +46,19 @@ const PostAd = () => {
       )
         .then((res) => res.json())
         .then((response) => {
-          console.log(response);
+          
           setCars(response);
         })
         .catch((err) => console.error("Error: ", err));
     }
   }, [make, type, year]);
-  console.log(year, make, type);
-  console.log("CARS : ", cars);
+  
 
   // hadnleSubmit will send the info to the server
   const handleSubmit = (ev) => {
-    console.log("worked");
+   
     ev.preventDefault();
-    console.log(make, model, year, type);
+    
     if (make && type && year && model && mileage && price && description) {
       fetch("/api/new-ad", {
         method: "POST",
@@ -91,19 +87,14 @@ const PostAd = () => {
         .then((res) => res.json())
         .then((response) => {
           if (response) {
-            console.log(response);
+            
             history.push(`/profile/${currentUser.sub}`);
           }
         });
     }
   };
 
-  if (cars.length) {
-    console.log(cars);
-  }
-
-  console.log("imageUrl :; ", imageUrl);
-  console.log(airConditioning);
+  
   return (
     <>
       <Wrapper>
@@ -113,7 +104,7 @@ const PostAd = () => {
         <Section>
           <Div>
             <Form onSubmit={handleSubmit}>
-              {/* <label for="type">Type: </label> */}
+            
               <H3>Enter Your Car Info</H3>
               <Select1
                 defaultValue={"default"}
@@ -130,7 +121,7 @@ const PostAd = () => {
                   return <option value={el}>{el}</option>;
                 })}
               </Select1>
-              {/* <label for="make">Make: </label> */}
+              
               <Select1
                 defaultValue={"default"}
                 onChange={(ev) => {
@@ -148,7 +139,7 @@ const PostAd = () => {
                   );
                 })}
               </Select1>
-              {/* <label for="year">Year: </label> */}
+              
               <Select1
                 defaultValue={"default"}
                 onChange={(ev) => {
@@ -162,12 +153,12 @@ const PostAd = () => {
                   return <option value={year}>{year}</option>;
                 })}
               </Select1>
-              {/* <label for="model">Model: </label> */}
+              
               <Select1
                 defaultValue={"default"}
                 onChange={(ev) => {
                   setModel(ev.target.value);
-                  console.log(ev.target.value);
+                  
                 }}
               >
                 <option value={"default"} disabled>
@@ -179,29 +170,22 @@ const PostAd = () => {
                       {car.model}
                     </option>
                   ))}
-                {/* {cars.length &&
-                  cars.map((car, index) =>
-                    index === 0 ? (
-                      <option value="select model">select model</option>
-                    ) : (
-                      <option value={car.model}>{car.model}</option>
-                    )
-                  )} */}
+                
               </Select1>
-              {/* <label for="mileage">Mileage: </label> */}
+              
               <Input
                 type="text"
                 placeholder="Kilometers*"
                 onChange={(ev) => setMileage(ev.target.value)}
               />
-              {/* <label for="price">Price: </label> */}
+              
               <Input
                 type="text"
                 placeholder="$ Price*"
                 onChange={(ev) => setPrice(ev.target.value)}
               />
               <Options>
-                {/* <Features> */}
+                
                 <Div3>
                   <Div4>
                     <input
@@ -264,13 +248,13 @@ const PostAd = () => {
                     <label for="stabilityControl">Stability control</label>
                   </Div4>
                 </Div3>
-                {/* </Features> */}
+                
               </Options>
 
               <TextArea
                 type="text"
                 placeholder="Description*"
-                // value={description}
+               
                 onChange={(ev) => setDescription(ev.target.value)}
               />
               <Button
@@ -322,7 +306,6 @@ const Form = styled.form`
 
 const Div = styled.div`
   display: flex;
-  /* flex-direction: column; */
   justify-content: left;
   align-items: center;
   margin: 20px;
@@ -339,15 +322,13 @@ const Div2 = styled.div`
   padding: 10px;
 `;
 const Features = styled.div`
-  /* display: flex; */
-  /* flex-direction: column; */
+  
   border: 1px solid #fff;
 `;
 const Div3 = styled.div`
   display: flex;
   flex-direction: column;
-  /* border: 1px solid #fff; */
-  /* align-items: ; */
+  
 `;
 const Div4 = styled.div`
   display: flex;
@@ -373,7 +354,7 @@ const Input = styled.input`
   margin-top: 5px;
   border: none;
   border-radius: 2px;
-  /* font-family: var(--font-body); */
+ 
 `;
 const Button = styled.button`
   color: var(--color-dark-blue);
@@ -389,8 +370,7 @@ const Button = styled.button`
     border: 1px solid grey;
     cursor: auto;
   }
-  &:hover:enabled {
-    /* background-color: rgba(120, 192, 227, 0.5); */
+  &:hover:enabled {  
     transform: scale(1.01, 1.01);
     outline: none;
     border-radius: 2px;
@@ -402,10 +382,7 @@ const TextArea = styled.textarea`
   text-align: left;
   margin-top: 5px;
   font-size: 15px;
-  font-family: var(--font-body);
-  /* font-size: 20px; */
-  /* height: 200px;
-  width: 850px; */
+  font-family: var(--font-body); 
   border: none;
   border-radius: 2px;
   outline: none;

@@ -1,20 +1,15 @@
 import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-// import { Link, NavLink } from "react-router-dom";
 import SmallAd from "./SmallAd";
 import { useAuth0 } from "@auth0/auth0-react";
 import Pagination from "./Pagination";
 import { useHistory } from "react-router-dom";
 import { CurrentUserContext } from "../CurrentUserContext";
-import Filters from "./Filters";
 import { years, types, makes } from "../data";
-import coverPhoto from "../assets/cover-photo.png";
-import cover2 from "../assets/cover2.png";
 import cover3 from "../assets/cover3.png";
-import cover4 from "../assets/cover4.png";
-import cover5 from "../assets/cover5.png";
 import uploadImage from "../assets/uploadImage.png";
-// assetscover-photo.jpg
+
+
 const Homepage = () => {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState("loading");
@@ -26,14 +21,13 @@ const Homepage = () => {
   const [year, setYear] = useState("");
   const [model, setModel] = useState("");
   const [status, setStatus] = useState("loading");
-
-  const { currentUser } = useContext(CurrentUserContext);
-  // console.log(currentUser);
-  const history = useHistory();
-
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState("asc");
-  // get all Models for the selected make,type and year from car data api
+  const { currentUser } = useContext(CurrentUserContext);
+  
+  const history = useHistory();
+
+  // get all Models for the selected make from car data api
   useEffect(() => {
     if (make) {
       fetch(
@@ -48,34 +42,23 @@ const Homepage = () => {
       )
         .then((res) => res.json())
         .then((response) => {
-          console.log(response);
           setCars(response);
         })
         .catch((err) => console.error("Error: ", err));
     }
   }, [make, type, year]);
 
+  // handleFilters to set the filters to the key value pairs and then will pass filters to smallAd
   const handleFilters = (ev) => {
-    let value = ev.target.value;
-    // if (
-    //   value === "Select Make" &&
-    //   "Select Type" &&
-    //   "Select Year" &&
-    //   "Select Model"
-    // ) {
-    //   value = "";
-    // }
-    console.log("###########value :::", value);
-
+    let value = ev.target.value;  
     setFilters({
       ...filters,
       [ev.target.name]: value,
     });
   };
 
-  const addNewUser = async () => {
-    // console.log("user: ", user);
-
+  // Once a user signs up or logs in for the first time create a new user
+  const addNewUser = async () => {  
     if (isAuthenticated) {
       try {
         await fetch("/api/new-user", {
@@ -93,7 +76,6 @@ const Homepage = () => {
           .then((res) => res.json())
           .then((response) => {
             if (response) {
-              console.log(response);
             }
           });
       } catch (err) {
@@ -119,16 +101,12 @@ const Homepage = () => {
           </SearchDiv>
           <FiltersDiv>
             <Select
-              // defaultValue={"default"}
               name="type"
               onChange={(ev) => {
                 setType(ev.target.value);
                 handleFilters(ev);
               }}
             >
-              {/* <option value={"default"} disabled>
-                Select Type
-              </option> */}
               <option value={""}>Any Type</option>
               {types.map((type) => {
                 return <option value={type}>{type}</option>;
@@ -136,16 +114,14 @@ const Homepage = () => {
             </Select>
 
             <Select
-              // defaultValue={"default"}
+            
               name="make"
               onChange={(ev) => {
                 setMake(ev.target.value);
                 handleFilters(ev);
               }}
             >
-              {/* <option value={"default"} disabled>
-                Select Make
-              </option> */}
+              
               <option value={""}>Any Make</option>
               {makes.map((make) => {
                 return (
@@ -155,24 +131,22 @@ const Homepage = () => {
                 );
               })}
             </Select>
-            {/* <label for="year">Year: </label> */}
+           
             <Select
-              // defaultValue={"default"}
+             
               name="year"
               onChange={(ev) => {
                 setYear(ev.target.value);
                 handleFilters(ev);
               }}
             >
-              {/* <option value={"default"} disabled>
-                Select Year
-              </option> */}
+              
               <option value={""}>Any Year</option>
               {years.map((year) => {
                 return <option value={year}>{year}</option>;
               })}
             </Select>
-            {/* <label for="model">Model: </label> */}
+           
             <Select
               name="model"
               onChange={(ev) => {
@@ -207,16 +181,13 @@ const Homepage = () => {
           type={type}
           model={model}
         />
-        {/* <Pagination pageNum={pageNum} setPageNum={setPageNum} /> */}
       </Wrapper>
     </>
   );
 };
 
 const Wrapper = styled.div`
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* height: 100vh; */
+ 
   background-color: var(--color-dark-blue);
 `;
 
@@ -228,7 +199,7 @@ const CoverDiv = styled.div`
   background-color: var(--color-dark-blue);
 `;
 const CoverImg = styled.img`
-  /* width: 100%; */
+ 
   background-color: var(--color-dark-blue);
 `;
 const CoverTextBox = styled.div`
@@ -263,20 +234,13 @@ const FiltersDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* border-bottom: 1px solid var(--color-blue); */
-  /* flex-direction: column; */
   width: 700px;
   height: 70px;
-  /* padding: 10px; */
-  /* margin: 5px 5px 5px 300px; */
-`;
+  `;
 const Select = styled.select`
   font-size: 14px;
   padding: 5px 20px;
   margin: 5px;
 `;
 
-// const Filter = styled.div`
-//   display: flex;
-// `;
 export default Homepage;

@@ -85,20 +85,3 @@ express()
 
   // Node spins up the server and sets it to listen on port 8000.
   .listen(8000, console.log("listening on port 8000"));
-
-// const {
-//   // addNewAd,
-//   // getAds,
-//   // getAd,
-//   // deleteAd,
-//   // updateAd,
-//   // getAdsByOwners,
-//   // addNewUser,
-//   // getUsers,
-//   // getUserById,
-//   // addMsg,
-//   // getMessages,
-//   // createConversation,
-//   // getConversationsByAdId,
-//   // updateConversation,
-// } = require("./handlers");

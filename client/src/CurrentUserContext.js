@@ -9,27 +9,13 @@ export const CurrentUserProvider = ({ children }) => {
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
 
-  // const { id } = useParams();
-  // useEffect(() => {
-  //   fetch(`/api/user/${id}`)
-  //     .then((res) => res.json())
-  //     .then((response) => {
-  //       setCurrentUser(response);
-  //       setStatus("idle");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setError(true);
-  //     });
-  // }, []);
-  // console.log(currentUser);
+ 
   useEffect(() => {
     setCurrentUser(user);
     setStatus("idle");
   }, [user]);
 
-  // check if user is new and then do fetch post
-  // how to check if cx is new? user.sub or user.email  (user id exists?)
+ 
 
   return (
     <CurrentUserContext.Provider
@@ -39,36 +25,3 @@ export const CurrentUserProvider = ({ children }) => {
     </CurrentUserContext.Provider>
   );
 };
-
-// function (user, context, callback) {
-//     var request = require('request');
-//     if (context.stats.loginsCount === 1) {
-//         request({
-//           method: 'POST',
-//           url: 'https://yourapiurl/organizations',
-//           json: {
-//             "name": user.user_metadata.organization
-//           }
-//         },
-//         function(err, response, body) {
-//           if (err) {
-//             console.log('err: ', err);
-//             callback(err);
-//           } else {
-//             console.log('Organization record created successfully', body.id);
-//             user.user_metadata.organizationId = body.id;
-//             context.idToken[configuration.NAMESPACE] = {
-//               organizationId: body.id
-//             };
-//             auth0.users.updateUserMetadata(user.user_id, user.user_metadata)
-//             .then(function(){
-//               callback(null, user, context);
-//             }).catch(function(err){
-//               callback(err);
-//             });
-//           }
-//         });
-//     } else {
-//       callback(null, user, context);
-//     }
-//   }

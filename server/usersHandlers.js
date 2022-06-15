@@ -17,7 +17,7 @@ const options = {
 const addNewUser = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   // const _id = uuidv4();
-  // will add other user info later
+  
   const { sub, name, email } = req.body;
   try {
     await client.connect();

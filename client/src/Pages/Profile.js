@@ -8,8 +8,7 @@ const Profile = () => {
   const { user, isAuthenticated } = useAuth0();
   const { currentUser } = useContext(CurrentUserContext);
 
-  console.log(currentUser);
-  console.log(JSON.stringify(user, null, 2));
+  
   return (
     <>
       {isAuthenticated && (
@@ -62,7 +61,6 @@ const Title = styled.h2`
 `;
 const El = styled.div`
   display: flex;
-  /* justify-content: space-between; */
   padding: 10px 10px 10px 20px;
 `;
 const H3 = styled.h3`
@@ -80,10 +78,8 @@ const Button = styled.button`
   color: var(--color-dark-blue);
   padding: 1px 15px;
   font-size: 16px;
-  /* justify-content: right; */
   margin: 10px 5px 5px 20px;
   &:hover {
-    /* background-color: rgba(120, 192, 227, 0.5); */
     transform: scale(1.01, 1.01);
     outline: none;
   }

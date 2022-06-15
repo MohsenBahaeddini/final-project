@@ -12,13 +12,12 @@ const MyConversations = () => {
   const [conversations, setConversations] = useState([]);
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
-
   const [msg, setMsg] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
-  console.log(currentUser);
 
   const { id } = useParams();
-  console.log("id in myconversation :", id);
+
+  // Get all my conversations as buyer
   useEffect(() => {
     fetch(`/api/conversations-by-buyers/${id}`, {
       headers: {
@@ -28,7 +27,6 @@ const MyConversations = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
         setConversations(response.conversations);
         setStatus("idle");
       })
@@ -38,28 +36,10 @@ const MyConversations = () => {
       });
   }, []);
 
-  // const handleAfterSendMsg = () => {
-  //   fetch(`/api/conversations-by-buyers/${id}`, {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Accept: "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((response) => {
-  //       console.log(response);
-  //       setConversations(response.conversations);
-  //       setStatus("idle");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   setMsg("");
-  // };
   if (error) {
     return <ErrorPage />;
   }
-  console.log("conversations ::::", conversations);
+
   return (
     <>
       <Wrapper>
@@ -94,14 +74,12 @@ const MyConversations = () => {
   );
 };
 const Wrapper = styled.div`
-  /* display: flex; */
   min-width: calc(100vw / 3.5);
   border: 1px solid #ddd;
   margin: 10px;
   min-height: 230px;
   height: fit-content;
   padding-bottom: 5px;
-  /* justify-content: space-between; */
 `;
 const Title = styled.h2`
   border-bottom: 1px solid var(--color-blue);
@@ -113,7 +91,6 @@ const Title = styled.h2`
 const StyledNavLink = styled(NavLink)`
   color: #ddd;
   margin-left: 10px;
-  /* font-family: var(--font-body); */
   font-size: 12px;
   text-decoration: none;
   outline: none;
@@ -121,11 +98,6 @@ const StyledNavLink = styled(NavLink)`
   &:hover {
     color: var(--color-blue);
   }
-  /* 
-  &.active {
-    text-decoration: underline;
-    color: #3f5efb;
-  } */
 `;
 const Span = styled.span`
   font-size: 16px;

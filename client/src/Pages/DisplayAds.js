@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link, NavLink, useHistory } from "react-router-dom";
 
 const DisplayAds = ({ car }) => {
-  // console.log(car.imageUrl);
+  // Display ads on the homePage
   return (
     <Item>
       <StyledLink to={`ad/${car._id}`}>
@@ -28,9 +28,6 @@ const Item = styled.div`
   margin: 10px 0px 10px 80px;
   border: 1px solid #ddd;
   border: 1px solid var(--color-blue);
-  /* border-radius: 5px; */
-  /* box-shadow: 0px 5px 10px 0.1px #ffb600; */
-  /* background: #fff; */
 `;
 const CarInfo = styled.div`
   display: flex;
@@ -41,15 +38,11 @@ const Price = styled.div`
 `;
 const StyledLink = styled(NavLink)`
   text-decoration: none;
-  /* display: flex; */
 `;
 const Img = styled.img`
   width: 300px;
   height: 200px;
-  /* border-radius: 5px; */
   border: 1px solid #ddd;
-  /* 
-margin-top: -30px; */
 `;
 const H1 = styled.h1`
   font-size: 14px;
@@ -62,7 +55,6 @@ const H3 = styled.h1`
   font-size: 12px;
   text-align: left;
   color: var(--color-yellow);
-  /* color: #fff; */
   margin: -5px 10px 10px 10px;
 `;
 const H2 = styled.h1`
@@ -74,4 +66,4 @@ const H2 = styled.h1`
 `;
 export default DisplayAds;
 
-// style={{ color: "var(--color-yellow)" }}
+

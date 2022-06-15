@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 const UploadImage = ({ imageUrl, setImageUrl }) => {
-  // maybe an object
+  // implementing the cloudinary uploadImage widget
   const [widgetRef, setWidgetRef] = useState(null);
   useEffect(() => {
     const widget = window.cloudinary.createUploadWidget(
@@ -10,23 +10,18 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
         uploadPreset: "fl3vhygc",
       },
       (error, result) => {
-        // console.log(error, result);
-
-        // handle all the events
-        // events reference:
+    
 
         if (result.event === "success") {
           if (result.info.secure_url) {
             let myArr = imageUrl;
-            console.log(myArr);
+            
             myArr.push(result.info.secure_url);
-            console.log(myArr);
+            
             setImageUrl(myArr);
-            console.log(imageUrl);
+           
           }
-          // console.log(result.info);
-          // const newUrlArray = [result.info.secure_url];
-          // setImageUrl([...newUrlArray, ...imageUrl]);
+         
         }
       }
     );
@@ -35,7 +30,7 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
 
   return (
     <>
-      {console.log("imageUrl ::", imageUrl)}
+     
       <Button onClick={() => widgetRef.open()}>Add Photos</Button>
     </>
   );
@@ -48,7 +43,6 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    /* background-color: rgba(120, 192, 227, 0.5); */
     transform: scale(1.01, 1.01);
     outline: none;
   }

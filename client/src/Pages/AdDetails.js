@@ -4,10 +4,7 @@ import { NavLink, useParams } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import { CurrentUserContext } from "../CurrentUserContext";
 import moment from "moment";
-// import { IoCheckmarkCircleSharp } from "react-icons/Io";
-import { IoIosCheckmarkCircle } from "react-icons/io";
-import { IoCheckmarkCircleOutline, IoCloseCircle } from "react-icons/io5";
-import { FcCheckmark } from "react-icons/fc";
+import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { RiCloseCircleLine } from "react-icons/ri";
 import LoadingSpinner from "./LoadingSpinner";
 import SlideShow from "./SlideShow";
@@ -21,9 +18,8 @@ const AdDetails = () => {
   const { currentUser } = useContext(CurrentUserContext);
   const history = useHistory();
 
-  // console.log("currentUser******", currentUser);
   const { id } = useParams();
-  // console.log(id);
+  // Get the specific ad by Id
   useEffect(() => {
     fetch(`/api/ad/${id}`)
       .then((res) => res.json())
@@ -32,15 +28,14 @@ const AdDetails = () => {
         setStatus("idle");
       })
       .catch((err) => {
-        console.log(err);
+       
         setError(true);
       });
   }, []);
 
-  // console.log(ad);
+  // Create new conversation between user(buyer) and seller when a msg is written and sendMsg is clicked
   const sendMessage = (ev) => {
-    ev.preventDefault();
-    // console.log("working");
+    ev.preventDefault();  
     if (msg) {
       fetch("/api/new-conversation", {
         method: "POST",
@@ -65,15 +60,15 @@ const AdDetails = () => {
         .then((res) => res.json())
         .then((response) => {
           if (response) {
-            // console.log(response);
             setMsg("");
+            // take the user to the profile page to see his/her msg to seller
             history.push(`/profile/${currentUser.sub}`);
           }
         });
     }
   };
-  // console.log(msg);
-
+ 
+// Display errorPage if an error occurred
   if (error) {
     return (
       <>
@@ -81,23 +76,15 @@ const AdDetails = () => {
       </>
     );
   }
+  // Display loadingSpinner when the page is loading
   if (status === "loading") {
     return <LoadingSpinner />;
   }
 
-  console.log(ad);
-  console.log(" ^^^^^^^^^^", ad.imageUrl);
-
+// Display adDetails once the page is loaded
   return (
     <>
       <Wrapper>
-        {/* before slideshow
-        {status === "idle" &&
-          ad &&
-          ad.imageUrl.map((url, index) => {
-            console.log(url, index);
-            return <Img src={url} key={index} />;
-          })} */}
         {status === "idle" && ad && <SlideShow imgs={ad.imageUrl} />}
         <Container>
           <Details>
@@ -243,11 +230,8 @@ const AdDetails = () => {
 };
 const Wrapper = styled.div`
   display: flex;
-  /* min-width: calc(100vw / 3.5); */
-  /* border: 1px solid #ddd; */
   margin: 80px;
   max-height: 500px;
-  /* justify-content: space-between; */
 `;
 const Container = styled.div`
   display: flex;
@@ -277,7 +261,7 @@ const Div4 = styled.div`
   display: flex;
   flex-direction: column;
   padding-right: 70px;
-  /* align-items: center; */
+  
 `;
 const H1 = styled.h1`
   display: flex;
@@ -308,7 +292,6 @@ const Desc = styled.h2`
   font-size: 16px;
 `;
 const Description = styled.p`
-  /* margin-top: 10px; */
   padding-top: 10px;
   color: #ddd;
   font-size: 14px;
@@ -334,7 +317,6 @@ const Button = styled.button`
     cursor: auto;
   }
   &:hover:enabled {
-    /* background-color: rgba(120, 192, 227, 0.5); */
     transform: scale(1.01, 1.01);
     outline: none;
     border-radius: 2px;
