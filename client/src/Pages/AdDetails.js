@@ -11,12 +11,16 @@ import { FcCheckmark } from "react-icons/fc";
 import { RiCloseCircleLine } from "react-icons/ri";
 import LoadingSpinner from "./LoadingSpinner";
 import SlideShow from "./SlideShow";
+import { useHistory } from "react-router-dom";
+
 const AdDetails = () => {
   const [ad, setAd] = useState({});
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
+  const history = useHistory();
+
   // console.log("currentUser******", currentUser);
   const { id } = useParams();
   // console.log(id);
@@ -62,6 +66,8 @@ const AdDetails = () => {
         .then((response) => {
           if (response) {
             // console.log(response);
+            setMsg("");
+            history.push(`/profile/${currentUser.sub}`);
           }
         });
     }

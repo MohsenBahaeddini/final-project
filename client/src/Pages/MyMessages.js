@@ -374,23 +374,26 @@ const Email = styled.button`
   cursor: pointer;
   color: #fff;
   padding: 3px 20px;
-  font-size: 20px;
+  font-size: 16px;
   /* justify-content: right; */
   margin: 20px 5px 5px 20px;
   background-color: var(--color-dark-blue);
   border: none;
+
   &:hover {
     color: var(--color-blue);
+    font-size: 16px;
   }
 
   &:focus {
     color: var(--color-yellow);
+    font-size: 16px;
   }
-  &.active {
+  /* &.active {
     color: var(--color-yellow);
     font-size: 16px;
     border: none;
-  }
+  } */
 `;
 const TextArea = styled.textarea`
   padding: 10px 10px 40px 10px;

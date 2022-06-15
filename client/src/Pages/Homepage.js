@@ -34,26 +34,26 @@ const Homepage = () => {
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState("asc");
   // get all Models for the selected make,type and year from car data api
-  // useEffect(() => {
-  //   if (make) {
-  //     fetch(
-  //       `https://car-data.p.rapidapi.com/cars?limit=50&page=0&year=${year}&make=${make}&type=${type}`,
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           "X-RapidAPI-Host": "car-data.p.rapidapi.com",
-  //           "X-RapidAPI-Key": process.env.REACT_APP_APIKEY,
-  //         },
-  //       }
-  //     )
-  //       .then((res) => res.json())
-  //       .then((response) => {
-  //         console.log(response);
-  //         setCars(response);
-  //       })
-  //       .catch((err) => console.error("Error: ", err));
-  //   }
-  // }, [make, type, year]);
+  useEffect(() => {
+    if (make) {
+      fetch(
+        `https://car-data.p.rapidapi.com/cars?limit=50&page=0&year=${year}&make=${make}&type=${type}`,
+        {
+          method: "GET",
+          headers: {
+            "X-RapidAPI-Host": "car-data.p.rapidapi.com",
+            "X-RapidAPI-Key": process.env.REACT_APP_APIKEY,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response);
+          setCars(response);
+        })
+        .catch((err) => console.error("Error: ", err));
+    }
+  }, [make, type, year]);
 
   const handleFilters = (ev) => {
     let value = ev.target.value;
@@ -173,7 +173,7 @@ const Homepage = () => {
               })}
             </Select>
             {/* <label for="model">Model: </label> */}
-            {/* <Select
+            <Select
               name="model"
               onChange={(ev) => {
                 setModel(ev.target.value);
@@ -185,7 +185,7 @@ const Homepage = () => {
                 cars.map((car) => {
                   return <option value={car.model}>{car.model}</option>;
                 })}
-            </Select> */}
+            </Select>
 
             <Select
               defaultValue={"default"}
