@@ -15,6 +15,8 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
   const { user, isAuthenticated } = useAuth0();
   const [status, setStatus] = useState("loading");
   const [pageNum, setPageNum] = useState(1);
+  const [adsCount, setAdsCount] = useState(0);
+
   const [error, setError] = useState(false);
   const { currentUser } = useContext(CurrentUserContext);
   // console.log(currentUser);
@@ -215,6 +217,13 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
           </ItemContainer>
           {/* </AdsContainer> */}
         </Main>
+        {/* <Pagination
+          pageNum={pageNum}
+          setPageNum={setPageNum}
+          ads={ads}
+          setAds={setAds}
+          adsCount={adsCount}
+        /> */}
       </Wrapper>
     </>
   );

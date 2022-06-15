@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Pagination = ({ pageNum, setPageNum }) => {
+const Pagination = ({ pageNum, setPageNum, ads, setAds, adsCount }) => {
   // implementing pagination and buttons to handle nextPage,previousPage, go to firstPage and go to lastPage
   return (
     <>

@@ -99,6 +99,9 @@ const Wrapper = styled.div`
   min-width: calc(100vw / 3.5);
   border: 1px solid #ddd;
   margin: 10px;
+  min-height: 230px;
+  height: fit-content;
+  padding-bottom: 5px;
   /* justify-content: space-between; */
 `;
 const Title = styled.h2`
@@ -134,6 +137,8 @@ const H2 = styled.h2`
 `;
 const H3 = styled.h3`
   font-size: 16px;
+  padding-bottom: 10px;
+  margin-top: -10px;
   &:hover {
     color: var(--color-blue);
   }

@@ -49,7 +49,9 @@ const Wrapper = styled.div`
 const AccProfile = styled.div`
   border: 1px solid #ddd;
   margin: 10px;
+  padding-bottom: 10px;
   min-width: calc(100vw / 3.5);
+  height: fit-content;
 `;
 const Title = styled.h2`
   border-bottom: 1px solid var(--color-blue);

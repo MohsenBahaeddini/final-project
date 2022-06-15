@@ -121,12 +121,12 @@ const AdDetails = () => {
                 </H2>
                 <H2>
                   {ad.alloyWheels ? (
-                    <IoIosCheckmarkCircle
+                    <IoCheckmarkCircleOutline
                       style={{
                         color: "green",
                         fontSize: "22px",
                       }}
-                    ></IoIosCheckmarkCircle>
+                    ></IoCheckmarkCircleOutline>
                   ) : (
                     <RiCloseCircleLine
                       style={{

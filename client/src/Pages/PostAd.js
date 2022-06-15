@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef, useContext } from "react";
 import { years, types, makes } from "../data";
+import { useHistory } from "react-router-dom";
+
 import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
 // import UploadImg from "./UploadImg";
@@ -26,6 +28,7 @@ const PostAd = () => {
   const [cars, setCars] = useState([]);
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState([]);
+  const history = useHistory();
 
   const [newAd, setNewAd] = useState({});
   const { currentUser } = useContext(CurrentUserContext);
@@ -89,6 +92,7 @@ const PostAd = () => {
         .then((response) => {
           if (response) {
             console.log(response);
+            history.push(`/profile/${currentUser.sub}`);
           }
         });
     }

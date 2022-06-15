@@ -117,6 +117,9 @@ const Wrapper = styled.div`
   min-width: calc(100vw / 3.5);
   border: 1px solid #ddd;
   margin: 10px;
+  min-height: 230px;
+  height: fit-content;
+  padding-bottom: 5px;
   /* justify-content: space-between; */
 `;
 const Title = styled.h2`

@@ -26,7 +26,6 @@ const Homepage = () => {
   const [year, setYear] = useState("");
   const [model, setModel] = useState("");
   const [status, setStatus] = useState("loading");
-  const [pageNum, setPageNum] = useState(1);
 
   const { currentUser } = useContext(CurrentUserContext);
   // console.log(currentUser);
