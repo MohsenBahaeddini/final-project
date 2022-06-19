@@ -58,7 +58,7 @@ const MyConversations = () => {
                       Your
                       <StyledNavLink to={`/conversation/${conversation._id}`}>
                         <Span>messages</Span>
-                      </StyledNavLink>
+                      </StyledNavLink>{" "}
                       for
                       <StyledNavLink to={`/ad/${conversation.adId}`}>
                         <Span>this ad</Span>

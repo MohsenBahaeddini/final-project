@@ -22,7 +22,7 @@ const MyMessages = () => {
   const { currentUser } = useContext(CurrentUserContext);
 
   const { id } = useParams();
- 
+
   // get the messages that owner has received for a specific ad
   useEffect(() => {
     fetch(`/api/conversations-by-ad/${id}`, {
@@ -33,7 +33,6 @@ const MyMessages = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        
         setMyConversations(response.conversations);
         setStatus("idle");
       })
@@ -43,7 +42,7 @@ const MyMessages = () => {
       });
   }, []);
 
-  // Get conversation by id 
+  // Get conversation by id
   useEffect(() => {
     fetch(`/api/conversation-by-id/${chatId}`, {
       headers: {
@@ -53,7 +52,6 @@ const MyMessages = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        
         setChat(response.conversation);
         setChatStatus("idle");
       })
@@ -63,7 +61,7 @@ const MyMessages = () => {
       });
   }, [chatId]);
 
-  // re-fetch messages once the new msg has been sent and dispaly on screen 
+  // re-fetch messages once the new msg has been sent and dispaly on screen
   const handleAfterSendMsg = () => {
     fetch(`/api/conversation-by-id/${chatId}`, {
       headers: {
@@ -73,7 +71,6 @@ const MyMessages = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-       
         setChat(response.conversation);
         setChatStatus("idle");
       })
@@ -89,21 +86,19 @@ const MyMessages = () => {
   if (status === "loading") {
     return <LoadingSpinner />;
   }
- 
+
   return (
     <>
       <Wrapper>
         <Preview>
           <Title>My Chats</Title>
-          
+
           <h5>
             {status === "idle" &&
               myConversations.map((conversation, index) => {
                 return (
                   <Chat key={index}>
-                    
                     <Email
-                      
                       id={conversation.id}
                       className={
                         active === conversation.id ? "inactive" : "active"
@@ -119,10 +114,9 @@ const MyMessages = () => {
                         })
                           .then((res) => res.json())
                           .then((response) => {
-                                                        setChat(response.conversation);
-                                                        setChatId(response.conversation._id);
+                            setChat(response.conversation);
+                            setChatId(response.conversation._id);
                             setChatStatus("idle");
-                            
                           });
                         setActive(ev.target.id);
                       }}
@@ -134,56 +128,59 @@ const MyMessages = () => {
               })}
           </h5>
         </Preview>
-        
+
         <Div>
           <Title>Messages</Title>
-          
+
           {chatStatus === "idle" && chat && (
             <>
-             
-              {chat.messages.map((message, index) => {
-                console.log(message);
-                return (
-                  <>
-                    <Div4
-                      key={index}
-                      className={message.user === chat.buyer ? "buyer" : "me"}
-                    >
-                      <Div5
+              <ChatContainer>
+                {chat.messages.map((message, index) => {
+                  console.log(message);
+                  return (
+                    <>
+                      <Div4
+                        key={index}
                         className={message.user === chat.buyer ? "buyer" : "me"}
                       >
-                        <User
+                        <Div5
                           className={
                             message.user === chat.buyer ? "buyer" : "me"
                           }
                         >
-                          {message.user}
-                        </User>
-                        <Body
-                          className={
-                            message.user === chat.buyer ? "buyer" : "me"
-                          }
-                        >
-                          {message.body}
-                        </Body>
-                        <Date
-                          className={
-                            message.user === chat.buyer ? "buyer" : "me"
-                          }
-                        >
-                          {message.date}
-                        </Date>
-                      </Div5>
-                      <Bubble>
-                        {message.user === chat.buyer && <MsgSent />}
-                      </Bubble>
-                      <BubbleSent>
-                        {message.user !== chat.buyer && <MsgReceived />}
-                      </BubbleSent>
-                    </Div4>
-                  </>
-                );
-              })}
+                          <User
+                            className={
+                              message.user === chat.buyer ? "buyer" : "me"
+                            }
+                          >
+                            {message.user}
+                          </User>
+                          <Body
+                            className={
+                              message.user === chat.buyer ? "buyer" : "me"
+                            }
+                          >
+                            {message.body}
+                          </Body>
+                          <Date
+                            className={
+                              message.user === chat.buyer ? "buyer" : "me"
+                            }
+                          >
+                            {message.date}
+                          </Date>
+                        </Div5>
+                        {/* <Bubble> */}
+                        {/* {message.user === chat.buyer && <MsgSent />} */}
+                        {/* </Bubble> */}
+                        {/* <BubbleSent> */}
+                        {/* {message.user !== chat.buyer && <MsgReceived />} */}
+                        {/* </BubbleSent> */}
+                      </Div4>
+                    </>
+                  );
+                })}
+              </ChatContainer>
               <Div6>
                 <TextArea
                   type="text"
@@ -194,7 +191,7 @@ const MyMessages = () => {
                 <Button
                   onClick={(ev) => {
                     ev.preventDefault();
-                    
+
                     if (msg) {
                       fetch(`/api/update-conversation/${chat._id}`, {
                         method: "PATCH",
@@ -226,7 +223,6 @@ const MyMessages = () => {
             </>
           )}
         </Div>
-        
       </Wrapper>
     </>
   );
@@ -250,11 +246,20 @@ const Chat = styled.div`
   justify-content: space-around;
   align-items: center;
 `;
+const ChatContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  width: calc(100vw / 2.82);
+`;
 const Main = styled.div``;
 const Div = styled.div`
   border: 1px solid #ddd;
   min-width: calc(100vw / 3);
-  max-width: calc(100vw / 3);
+  width: calc(100vw / 2.7);
+  max-width: calc(100vw / 2.7);
   min-height: 600px;
   margin: 10px;
 `;
