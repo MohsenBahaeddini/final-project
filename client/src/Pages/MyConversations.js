@@ -55,15 +55,16 @@ const MyConversations = () => {
                 <div key={index}>
                   <h2>
                     <H2>
-                      You were interested in
+                      Your
+                      <StyledNavLink to={`/conversation/${conversation._id}`}>
+                        <Span>messages</Span>
+                      </StyledNavLink>
+                      for
                       <StyledNavLink to={`/ad/${conversation.adId}`}>
                         <Span>this ad</Span>
                       </StyledNavLink>
                       !
                     </H2>
-                    <StyledNavLink to={`/conversation/${conversation._id}`}>
-                      <H3>Check your messages to {conversation.seller}</H3>
-                    </StyledNavLink>
                   </h2>
                 </div>
               );

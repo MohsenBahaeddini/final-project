@@ -14,11 +14,10 @@ const SingleConversation = () => {
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
-  
 
   const { id } = useParams();
- 
-// Get a specific conversation by id
+
+  // Get a specific conversation by id
   useEffect(() => {
     fetch(`/api/conversation-by-id/${id}`, {
       headers: {
@@ -47,7 +46,6 @@ const SingleConversation = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        
         setConversation(response.conversation);
         setStatus("idle");
       })
@@ -77,7 +75,6 @@ const SingleConversation = () => {
             </Chat>
 
             {conversation.messages.map((message, index) => {
-              
               return (
                 <>
                   <Div
@@ -133,7 +130,7 @@ const SingleConversation = () => {
               <Button
                 onClick={(ev) => {
                   ev.preventDefault();
-                  
+
                   if (msg) {
                     fetch(`/api/update-conversation/${conversation._id}`, {
                       method: "PATCH",
@@ -151,7 +148,7 @@ const SingleConversation = () => {
                     })
                       .then((res) => res.json())
                       .then((response) => {
-                        if (response) {                         
+                        if (response) {
                           handleAfterSendMsg();
                         }
                       });
@@ -176,6 +173,7 @@ const Wrapper = styled.div`
   margin: 40px 40px 40px calc(100vw / 3.7);
   padding: 20px;
   max-width: 600px;
+  height: calc(100vh- 100px);
 `;
 const Title = styled.h1`
   padding: 10px 10px 0 10px;
@@ -194,14 +192,12 @@ const Chat = styled.div`
   margin-bottom: 20px;
   border-bottom: 1px solid var(--color-blue);
 `;
-const Container = styled.div`
-  
-`;
+const Container = styled.div``;
 const Div = styled.div`
   display: flex;
   padding: 5px;
   margin: 0 20px;
-  
+
   &.me {
     justify-content: right;
   }
