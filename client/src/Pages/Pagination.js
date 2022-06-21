@@ -1,7 +1,10 @@
 import styled from "styled-components";
 
-const Pagination = ({ pageNum, setPageNum, ads, setAds, adsCount }) => {
+const Pagination = ({ pageNum, setPageNum, adsCount }) => {
   // implementing pagination and buttons to handle nextPage,previousPage, go to firstPage and go to lastPage
+  const limit = 6;
+  const lastPage = Math.ceil(adsCount / limit);
+  console.log(lastPage);
   return (
     <>
       <PaginateWrapper>
@@ -24,7 +27,7 @@ const Pagination = ({ pageNum, setPageNum, ads, setAds, adsCount }) => {
           </Button>
           <Button
             onClick={() => {
-              if (pageNum < 2) {
+              if (pageNum < lastPage) {
                 setPageNum(pageNum + 1);
               }
             }}
@@ -32,7 +35,7 @@ const Pagination = ({ pageNum, setPageNum, ads, setAds, adsCount }) => {
             next
           </Button>
 
-          <Button onClick={() => setPageNum(2)}>{">>"}</Button>
+          <Button onClick={() => setPageNum(lastPage)}>{">>"}</Button>
         </Container>
       </PaginateWrapper>
     </>

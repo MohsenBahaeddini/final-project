@@ -18,12 +18,13 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
   const [adsCount, setAdsCount] = useState(0);
   const [error, setError] = useState(false);
   const { currentUser } = useContext(CurrentUserContext);
- 
+
   const history = useHistory();
 
-// Get ads on the homePage
+  // Get ads on the homePage
   const fetchAds = async () => {
     try {
+      setLoading("loading");
       await fetch(`/api/ads?page=${pageNum}`, {
         headers: {
           "Content-Type": "application/json",
@@ -32,8 +33,8 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
       })
         .then((res) => res.json())
         .then((response) => {
-         
           setAds(response.ads);
+          setAdsCount(response.count);
           setLoading("idle");
         });
     } catch (err) {
@@ -43,12 +44,10 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
   };
   useEffect(() => {
     fetchAds();
-  }, []);
- 
+  }, [pageNum]);
 
   // then apply filters if there is any
   useEffect(() => {
-    
     if (
       filters.type === "Any Type" &&
       filters.make === "Any Make" &&
@@ -64,7 +63,7 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
       )
     );
   }, [ads, filters]);
-// sort ads 
+  // sort ads
   useEffect(() => {
     if (sort === "asc") {
       setFilteredAds((prev) => [...prev].sort((a, b) => a.price - b.price));
@@ -73,8 +72,7 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
     }
   }, [sort]);
 
-  
-// display error if an error occurred
+  // display error if an error occurred
   if (error) {
     return <ErrorPage />;
   }
@@ -82,13 +80,11 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
   if (loading === "loading") {
     return <LoadingSpinner />;
   }
- 
 
   return (
     <>
       <Wrapper>
         <Main>
-          
           <ItemContainer>
             {loading === "idle" &&
               ads &&
@@ -108,23 +104,20 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
                   </FilterErr>
                 </>
               ))}
-            
           </ItemContainer>
-         
         </Main>
-        {/* Will add Pagination <Pagination
+        <Pagination
           pageNum={pageNum}
           setPageNum={setPageNum}
-          ads={ads}
-          setAds={setAds}
           adsCount={adsCount}
-        /> */}
+        />
       </Wrapper>
     </>
   );
 };
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   align-content: center;
   justify-content: center;
   margin: 30px;
@@ -133,14 +126,8 @@ const FilterErr = styled.h1`
   color: var(--color-yellow);
   padding: 10px;
 `;
-const Main = styled.div`
- 
-`;
+const Main = styled.div``;
 
-const ItemContainer = styled.div`
-  
-`;
-
-
+const ItemContainer = styled.div``;
 
 export default SmallAd;

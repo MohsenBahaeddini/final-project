@@ -16,10 +16,11 @@ const options = {
 
 // get all ads in db
 const getAds = async (req, res) => {
-  const client = new MongoClient(MONGO_URI, options);
   try {
+    const client = new MongoClient(MONGO_URI, options);
     const page = req.query.page;
-    const limit = 20;
+    console.log(page);
+    const limit = 6;
     await client.connect();
     const db = client.db("mba");
 
@@ -29,23 +30,25 @@ const getAds = async (req, res) => {
       .skip((page - 1) * limit)
       .limit(limit)
       .toArray();
-    // console.log(findAds);
+    console.log(findAds);
     const count = await db.collection("ads").countDocuments();
-
+    console.log(count);
     res.status(200).json({
       status: 200,
       success: true,
       count,
       ads: findAds,
     });
+    client.close();
   } catch (err) {
     res.status(500).json({
       status: 500,
       Error: err.message,
     });
-  } finally {
-    await client.close();
   }
+  //  finally {
+  //   await client.close();
+  // }
 };
 
 // get a specific ad by id
@@ -75,8 +78,7 @@ const getAd = async (req, res) => {
 // add new ad to db
 const addNewAd = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  
-  
+
   const {
     owner,
     type,
@@ -144,9 +146,9 @@ const addNewAd = async (req, res) => {
 // update an ad
 const updateAd = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  
+
   const { type, make, year, model, mileage } = req.body;
-  
+
   const adId = req.params.id;
   const query = { _id: adId };
   try {
@@ -210,14 +212,13 @@ const deleteAd = async (req, res) => {
 // get ads by owner
 const getAdsByOwners = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  
+
   const { id } = req.params;
   try {
     await client.connect();
     const db = client.db("mba");
 
     const findUser = await db.collection("users").findOne({ _id: id });
-    
 
     const findUserAds = await db
       .collection("ads")
