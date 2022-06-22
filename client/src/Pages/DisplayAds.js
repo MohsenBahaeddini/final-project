@@ -3,6 +3,7 @@ import { Link, NavLink, useHistory } from "react-router-dom";
 
 const DisplayAds = ({ car }) => {
   // Display ads on the homePage
+  const numFormat = new Intl.NumberFormat();
   return (
     <Item>
       <StyledLink to={`ad/${car._id}`}>
@@ -11,11 +12,11 @@ const DisplayAds = ({ car }) => {
           <H1>
             {car.year} {car.make} {car.model} {car.type}
           </H1>
-          <H3>MILEAGE {car.mileage} km</H3>
+          <H3>MILEAGE {numFormat.format(car.mileage)} km</H3>
         </CarInfo>
         <Price>
           <H2>
-            PRICE <span>${car.price}</span>
+            PRICE <span>${numFormat.format(car.price)}</span>
           </H2>
         </Price>
       </StyledLink>
@@ -65,5 +66,3 @@ const H2 = styled.h1`
   margin: 0px 10px 10px 10px;
 `;
 export default DisplayAds;
-
-

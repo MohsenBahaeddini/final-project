@@ -51,17 +51,16 @@ const MyConversations = () => {
             conversations &&
             conversations.map((conversation, index) => {
               console.log("conversation ::##", conversation);
+              const sellerName = conversation.seller.split("@", 1);
               return (
                 <div key={index}>
                   <h2>
                     <H2>
-                      Your
                       <StyledNavLink to={`/conversation/${conversation._id}`}>
-                        <Span>messages</Span>
-                      </StyledNavLink>{" "}
-                      for
+                        <Span>{sellerName}'s</Span>
+                      </StyledNavLink>
                       <StyledNavLink to={`/ad/${conversation.adId}`}>
-                        <Span>this ad</Span>
+                        <Span>ad</Span>
                       </StyledNavLink>
                       !
                     </H2>

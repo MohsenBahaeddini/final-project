@@ -54,10 +54,10 @@ const Button = styled.button`
 `;
 
 const Container = styled.div`
-  background: #fff;
+  /* background: #fff; */
   padding: 0px 20px;
   border-radius: 16px;
-  box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.1); */
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -71,62 +71,68 @@ const SingleConversation = () => {
           <Container>
             <Chat>
               <Title>My Chat with</Title>
-              <Seller> {conversation.seller}</Seller>
+              <Seller> {conversation.seller.split("@", 1)}</Seller>
             </Chat>
-            <ChatContainer>
-              {conversation.messages.map((message, index) => {
-                return (
-                  <>
-                    <Div
-                      key={index}
-                      className={
-                        message.user === conversation.seller ? "me" : "seller"
-                      }
-                    >
-                      <Div2
+            <ChatContainer2>
+              <ChatContainer>
+                {conversation.messages.map((message, index) => {
+                  return (
+                    <>
+                      <Div
+                        key={index}
                         className={
                           message.user === conversation.seller ? "me" : "seller"
                         }
                       >
-                        <User
+                        <Div2
                           className={
                             message.user === conversation.seller
                               ? "me"
                               : "seller"
                           }
                         >
-                          {message.user}
-                        </User>
-                        <Body
-                          className={
-                            message.user === conversation.seller
-                              ? "me"
-                              : "seller"
-                          }
-                        >
-                          {message.body}
-                        </Body>
-                        <Date
-                          className={
-                            message.user === conversation.seller
-                              ? "me"
-                              : "seller"
-                          }
-                        >
-                          {message.date}
-                        </Date>
-                      </Div2>
-                      {/* <Bubble> */}
-                      {/* {message.user === conversation.seller && <MsgSent />} */}
-                      {/* </Bubble> */}
-                      {/* <BubbleSent> */}
-                      {/* {message.user !== conversation.seller && <MsgReceived />} */}
-                      {/* </BubbleSent> */}
-                    </Div>
-                  </>
-                );
-              })}
-            </ChatContainer>
+                          <Body
+                            className={
+                              message.user === conversation.seller
+                                ? "me"
+                                : "seller"
+                            }
+                          >
+                            {message.body}
+                          </Body>
+                          <Date
+                            className={
+                              message.user === conversation.seller
+                                ? "me"
+                                : "seller"
+                            }
+                          >
+                            {message.date}
+                          </Date>
+                        </Div2>
+                        {message.user === conversation.seller && (
+                          <User
+                            className={
+                              message.user === conversation.seller
+                                ? "me"
+                                : "seller"
+                            }
+                          >
+                            {message.user.split("@", 1)}
+                          </User>
+                        )}
+                        {/* <Bubble> */}
+                        {/* {message.user === conversation.seller && <MsgSent />} */}
+                        {/* </Bubble> */}
+                        {/* <BubbleSent> */}
+                        {/* {message.user !== conversation.seller && <MsgReceived />} */}
+                        {/* </BubbleSent> */}
+                      </Div>
+                    </>
+                  );
+                })}
+              </ChatContainer>
+            </ChatContainer2>
             <Div3>
               <TextArea
                 type="text"
@@ -180,7 +186,8 @@ const Wrapper = styled.div`
   margin: 40px 40px 40px calc(100vw / 3.7);
   padding: 20px;
   max-width: 600px;
-  /* max-height: calc(100vh- 800px); */
+
+  height: 78vh;
 `;
 const Title = styled.h1`
   padding: 10px 10px 0 10px;
@@ -199,11 +206,13 @@ const Chat = styled.div`
   margin-bottom: 20px;
   border-bottom: 1px solid var(--color-blue);
 `;
-const Container = styled.div``;
+const Container = styled.div`
+  height: 500px;
+`;
 const Div = styled.div`
   display: flex;
   padding: 5px;
-  margin: 0 20px;
+  margin: 0 20px 0 0;
 
   &.me {
     justify-content: right;
@@ -212,12 +221,22 @@ const Div = styled.div`
     justify-content: left;
   }
 `;
+const ChatContainer2 = styled.div`
+  /* display: flex;
+  flex-direction: column;
+  height: 50vh;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scroll-behavior: smooth; */
+  overflow-y: hidden;
+`;
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 50vh;
-  overflow-y: scroll;
-  scroll-behavior: smooth;
+  overflow-y: auto;
+  /* scrollbar-width: thin;
+  scroll-behavior: smooth; */
 `;
 const Bubble = styled.div`
   position: absolute;
@@ -239,6 +258,8 @@ const Div2 = styled.div`
   background-color: #fff;
   display: flex;
   flex-direction: column;
+  margin: 20px -30px 0 0;
+  padding: 10px 10px 5px 10px;
   &.seller {
     background-color: #c7e6f0;
   }
@@ -301,6 +322,7 @@ const Body = styled.h2`
 const Date = styled.h2`
   font-size: 12px;
   color: var(--color-dark-blue);
+  opacity: 0.7;
   padding-bottom: 5px;
   &.seller {
     display: flex;
@@ -316,7 +338,7 @@ const Div3 = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 10px -20px 10px 0;
+  margin: -15px -20px 10px -20px;
 `;
 
 const TextArea = styled.textarea`
@@ -329,7 +351,7 @@ const Button = styled.button`
   color: #fff;
   padding: 3px 20px;
   font-size: 16px;
-  margin: -10px 20px 20px 20px;
+  margin: -18px 20px 20px 20px;
   background-color: var(--color-dark-blue);
   border: none;
 `;

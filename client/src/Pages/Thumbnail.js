@@ -5,7 +5,7 @@ const Thumbnail = ({ arr, image, index }) => {
   return (
     <div className="tumbnail">
       {arr.map((imgsrc, i) => (
-        <img
+        <Img
           key={i}
           height="50"
           src={imgsrc}
@@ -16,4 +16,7 @@ const Thumbnail = ({ arr, image, index }) => {
     </div>
   );
 };
+const Img = styled.img`
+  cursor: pointer;
+`;
 export default Thumbnail;

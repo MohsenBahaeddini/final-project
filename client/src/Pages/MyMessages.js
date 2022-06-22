@@ -121,7 +121,7 @@ const MyMessages = () => {
                         setActive(ev.target.id);
                       }}
                     >
-                      {conversation.buyer}
+                      {conversation.buyer.split("@", 1)}
                     </Email>
                   </Chat>
                 );
@@ -143,18 +143,20 @@ const MyMessages = () => {
                         key={index}
                         className={message.user === chat.buyer ? "buyer" : "me"}
                       >
-                        <Div5
-                          className={
-                            message.user === chat.buyer ? "buyer" : "me"
-                          }
-                        >
+                        {/* {message.user !== chat.buyer && (
                           <User
                             className={
                               message.user === chat.buyer ? "buyer" : "me"
                             }
                           >
-                            {message.user}
+                            {message.user.split("@", 1)}
                           </User>
+                        )} */}
+                        <Div5
+                          className={
+                            message.user === chat.buyer ? "buyer" : "me"
+                          }
+                        >
                           <Body
                             className={
                               message.user === chat.buyer ? "buyer" : "me"
@@ -170,9 +172,18 @@ const MyMessages = () => {
                             {message.date}
                           </Date>
                         </Div5>
-                        {/* <Bubble> */}
-                        {/* {message.user === chat.buyer && <MsgSent />} */}
-                        {/* </Bubble> */}
+                        {message.user === chat.buyer && (
+                          <User
+                            className={
+                              message.user === chat.buyer ? "buyer" : "me"
+                            }
+                          >
+                            {message.user.split("@", 1)}
+                          </User>
+                        )}
+                        {/* <Bubble>
+                          {message.user === chat.buyer && <MsgSent />}
+                        </Bubble> */}
                         {/* <BubbleSent> */}
                         {/* {message.user !== chat.buyer && <MsgReceived />} */}
                         {/* </BubbleSent> */}
@@ -232,6 +243,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
   margin: 20px 40px;
+  height: 70vh;
 `;
 
 const Preview = styled.div`
@@ -239,7 +251,8 @@ const Preview = styled.div`
   margin: 10px;
   min-width: calc(100vw / 3);
   max-width: calc(100vw / 3);
-  min-height: 600px;
+  /* min-height: 600px; */
+  height: 550px;
 `;
 const Chat = styled.div`
   display: flex;
@@ -250,7 +263,8 @@ const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 50vh;
-  overflow-y: scroll;
+  overflow-y: auto;
+  /* margin-left: -25px; */
   scroll-behavior: smooth;
   width: calc(100vw / 2.82);
 `;
@@ -260,7 +274,8 @@ const Div = styled.div`
   min-width: calc(100vw / 3);
   width: calc(100vw / 2.7);
   max-width: calc(100vw / 2.7);
-  min-height: 600px;
+  /* min-height: 550px; */
+  height: 550px;
   margin: 10px;
 `;
 const Div4 = styled.div`
@@ -275,11 +290,12 @@ const Div4 = styled.div`
   }
 `;
 const Div5 = styled.div`
+  margin: 20px -30px 0 0;
   border: 1px solid #ddd;
   border-radius: 20px;
   word-break: break-all;
 
-  padding: 5px;
+  padding: 10px 10px 5px 10px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
@@ -331,6 +347,7 @@ const Body = styled.h2`
 const Date = styled.h2`
   font-size: 12px;
   color: var(--color-dark-blue);
+  opacity: 0.7;
   padding-bottom: 5px;
   &.me {
     display: flex;
@@ -357,7 +374,7 @@ const Button = styled.button`
   color: #fff;
   padding: 3px 20px;
   font-size: 16px;
-  margin: -10px 20px 20px 20px;
+  margin: -15px 20px 20px 20px;
   background-color: var(--color-dark-blue);
   border: none;
 `;
