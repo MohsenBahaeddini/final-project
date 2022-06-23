@@ -8,7 +8,6 @@ const Profile = () => {
   const { user, isAuthenticated } = useAuth0();
   const { currentUser } = useContext(CurrentUserContext);
 
-  
   return (
     <>
       {isAuthenticated && (
@@ -31,7 +30,7 @@ const Profile = () => {
                 </El>
               </div>
             </div>
-            <Button>Edit</Button>
+            {/* <Button>Edit</Button> */}
           </AccProfile>
           <MyAd currentUser={currentUser} />
           <MyConversations />
@@ -47,9 +46,12 @@ const Wrapper = styled.div`
 `;
 const AccProfile = styled.div`
   border: 1px solid #ddd;
+  border-radius: 10px;
+  background: var(--color-darkGrey);
   margin: 10px;
   padding-bottom: 10px;
   min-width: calc(100vw / 3.5);
+  min-height: 230px;
   height: fit-content;
 `;
 const Title = styled.h2`
@@ -58,6 +60,7 @@ const Title = styled.h2`
   margin: 20px;
   text-align: left;
   font-size: 18px;
+  color: #fff;
 `;
 const El = styled.div`
   display: flex;
@@ -66,15 +69,19 @@ const El = styled.div`
 const H3 = styled.h3`
   padding-right: 40px;
   font-size: 16px;
+  color: #fff;
 `;
 const H4 = styled.h3`
   font-size: 16px;
+  color: #fff;
 `;
 const Email = styled.h3`
   padding-right: 78px;
 `;
 const Button = styled.button`
   cursor: pointer;
+  font-family: var(--font-heading);
+  /* font-weight: bolder; */
   color: var(--color-dark-blue);
   padding: 1px 15px;
   font-size: 16px;

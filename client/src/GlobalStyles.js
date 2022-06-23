@@ -1,16 +1,23 @@
 import { createGlobalStyle } from "styled-components";
-
+{
+  /* <style>
+  @import
+  url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap');
+</style>; */
+}
 export default createGlobalStyle`
   :root {
-    
+    --color-darkGrey:#222533;
     --color-darkBlue : #141824;
     --color-orange: #F79D00;
     --color-blue:#0049FF;
     --color-yellow: #FFB600;
     --color-selective-yellow: #FDBB01;
     --color-desert-sand: #E3C4A6;
-    --font-heading: 'Permanent Marker', Arial, Helvetica, sans-serif;
-    --font-body: 'Kosugi', Arial, Helvetica, sans-serif;
+    --font-heading:
+     'Permanent Marker', Arial, Helvetica, sans-serif;
+    --font-body: 
+    'Kosugi', Arial, Helvetica, sans-serif;
     --padding-page: 24px;
   }
 

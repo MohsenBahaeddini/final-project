@@ -25,10 +25,12 @@ const DisplayAds = ({ car }) => {
 };
 const Item = styled.div`
   display: inline-block;
+  background-color: #222533;
   padding: 2px;
   margin: 10px 0px 10px 80px;
   border: 1px solid #ddd;
   border: 1px solid var(--color-blue);
+  border-radius: 10px;
 `;
 const CarInfo = styled.div`
   display: flex;
@@ -44,6 +46,7 @@ const Img = styled.img`
   width: 300px;
   height: 200px;
   border: 1px solid #ddd;
+  border-radius: 10px;
 `;
 const H1 = styled.h1`
   font-size: 14px;

@@ -171,6 +171,12 @@ const MyMessages = () => {
                           >
                             {message.date}
                           </Date>
+                          <Bubble>
+                            {message.user === chat.buyer && <MsgSent />}
+                          </Bubble>
+                          <BubbleSent>
+                            {message.user !== chat.buyer && <MsgReceived />}
+                          </BubbleSent>
                         </Div5>
                         {message.user === chat.buyer && (
                           <User
@@ -181,12 +187,6 @@ const MyMessages = () => {
                             {message.user.split("@", 1)}
                           </User>
                         )}
-                        {/* <Bubble>
-                          {message.user === chat.buyer && <MsgSent />}
-                        </Bubble> */}
-                        {/* <BubbleSent> */}
-                        {/* {message.user !== chat.buyer && <MsgReceived />} */}
-                        {/* </BubbleSent> */}
                       </Div4>
                     </>
                   );
@@ -248,6 +248,8 @@ const Wrapper = styled.div`
 
 const Preview = styled.div`
   border: 1px solid #ddd;
+  border-radius: 10px;
+  background: var(--color-darkGrey);
   margin: 10px;
   min-width: calc(100vw / 3);
   max-width: calc(100vw / 3);
@@ -267,10 +269,32 @@ const ChatContainer = styled.div`
   /* margin-left: -25px; */
   scroll-behavior: smooth;
   width: calc(100vw / 2.82);
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #bbbbbb;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #3d4247;
+  }
 `;
 const Main = styled.div``;
 const Div = styled.div`
   border: 1px solid #ddd;
+  border-radius: 10px;
+  background: var(--color-darkGrey);
   min-width: calc(100vw / 3);
   width: calc(100vw / 2.7);
   max-width: calc(100vw / 2.7);
@@ -294,7 +318,7 @@ const Div5 = styled.div`
   border: 1px solid #ddd;
   border-radius: 20px;
   word-break: break-all;
-
+  position: relative;
   padding: 10px 10px 5px 10px;
   background-color: #fff;
   display: flex;
@@ -305,17 +329,29 @@ const Div5 = styled.div`
   &.buyer {
   }
 `;
+
+// const Bubble = styled.div`
+//   position: absolute;
+//   left: 1155px;
+//   z-index: -1;
+//   margin-top: 50px;
+// `;
+// const BubbleSent = styled.div`
+//   position: absolute;
+//   left: 757px;
+//   z-index: -1;
+//   margin-top: 50px;
+// `;
+
 const Bubble = styled.div`
   position: absolute;
-  left: 1155px;
-  z-index: -1;
-  margin-top: 50px;
+  bottom: -9px;
+  right: 0px;
 `;
 const BubbleSent = styled.div`
   position: absolute;
-  left: 757px;
-  z-index: -1;
-  margin-top: 50px;
+  bottom: -9px;
+  left: 0px;
 `;
 const User = styled.h2`
   font-size: 14px;
@@ -368,6 +404,7 @@ const Title = styled.h2`
   margin: 20px;
   text-align: left;
   font-size: 18px;
+  color: #fff;
 `;
 const Button = styled.button`
   cursor: pointer;

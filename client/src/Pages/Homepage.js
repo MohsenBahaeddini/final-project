@@ -9,7 +9,6 @@ import { years, types, makes } from "../data";
 import cover3 from "../assets/cover3.png";
 import uploadImage from "../assets/uploadImage.png";
 
-
 const Homepage = () => {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState("loading");
@@ -24,7 +23,7 @@ const Homepage = () => {
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState("asc");
   const { currentUser } = useContext(CurrentUserContext);
-  
+
   const history = useHistory();
 
   // get all Models for the selected make from car data api
@@ -50,7 +49,7 @@ const Homepage = () => {
 
   // handleFilters to set the filters to the key value pairs and then will pass filters to smallAd
   const handleFilters = (ev) => {
-    let value = ev.target.value;  
+    let value = ev.target.value;
     setFilters({
       ...filters,
       [ev.target.name]: value,
@@ -58,7 +57,7 @@ const Homepage = () => {
   };
 
   // Once a user signs up or logs in for the first time create a new user
-  const addNewUser = async () => {  
+  const addNewUser = async () => {
     if (isAuthenticated) {
       try {
         await fetch("/api/new-user", {
@@ -114,14 +113,12 @@ const Homepage = () => {
             </Select>
 
             <Select
-            
               name="make"
               onChange={(ev) => {
                 setMake(ev.target.value);
                 handleFilters(ev);
               }}
             >
-              
               <option value={""}>Any Make</option>
               {makes.map((make) => {
                 return (
@@ -131,22 +128,20 @@ const Homepage = () => {
                 );
               })}
             </Select>
-           
+
             <Select
-             
               name="year"
               onChange={(ev) => {
                 setYear(ev.target.value);
                 handleFilters(ev);
               }}
             >
-              
               <option value={""}>Any Year</option>
               {years.map((year) => {
                 return <option value={year}>{year}</option>;
               })}
             </Select>
-           
+
             <Select
               name="model"
               onChange={(ev) => {
@@ -187,7 +182,6 @@ const Homepage = () => {
 };
 
 const Wrapper = styled.div`
- 
   background-color: var(--color-dark-blue);
 `;
 
@@ -199,7 +193,6 @@ const CoverDiv = styled.div`
   background-color: var(--color-dark-blue);
 `;
 const CoverImg = styled.img`
- 
   background-color: var(--color-dark-blue);
 `;
 const CoverTextBox = styled.div`
@@ -236,11 +229,12 @@ const FiltersDiv = styled.div`
   justify-content: center;
   width: 700px;
   height: 70px;
-  `;
+`;
 const Select = styled.select`
   font-size: 14px;
   padding: 5px 20px;
   margin: 5px;
+  cursor: pointer;
 `;
 
 export default Homepage;

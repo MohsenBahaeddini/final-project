@@ -54,8 +54,9 @@ const Button = styled.button`
 `;
 
 const Container = styled.div`
-  /* background: #fff; */
+  background: var(--color-darkGrey);
   padding: 0px 20px;
+  border: 1px solid var(--color-blue);
   border-radius: 16px;
   /* box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.1); */
   display: flex;

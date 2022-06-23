@@ -25,17 +25,17 @@ const AdDetails = () => {
       .then((res) => res.json())
       .then((response) => {
         setAd(response.ad);
+        console.log(ad);
         setStatus("idle");
       })
       .catch((err) => {
-       
         setError(true);
       });
   }, []);
 
   // Create new conversation between user(buyer) and seller when a msg is written and sendMsg is clicked
   const sendMessage = (ev) => {
-    ev.preventDefault();  
+    ev.preventDefault();
     if (msg) {
       fetch("/api/new-conversation", {
         method: "POST",
@@ -67,8 +67,8 @@ const AdDetails = () => {
         });
     }
   };
- 
-// Display errorPage if an error occurred
+
+  // Display errorPage if an error occurred
   if (error) {
     return (
       <>
@@ -81,11 +81,12 @@ const AdDetails = () => {
     return <LoadingSpinner />;
   }
 
-// Display adDetails once the page is loaded
+  // Display adDetails once the page is loaded
   return (
     <>
       <Wrapper>
         {status === "idle" && ad && <SlideShow imgs={ad.imageUrl} />}
+
         <Container>
           <Details>
             <H1>
@@ -261,7 +262,6 @@ const Div4 = styled.div`
   display: flex;
   flex-direction: column;
   padding-right: 70px;
-  
 `;
 const H1 = styled.h1`
   display: flex;

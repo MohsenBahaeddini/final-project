@@ -109,6 +109,16 @@ const SingleConversation = () => {
                           >
                             {message.date}
                           </Date>
+                          <Bubble>
+                            {message.user === conversation.seller && (
+                              <MsgSent />
+                            )}
+                          </Bubble>
+                          <BubbleSent>
+                            {message.user !== conversation.seller && (
+                              <MsgReceived />
+                            )}
+                          </BubbleSent>
                         </Div2>
                         {message.user === conversation.seller && (
                           <User
@@ -121,12 +131,6 @@ const SingleConversation = () => {
                             {message.user.split("@", 1)}
                           </User>
                         )}
-                        {/* <Bubble> */}
-                        {/* {message.user === conversation.seller && <MsgSent />} */}
-                        {/* </Bubble> */}
-                        {/* <BubbleSent> */}
-                        {/* {message.user !== conversation.seller && <MsgReceived />} */}
-                        {/* </BubbleSent> */}
                       </Div>
                     </>
                   );
@@ -181,8 +185,9 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  background-color: var(--color-darkGrey);
   border: 1px solid #fff;
+  border-radius: 10px;
   margin: 40px 40px 40px calc(100vw / 3.7);
   padding: 20px;
   max-width: 600px;
@@ -192,11 +197,13 @@ const Wrapper = styled.div`
 const Title = styled.h1`
   padding: 10px 10px 0 10px;
   margin-bottom: 10px;
+  color: #fff;
 `;
 const Seller = styled.h1`
   padding: 10px 10px 0 10px;
   text-align: right;
   margin-bottom: 10px;
+  color: #fff;
 `;
 const Chat = styled.div`
   display: flex;
@@ -210,6 +217,7 @@ const Container = styled.div`
   height: 500px;
 `;
 const Div = styled.div`
+  position: relative;
   display: flex;
   padding: 5px;
   margin: 0 20px 0 0;
@@ -235,19 +243,36 @@ const ChatContainer = styled.div`
   flex-direction: column;
   height: 50vh;
   overflow-y: auto;
-  /* scrollbar-width: thin;
-  scroll-behavior: smooth; */
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #bbbbbb;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #3d4247;
+  }
 `;
 const Bubble = styled.div`
   position: absolute;
-  left: 891px;
-  bottom: 252px;
+  bottom: -9px;
+  right: 0px;
 `;
 const BubbleSent = styled.div`
-  left: 432px;
   position: absolute;
-  right: 906px;
-  margin-top: 50px;
+  bottom: -9px;
+  left: 0px;
 `;
 const Div2 = styled.div`
   max-width: 250px;
@@ -258,6 +283,7 @@ const Div2 = styled.div`
   background-color: #fff;
   display: flex;
   flex-direction: column;
+  position: relative;
   margin: 20px -30px 0 0;
   padding: 10px 10px 5px 10px;
   &.seller {
@@ -342,17 +368,22 @@ const Div3 = styled.div`
 `;
 
 const TextArea = styled.textarea`
-  padding: 10px 280px 40px 10px;
+  padding: 10px 10px 40px 10px;
   margin: 20px;
+  min-width: 550px;
   font-size: 14px;
 `;
 const Button = styled.button`
   cursor: pointer;
   color: #fff;
+  /* color: var(--color-darkGrey); */
   padding: 3px 20px;
+  border-radius: 10px;
   font-size: 16px;
   margin: -18px 20px 20px 20px;
   background-color: var(--color-dark-blue);
+  /* background-color: #fff; */
+
   border: none;
 `;
 export default SingleConversation;

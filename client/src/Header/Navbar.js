@@ -38,6 +38,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding: 10px;
   margin: 10px;
+
   border-bottom: 1px solid var(--color-blue);
 `;
 const Container = styled.div`
@@ -69,13 +70,14 @@ const StyledLink = styled(Link)`
 
 const Logo = styled.h2`
   font-family: var(--font-heading);
-  color: #ddd;
-  /* color: var(--color-blue); */
+
+  color: #fff;
+  color: var(--color-yellow);
   font-size: 22px;
   flex-basis: 33%;
 `;
 const StyledNavLink = styled(NavLink)`
-  color: #ddd;
+  color: #fff;
   margin-left: 10px;
   /* font-family: var(--font-body); */
   font-size: 14px;
