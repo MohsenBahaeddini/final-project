@@ -94,8 +94,9 @@ const Wrapper = styled.div`
   border: 1px solid #ddd;
   border-radius: 10px;
   margin: 10px;
-  min-height: 230px;
+  min-height: 250px;
   height: fit-content;
+  max-height: 550px;
   background: var(--color-darkGrey);
   padding-bottom: 5px;
 `;

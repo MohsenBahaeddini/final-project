@@ -11,6 +11,9 @@ const {
   deleteAd,
   updateAd,
   getAdsByOwners,
+  addSavedAd,
+  getSavedAdsByUser,
+  deleteSavedAd,
 } = require("./adsHandlers");
 
 const {
@@ -47,6 +50,12 @@ express()
   .patch("/api/update-ad/:id", updateAd)
   // delete ad
   .delete("/api/delete-ad/:id", deleteAd)
+  // add the ads that user has saved
+  .post("/api/new-saved-ad", addSavedAd)
+  // get savedAds by user
+  .get("/api/saved-ads-by-user/:id", getSavedAdsByUser)
+  // delete a specific savedAd
+  .delete("/api/delete-saved-ad/:id", deleteSavedAd)
 
   // get all users
   .get("/api/users", getUsers)

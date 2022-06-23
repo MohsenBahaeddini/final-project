@@ -77,7 +77,7 @@ const MyAd = ({ currentUser }) => {
                         </H2>
 
                         <StyledNavLink to={`/messages/${ad._id}`}>
-                          <H3>Check your ad messages</H3>
+                          <H3>Check out messages</H3>
                         </StyledNavLink>
                         <Button
                           onClick={(ev) => {
@@ -113,8 +113,11 @@ const Wrapper = styled.div`
   border-radius: 10px;
   background: var(--color-darkGrey);
   margin: 10px;
-  min-height: 230px;
+  min-height: 250px;
   height: fit-content;
+  max-height: 550px;
+  /* overflow: hidden; */
+
   padding-bottom: 5px;
 `;
 const Title = styled.h2`
@@ -126,6 +129,10 @@ const Title = styled.h2`
 `;
 const Div1 = styled.div`
   display: flex;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  /* overflow: hidden;
+  overflow-y: scroll; */
 `;
 const Div2 = styled.div`
   margin: 20px 20px 20px 0px;

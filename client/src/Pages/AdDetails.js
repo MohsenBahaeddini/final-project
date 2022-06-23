@@ -15,6 +15,7 @@ const AdDetails = () => {
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
+  // const [savedAdId, setSavedAdId] = useState(null);
   const { currentUser } = useContext(CurrentUserContext);
   const history = useHistory();
 
@@ -25,7 +26,7 @@ const AdDetails = () => {
       .then((res) => res.json())
       .then((response) => {
         setAd(response.ad);
-        console.log(ad);
+        // console.log(ad);
         setStatus("idle");
       })
       .catch((err) => {
@@ -33,6 +34,25 @@ const AdDetails = () => {
       });
   }, []);
 
+  // add the ad that user saved
+  // userId = currentUserId
+  const postSavedAd = () => {
+    fetch("/api/new-saved-ad", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        adId: id,
+        userId: currentUser.sub,
+      }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+      });
+  };
   // Create new conversation between user(buyer) and seller when a msg is written and sendMsg is clicked
   const sendMessage = (ev) => {
     ev.preventDefault();
@@ -80,12 +100,13 @@ const AdDetails = () => {
   if (status === "loading") {
     return <LoadingSpinner />;
   }
-
+  // console.log(savedAdId);
   // Display adDetails once the page is loaded
   return (
     <>
       <Wrapper>
         {status === "idle" && ad && <SlideShow imgs={ad.imageUrl} />}
+        <button onClick={postSavedAd}>save ad</button>
 
         <Container>
           <Details>

@@ -62,6 +62,7 @@ const Wrapper = styled.div`
 `;
 const Div = styled.div`
   display: flex;
+  margin-top: -10px;
 
   justify-content: center;
   /* padding-left: 15px; */

@@ -247,6 +247,95 @@ const getAdsByOwners = async (req, res) => {
     await client.close();
   }
 };
+// add the ads that user saved
+const addSavedAd = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { userId, adId } = req.body;
+  // do we need to get all feature of the car (ad)?
+
+  try {
+    await client.connect();
+    const db = client.db("mba");
+
+    const newSavedAd = { userId: userId, _id: adId };
+    const insertNewSavedAd = await db
+      .collection("savedAdsByUsers")
+      .insertOne(newSavedAd);
+    res.status(200).json({
+      status: 200,
+      success: true,
+      newSavedAd: newSavedAd,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
+
+// get all saved ads by the specific user
+const getSavedAdsByUser = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+
+  const userId = req.params.id;
+  try {
+    await client.connect();
+    const db = client.db("mba");
+    // find savedAds by userId in savedAdsByUsers collection
+    const findSavedAdsByUser = await db
+      .collection("savedAdsByUsers")
+      .find({ userId: userId })
+      .toArray();
+    console.log(findSavedAdsByUser);
+
+    if (findSavedAdsByUser) {
+      res.status(200).json({
+        status: 200,
+        success: true,
+        savedAds: findSavedAdsByUser,
+      });
+    } else {
+      res.status(400).json({
+        status: 400,
+        message: "this user does not have any saved ads",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
+
+// delete savedAd
+const deleteSavedAd = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const adId = req.params.id;
+  try {
+    await client.connect();
+    const db = client.db("mba");
+
+    const ad = await db.collection("savedAdsByUsers").deleteOne({ _id: adId });
+    res.status(200).json({
+      status: 200,
+      success: true,
+      deletedAd: ad,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      Error: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+};
 
 module.exports = {
   addNewAd,
@@ -255,4 +344,7 @@ module.exports = {
   deleteAd,
   updateAd,
   getAdsByOwners,
+  addSavedAd,
+  getSavedAdsByUser,
+  deleteSavedAd,
 };

@@ -4,6 +4,7 @@ import { CurrentUserContext } from "../CurrentUserContext";
 import MyAd from "./MyAd";
 import MyConversations from "./MyConversations";
 import styled from "styled-components";
+import SavedAds from "./SavedAds";
 const Profile = () => {
   const { user, isAuthenticated } = useAuth0();
   const { currentUser } = useContext(CurrentUserContext);
@@ -11,30 +12,36 @@ const Profile = () => {
   return (
     <>
       {isAuthenticated && (
-        <Wrapper>
-          <AccProfile>
-            <Title>Account Profile</Title>
-            <div>
+        <Div>
+          <Wrapper>
+            <AccProfile>
+              <Title>Account Profile</Title>
               <div>
-                <El>
-                  <H3>First name</H3>
-                  <H4>{user.given_name}</H4>
-                </El>
-                <El>
-                  <H3>Last name</H3>
-                  <H4>{user.family_name}</H4>
-                </El>
-                <El>
-                  <Email>Email</Email>
-                  <H4>{user.email}</H4>
-                </El>
+                <div>
+                  <El>
+                    <H3>First name</H3>
+                    <H4>{user.given_name}</H4>
+                  </El>
+                  <El>
+                    <H3>Last name</H3>
+                    <H4>{user.family_name}</H4>
+                  </El>
+                  <El>
+                    <Email>Email</Email>
+                    <H4>{user.email}</H4>
+                  </El>
+                </div>
               </div>
-            </div>
-            {/* <Button>Edit</Button> */}
-          </AccProfile>
-          <MyAd currentUser={currentUser} />
-          <MyConversations />
-        </Wrapper>
+              {/* <Button>Edit</Button> */}
+            </AccProfile>
+            <MyAd currentUser={currentUser} />
+            <MyConversations />
+            <SavedAds user={currentUser} />
+          </Wrapper>
+          {/* <SavedAdsWrapper> */}
+
+          {/* </SavedAdsWrapper> */}
+        </Div>
       )}
     </>
   );
@@ -43,6 +50,29 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 20px 40px;
+  position: relative;
+  /* 
+   */
+  /* margin: 30px; */
+`;
+const SavedAdsWrapper = styled.div`
+  /* display: flex; */
+  min-width: calc(100vw / 3.35);
+  max-width: calc(100vw / 3.5);
+  min-height: 230px;
+  /* position: absolute;
+  left: 40px;
+  bottom: -250px; */
+  /* margin: -190px 0 0 40px; */
+`;
+const Container = styled.div`
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* margin: 20px 40px; */
+`;
+const Div = styled.div`
+  /* display: inline-block; */
+  position: relative;
 `;
 const AccProfile = styled.div`
   border: 1px solid #ddd;
@@ -51,8 +81,9 @@ const AccProfile = styled.div`
   margin: 10px;
   padding-bottom: 10px;
   min-width: calc(100vw / 3.5);
-  min-height: 230px;
+  min-height: 250px;
   height: fit-content;
+  /* box-sizing: content-box; */
 `;
 const Title = styled.h2`
   border-bottom: 1px solid var(--color-blue);
@@ -68,15 +99,16 @@ const El = styled.div`
 `;
 const H3 = styled.h3`
   padding-right: 40px;
-  font-size: 16px;
+  font-size: 15px;
   color: #fff;
 `;
 const H4 = styled.h3`
-  font-size: 16px;
+  font-size: 15px;
   color: #fff;
 `;
 const Email = styled.h3`
   padding-right: 78px;
+  font-size: 15px;
 `;
 const Button = styled.button`
   cursor: pointer;
