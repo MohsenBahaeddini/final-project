@@ -48,6 +48,7 @@ const Img = styled.img`
   width: 650px;
   height: 500px;
   padding: 2px;
+  border-radius: 10px;
   border: 2px solid var(--color-blue);
 `;
 const Button = styled.button`

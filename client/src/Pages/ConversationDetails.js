@@ -16,7 +16,7 @@ const ConversationDetails = ({ conversationId, sellerName, adsId }) => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response.ad);
+        // console.log(response.ad);
         setAds(response.ad);
         setStatus("idle");
       })
@@ -65,8 +65,7 @@ const Div = styled.div`
   margin-top: -10px;
 
   justify-content: center;
-  /* padding-left: 15px; */
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 `;
 const Div2 = styled.div`
   display: flex;

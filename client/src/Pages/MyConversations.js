@@ -47,7 +47,7 @@ const MyConversations = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setAds(response);
       })
       .catch((err) => {
@@ -70,7 +70,7 @@ const MyConversations = () => {
           {status === "idle" &&
             (conversations.length ? (
               conversations.map((conversation, index) => {
-                console.log(conversation);
+                // console.log(conversation);
                 adsId = conversation.adId;
                 const sellerName = conversation.seller.split("@", 1);
                 return (

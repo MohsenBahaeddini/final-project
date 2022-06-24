@@ -9,7 +9,7 @@ import uploadImage from "../assets/uploadImage.png";
 import Select from "react-select";
 
 const PostAd = () => {
-// useState to update different options when entering the car info 
+  // useState to update different options when entering the car info
   const [make, setMake] = useState("");
   const [type, setType] = useState("");
   const [year, setYear] = useState("");
@@ -29,7 +29,6 @@ const PostAd = () => {
   const history = useHistory();
   const [newAd, setNewAd] = useState({});
   const { currentUser } = useContext(CurrentUserContext);
-  
 
   // get all Models for the selected make,type and year from car data api
   useEffect(() => {
@@ -46,19 +45,16 @@ const PostAd = () => {
       )
         .then((res) => res.json())
         .then((response) => {
-          
           setCars(response);
         })
         .catch((err) => console.error("Error: ", err));
     }
   }, [make, type, year]);
-  
 
   // hadnleSubmit will send the info to the server
   const handleSubmit = (ev) => {
-   
     ev.preventDefault();
-    
+
     if (make && type && year && model && mileage && price && description) {
       fetch("/api/new-ad", {
         method: "POST",
@@ -87,14 +83,12 @@ const PostAd = () => {
         .then((res) => res.json())
         .then((response) => {
           if (response) {
-            
             history.push(`/profile/${currentUser.sub}`);
           }
         });
     }
   };
 
-  
   return (
     <>
       <Wrapper>
@@ -104,7 +98,6 @@ const PostAd = () => {
         <Section>
           <Div>
             <Form onSubmit={handleSubmit}>
-            
               <H3>Enter Your Car Info</H3>
               <Select1
                 defaultValue={"default"}
@@ -121,7 +114,7 @@ const PostAd = () => {
                   return <option value={el}>{el}</option>;
                 })}
               </Select1>
-              
+
               <Select1
                 defaultValue={"default"}
                 onChange={(ev) => {
@@ -139,7 +132,7 @@ const PostAd = () => {
                   );
                 })}
               </Select1>
-              
+
               <Select1
                 defaultValue={"default"}
                 onChange={(ev) => {
@@ -153,12 +146,11 @@ const PostAd = () => {
                   return <option value={year}>{year}</option>;
                 })}
               </Select1>
-              
+
               <Select1
                 defaultValue={"default"}
                 onChange={(ev) => {
                   setModel(ev.target.value);
-                  
                 }}
               >
                 <option value={"default"} disabled>
@@ -170,22 +162,20 @@ const PostAd = () => {
                       {car.model}
                     </option>
                   ))}
-                
               </Select1>
-              
+
               <Input
                 type="text"
                 placeholder="Kilometers*"
                 onChange={(ev) => setMileage(ev.target.value)}
               />
-              
+
               <Input
                 type="text"
                 placeholder="$ Price*"
                 onChange={(ev) => setPrice(ev.target.value)}
               />
               <Options>
-                
                 <Div3>
                   <Div4>
                     <input
@@ -194,7 +184,7 @@ const PostAd = () => {
                       name="airConditioning"
                       onChange={(ev) => setAirConditioning(ev.target.checked)}
                     />
-                    <label for="airConditioning">Air conditioning</label>
+                    <Label for="airConditioning">Air conditioning</Label>
                   </Div4>
                   <Div4>
                     <input
@@ -203,7 +193,7 @@ const PostAd = () => {
                       name="alloyWheels"
                       onChange={(ev) => setAlloyWheels(ev.target.checked)}
                     />
-                    <label for="alloyWheels">Alloy wheels</label>
+                    <Label for="alloyWheels">Alloy wheels</Label>
                   </Div4>
                 </Div3>
 
@@ -215,7 +205,7 @@ const PostAd = () => {
                       name="bluetooth"
                       onChange={(ev) => setBluetooth(ev.target.checked)}
                     />
-                    <label for="bluetooth">Bluetooth</label>
+                    <Label for="bluetooth">Bluetooth</Label>
                   </Div4>
 
                   <Div4>
@@ -225,7 +215,7 @@ const PostAd = () => {
                       name="heatedSeats"
                       onChange={(ev) => setHeatedSeats(ev.target.checked)}
                     />
-                    <label for="heatedSeats">Heated seats</label>
+                    <Label for="heatedSeats">Heated seats</Label>
                   </Div4>
                 </Div3>
                 <Div3>
@@ -236,7 +226,7 @@ const PostAd = () => {
                       name="navigationSystem"
                       onChange={(ev) => setHeatedSeats(ev.target.checked)}
                     />
-                    <label for="navigationSystem">Navigation system</label>
+                    <Label for="navigationSystem">Navigation system</Label>
                   </Div4>
                   <Div4>
                     <input
@@ -245,16 +235,14 @@ const PostAd = () => {
                       name="stabilityControl"
                       onChange={(ev) => setStabilityControl(ev.target.checked)}
                     />
-                    <label for="stabilityControl">Stability control</label>
+                    <Label for="stabilityControl">Stability control</Label>
                   </Div4>
                 </Div3>
-                
               </Options>
 
               <TextArea
                 type="text"
                 placeholder="Description*"
-               
                 onChange={(ev) => setDescription(ev.target.value)}
               />
               <Button
@@ -290,10 +278,13 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding: 10px;
   border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: var(--color-darkGrey);
   margin: 50px 30px;
 `;
 const H1 = styled.h1`
   font-size: 20px;
+  color: #fff;
 `;
 const Section = styled.section`
   display: flex;
@@ -322,13 +313,11 @@ const Div2 = styled.div`
   padding: 10px;
 `;
 const Features = styled.div`
-  
   border: 1px solid #fff;
 `;
 const Div3 = styled.div`
   display: flex;
   flex-direction: column;
-  
 `;
 const Div4 = styled.div`
   display: flex;
@@ -345,6 +334,7 @@ const Options = styled.div`
 const H3 = styled.h3`
   margin-bottom: 30px;
   font-size: 18px;
+  color: #fff;
 `;
 const Img = styled.img`
   width: 380px;
@@ -354,10 +344,9 @@ const Input = styled.input`
   margin-top: 5px;
   border: none;
   border-radius: 2px;
- 
 `;
 const Button = styled.button`
-  color: var(--color-dark-blue);
+  color: var(--color-darkGrey);
   font-size: 16px;
   padding: 5px 200px;
   margin-top: 5px;
@@ -370,7 +359,7 @@ const Button = styled.button`
     border: 1px solid grey;
     cursor: auto;
   }
-  &:hover:enabled {  
+  &:hover:enabled {
     transform: scale(1.01, 1.01);
     outline: none;
     border-radius: 2px;
@@ -382,7 +371,7 @@ const TextArea = styled.textarea`
   text-align: left;
   margin-top: 5px;
   font-size: 15px;
-  font-family: var(--font-body); 
+  font-family: var(--font-body);
   border: none;
   border-radius: 2px;
   outline: none;
@@ -390,5 +379,8 @@ const TextArea = styled.textarea`
 const Select1 = styled.select`
   padding: 5px;
   margin-top: 5px;
+`;
+const Label = styled.label`
+  color: #fff;
 `;
 export default PostAd;

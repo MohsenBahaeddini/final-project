@@ -18,5 +18,6 @@ const Thumbnail = ({ arr, image, index }) => {
 };
 const Img = styled.img`
   cursor: pointer;
+  border-radius: 10px;
 `;
 export default Thumbnail;

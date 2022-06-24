@@ -9,6 +9,7 @@ import { RiCloseCircleLine } from "react-icons/ri";
 import LoadingSpinner from "./LoadingSpinner";
 import SlideShow from "./SlideShow";
 import { useHistory } from "react-router-dom";
+import { BsHeartFill, BsHeart } from "react-icons/bs";
 
 const AdDetails = () => {
   const [ad, setAd] = useState({});
@@ -16,6 +17,7 @@ const AdDetails = () => {
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
   // const [savedAdId, setSavedAdId] = useState(null);
+  const [isSaved, setIsSaved] = useState(localStorage.getItem("isSaved"));
   const { currentUser } = useContext(CurrentUserContext);
   const history = useHistory();
 
@@ -53,6 +55,38 @@ const AdDetails = () => {
         console.log(response);
       });
   };
+  const handleSaveButton = () => {
+    if (!isSaved) {
+      setIsSaved(true);
+      fetch("/api/new-saved-ad", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          adId: id,
+          userId: currentUser.sub,
+        }),
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response);
+          localStorage.setItem("isSaved", true);
+        });
+    } else {
+      setIsSaved(false);
+      fetch(`/api/delete-saved-ad/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response);
+          localStorage.removeItem("isSaved");
+        });
+    }
+  };
+
   // Create new conversation between user(buyer) and seller when a msg is written and sendMsg is clicked
   const sendMessage = (ev) => {
     ev.preventDefault();
@@ -102,12 +136,22 @@ const AdDetails = () => {
   }
   // console.log(savedAdId);
   // Display adDetails once the page is loaded
+  console.log("isaSaved ::", isSaved);
   return (
     <>
       <Wrapper>
-        {status === "idle" && ad && <SlideShow imgs={ad.imageUrl} />}
-        <button onClick={postSavedAd}>save ad</button>
-
+        <SliderDiv>
+          {status === "idle" && ad && <SlideShow imgs={ad.imageUrl} />}
+          <SaveBtnDiv>
+            <SaveBtn onClick={handleSaveButton}>
+              {isSaved ? (
+                <BsHeartFill style={{ color: "red" }} />
+              ) : (
+                <BsHeart style={{ color: "red" }} />
+              )}
+            </SaveBtn>
+          </SaveBtnDiv>
+        </SliderDiv>
         <Container>
           <Details>
             <H1>
@@ -260,9 +304,32 @@ const Container = styled.div`
   padding: 20px;
   flex-direction: column;
   border: 1px solid #ddd;
+  border-radius: 10px;
+  background: var(--color-darkGrey);
   margin: 0 40px;
   min-width: 500px;
   justify-content: space-between;
+`;
+const SliderDiv = styled.div`
+  position: relative;
+`;
+const SaveBtnDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 610px;
+  bottom: 10px;
+`;
+const SaveBtn = styled.button`
+  background: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  width: 30px;
+  cursor: pointer;
 `;
 const Img = styled.img`
   width: 650px;

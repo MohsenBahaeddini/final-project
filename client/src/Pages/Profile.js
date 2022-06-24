@@ -14,29 +14,31 @@ const Profile = () => {
       {isAuthenticated && (
         <Div>
           <Wrapper>
-            <AccProfile>
-              <Title>Account Profile</Title>
-              <div>
+            <Div2>
+              <AccProfile>
+                <Title>Account Profile</Title>
                 <div>
-                  <El>
-                    <H3>First name</H3>
-                    <H4>{user.given_name}</H4>
-                  </El>
-                  <El>
-                    <H3>Last name</H3>
-                    <H4>{user.family_name}</H4>
-                  </El>
-                  <El>
-                    <Email>Email</Email>
-                    <H4>{user.email}</H4>
-                  </El>
+                  <div>
+                    <El>
+                      <H3>First name</H3>
+                      <H4>{user.given_name}</H4>
+                    </El>
+                    <El>
+                      <H3>Last name</H3>
+                      <H4>{user.family_name}</H4>
+                    </El>
+                    <El>
+                      <Email>Email</Email>
+                      <H4>{user.email}</H4>
+                    </El>
+                  </div>
                 </div>
-              </div>
-              {/* <Button>Edit</Button> */}
-            </AccProfile>
+                {/* <Button>Edit</Button> */}
+              </AccProfile>
+              <SavedAds user={currentUser} />
+            </Div2>
             <MyAd currentUser={currentUser} />
             <MyConversations />
-            <SavedAds user={currentUser} />
           </Wrapper>
           {/* <SavedAdsWrapper> */}
 
@@ -55,23 +57,14 @@ const Wrapper = styled.div`
    */
   /* margin: 30px; */
 `;
+const Div2 = styled.div``;
 const SavedAdsWrapper = styled.div`
-  /* display: flex; */
   min-width: calc(100vw / 3.35);
   max-width: calc(100vw / 3.5);
   min-height: 230px;
-  /* position: absolute;
-  left: 40px;
-  bottom: -250px; */
-  /* margin: -190px 0 0 40px; */
 `;
-const Container = styled.div`
-  /* display: flex; */
-  /* justify-content: space-between; */
-  /* margin: 20px 40px; */
-`;
+const Container = styled.div``;
 const Div = styled.div`
-  /* display: inline-block; */
   position: relative;
 `;
 const AccProfile = styled.div`
@@ -107,7 +100,7 @@ const H4 = styled.h3`
   color: #fff;
 `;
 const Email = styled.h3`
-  padding-right: 78px;
+  padding-right: 75px;
   font-size: 15px;
 `;
 const Button = styled.button`

@@ -28,6 +28,25 @@ const SavedAds = ({ user }) => {
     }
   }, []);
   console.log(savedAds);
+  const updateMySavedAdsAfterDelete = () => {
+    if (user) {
+      fetch(`/api/saved-ads-by-user/${user.sub}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          setSavedAds(response.savedAds);
+          setStatus("idle");
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+        });
+    }
+  };
   return (
     <>
       <Wrapper>
@@ -36,7 +55,11 @@ const SavedAds = ({ user }) => {
             savedAds.map((savedAd) => {
               console.log(savedAd);
               return (
-                <SavedAdDetails adId={savedAd._id} userId={savedAd.userId} />
+                <SavedAdDetails
+                  adId={savedAd._id}
+                  userId={savedAd.userId}
+                  updateMySavedAdsAfterDelete={updateMySavedAdsAfterDelete}
+                />
               );
             })
           ) : (

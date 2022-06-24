@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { years, types, makes } from "../data";
 import cover3 from "../assets/cover3.png";
+import background from "../assets/background.png";
 import uploadImage from "../assets/uploadImage.png";
 
 const Homepage = () => {
@@ -92,7 +93,7 @@ const Homepage = () => {
         <CoverTextBox></CoverTextBox>
         <RightCoverBox></RightCoverBox>
         <CoverDiv>
-          <CoverImg src={cover3} />
+          <CoverImg src={background} />
         </CoverDiv>
         <Div>
           <SearchDiv>
@@ -188,11 +189,15 @@ const Wrapper = styled.div`
 const CoverDiv = styled.div`
   display: flex;
   justify-content: center;
-  height: 400px;
+  margin-top: 150px;
+  margin-bottom: -20px;
+  height: 140px;
   width: 100%;
   background-color: var(--color-dark-blue);
 `;
 const CoverImg = styled.img`
+  /* width: 600px;
+  height: 300px; */
   background-color: var(--color-dark-blue);
 `;
 const CoverTextBox = styled.div`

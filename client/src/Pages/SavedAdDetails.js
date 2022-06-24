@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
-const SavedAdDetails = ({ adId, userId }) => {
+const SavedAdDetails = ({ adId, userId, updateMySavedAdsAfterDelete }) => {
   console.log(adId, userId);
   const [savedAd, setSavedAd] = useState();
   const [status, setStatus] = useState("loading");
@@ -25,23 +25,23 @@ const SavedAdDetails = ({ adId, userId }) => {
       });
   }, []);
 
-  const updateMySavedAdsAfterDelete = () => {
-    fetch(`/api/ad/${adId}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        setSavedAd(response.ad);
-        setStatus("idle");
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(true);
-      });
-  };
+  // const updateMySavedAdsAfterDelete = () => {
+  //   fetch(`/api/ad/${adId}`, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((response) => {
+  //       setSavedAd(response.ad);
+  //       setStatus("idle");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setError(true);
+  //     });
+  // };
 
   console.log(savedAd);
   if (status === "loading") {
@@ -69,8 +69,9 @@ const SavedAdDetails = ({ adId, userId }) => {
                     .then((res) => res.json())
                     .then((response) => {
                       console.log(response);
-                      updateMySavedAdsAfterDelete();
+                      localStorage.removeItem("isSaved");
                     });
+                  updateMySavedAdsAfterDelete();
                 }}
               >
                 Delete

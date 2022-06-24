@@ -66,7 +66,7 @@ const MyAd = ({ currentUser }) => {
               {myAds.map((ad, index) => {
                 return (
                   <div key={index}>
-                    {console.log(ad)}
+                    {/* {console.log(ad)} */}
                     <Div1>
                       <StyledNavLink to={`/ad/${ad._id}`}>
                         <Img src={ad.imageUrl[0]} />
