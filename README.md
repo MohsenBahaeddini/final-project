@@ -2,13 +2,15 @@
 > __Auto-Explorer__ is a Car-Listing Web-App which is developed by Mohsen Bahaeddini as the final project of Concordia Full-Stack Web Development Bootcamps. Auto-Explorer facilitates the cars Buying/Selling process by allowing users to post their cars ad or find their future cars by just simply searching among listed cars. 
 
 ## :hammer_and_wrench: Tech Stack
-- __Client:__ `React.js`, `Styled-Components`, `Auth0`, `CSS`
+- __Client:__ `React.js`, `Styled-Components`, `CSS`
 - __Server:__ `Node.js`, `Express.js`
 - __Database:__ `MongoDB`
 
 ## :gear: External APIs
 - **[Car Data API:](https://rapidapi.com/principalapis/api/car-data/)** is used to get the car models based on selected make.
+- **[Auth0 API:](https://auth0.com/docs/api/authentication)** is used for authentication purposes.
 - **[Cloudinary Upload Widget API:](https://cloudinary.com/documentation/upload_widget_reference)** is used to upload car photos.
+
 
 ## :large_orange_diamond: Web-App Pages
 
