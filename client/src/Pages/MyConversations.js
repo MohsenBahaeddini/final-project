@@ -68,7 +68,7 @@ const MyConversations = () => {
           {status === "loading" && <LoadingSpinner />}
 
           {status === "idle" &&
-            (conversations.length ? (
+            (conversations && conversations.length ? (
               conversations.map((conversation, index) => {
                 // console.log(conversation);
                 adsId = conversation.adId;
@@ -82,7 +82,7 @@ const MyConversations = () => {
                 );
               })
             ) : (
-              <H2>No messages yet</H2>
+              <H2>No Messages Yet!</H2>
             ))}
         </h5>
       </Wrapper>

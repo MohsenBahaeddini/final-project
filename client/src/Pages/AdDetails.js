@@ -16,8 +16,12 @@ const AdDetails = () => {
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
-  // const [savedAdId, setSavedAdId] = useState(null);
-  const [isSaved, setIsSaved] = useState(localStorage.getItem("isSaved"));
+
+  const [isSaved, setIsSaved] = useState(null);
+  // (localStorage.getItem("isSaved")
+  const [savedAds, setSavedAds] = useState([]);
+  // const [items, setItems] = useState(localStorage.getItem("items"));
+
   const { currentUser } = useContext(CurrentUserContext);
   const history = useHistory();
 
@@ -36,28 +40,36 @@ const AdDetails = () => {
       });
   }, []);
 
-  // add the ad that user saved
-  // userId = currentUserId
-  const postSavedAd = () => {
-    fetch("/api/new-saved-ad", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        adId: id,
-        userId: currentUser.sub,
-      }),
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response);
-      });
-  };
+  // get all saved ads by user
+  // console.log(currentUser);
+  useEffect(() => {
+    if (currentUser) {
+      fetch(`/api/saved-ads-by-user/${currentUser.sub}`)
+        .then((res) => res.json())
+        .then((response) => {
+          // console.log(response.savedAds);
+          setSavedAds(response.savedAds);
+          // setIsSaved(response.savedAds.find((element) => element._id === id));
+        });
+    }
+  }, [savedAds, isSaved, currentUser]);
+
+  console.log("$$$$$$$$$ isSaved: ", isSaved);
+  let found;
+  if (savedAds) {
+    found = savedAds.find((element) => element._id === id);
+  }
+  useEffect(() => {
+    if (found) {
+      setIsSaved(true);
+    } else {
+      setIsSaved(false);
+    }
+  }, [savedAds, isSaved]);
+
   const handleSaveButton = () => {
     if (!isSaved) {
-      setIsSaved(true);
+      // setIsSaved(true);
       fetch("/api/new-saved-ad", {
         method: "POST",
         headers: {
@@ -75,7 +87,7 @@ const AdDetails = () => {
           localStorage.setItem("isSaved", true);
         });
     } else {
-      setIsSaved(false);
+      // setIsSaved(false);
       fetch(`/api/delete-saved-ad/${id}`, {
         method: "DELETE",
       })
@@ -136,21 +148,28 @@ const AdDetails = () => {
   }
   // console.log(savedAdId);
   // Display adDetails once the page is loaded
-  console.log("isaSaved ::", isSaved);
+
   return (
     <>
       <Wrapper>
         <SliderDiv>
           {status === "idle" && ad && <SlideShow imgs={ad.imageUrl} />}
-          <SaveBtnDiv>
-            <SaveBtn onClick={handleSaveButton}>
-              {isSaved ? (
-                <BsHeartFill style={{ color: "red" }} />
-              ) : (
-                <BsHeart style={{ color: "red" }} />
-              )}
-            </SaveBtn>
-          </SaveBtnDiv>
+          {currentUser && (
+            <SaveBtnDiv>
+              <SaveBtn onClick={handleSaveButton}>
+                {isSaved ? (
+                  <BsHeartFill style={{ color: "red" }} />
+                ) : (
+                  <BsHeart style={{ color: "red" }} />
+                )}
+                {/* {savedAds && savedAds.find((element) => element._id === id) ? (
+                  <BsHeartFill style={{ color: "red" }} />
+                ) : (
+                  <BsHeart style={{ color: "red" }} />
+                )} */}
+              </SaveBtn>
+            </SaveBtnDiv>
+          )}
         </SliderDiv>
         <Container>
           <Details>

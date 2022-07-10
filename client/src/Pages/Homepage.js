@@ -11,8 +11,6 @@ import background from "../assets/background.png";
 import uploadImage from "../assets/uploadImage.png";
 
 const Homepage = () => {
-  const [ads, setAds] = useState([]);
-  const [loading, setLoading] = useState("loading");
   const { user, isAuthenticated } = useAuth0();
 
   const [cars, setCars] = useState([]);
@@ -20,12 +18,9 @@ const Homepage = () => {
   const [type, setType] = useState("");
   const [year, setYear] = useState("");
   const [model, setModel] = useState("");
-  const [status, setStatus] = useState("loading");
+
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState("asc");
-  const { currentUser } = useContext(CurrentUserContext);
-
-  const history = useHistory();
 
   // get all Models for the selected make from car data api
   useEffect(() => {
@@ -108,8 +103,12 @@ const Homepage = () => {
               }}
             >
               <option value={""}>Any Type</option>
-              {types.map((type) => {
-                return <option value={type}>{type}</option>;
+              {types.map((type, index) => {
+                return (
+                  <option value={type} key={index}>
+                    {type}
+                  </option>
+                );
               })}
             </Select>
 
@@ -121,10 +120,12 @@ const Homepage = () => {
               }}
             >
               <option value={""}>Any Make</option>
-              {makes.map((make) => {
+              {makes.map((make, index) => {
                 return (
                   <>
-                    <option value={make}>{make}</option>
+                    <option value={make} key={index}>
+                      {make}
+                    </option>
                   </>
                 );
               })}
@@ -138,8 +139,12 @@ const Homepage = () => {
               }}
             >
               <option value={""}>Any Year</option>
-              {years.map((year) => {
-                return <option value={year}>{year}</option>;
+              {years.map((year, index) => {
+                return (
+                  <option value={year} key={index}>
+                    {year}
+                  </option>
+                );
               })}
             </Select>
 
@@ -152,8 +157,12 @@ const Homepage = () => {
             >
               <option value={""}>Any Model</option>
               {cars.length &&
-                cars.map((car) => {
-                  return <option value={car.model}>{car.model}</option>;
+                cars.map((car, index) => {
+                  return (
+                    <option value={car.model} key={index}>
+                      {car.model}
+                    </option>
+                  );
                 })}
             </Select>
 

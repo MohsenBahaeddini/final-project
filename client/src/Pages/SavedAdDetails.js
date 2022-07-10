@@ -49,7 +49,7 @@ const SavedAdDetails = ({ adId, userId, updateMySavedAdsAfterDelete }) => {
   }
   return (
     <>
-      <Title>My Favorite List</Title>
+      {/* <Title>My Favorite List</Title> */}
       {status === "idle" && savedAd && (
         <>
           <Div1>

@@ -4,7 +4,7 @@ const Pagination = ({ pageNum, setPageNum, adsCount }) => {
   // implementing pagination and buttons to handle nextPage,previousPage, go to firstPage and go to lastPage
   const limit = 6;
   const lastPage = Math.ceil(adsCount / limit);
-  console.log(lastPage);
+
   return (
     <>
       <PaginateWrapper>

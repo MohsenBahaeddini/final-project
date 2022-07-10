@@ -9,6 +9,7 @@ const Profile = () => {
   const { user, isAuthenticated } = useAuth0();
   const { currentUser } = useContext(CurrentUserContext);
 
+  
   return (
     <>
       {isAuthenticated && (

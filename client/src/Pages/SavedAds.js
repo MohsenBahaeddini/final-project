@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import SavedAdDetails from "./SavedAdDetails";
 import styled from "styled-components";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Link, NavLink, useParams, useHistory } from "react-router-dom";
 
 const SavedAds = ({ user }) => {
   const [savedAds, setSavedAds] = useState([]);
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
-  //   console.log(user.sub);
-
+  // const [sub, setSub] = useState();
+  // const { isLoading, isAuthenticated } = useAuth0();
+  // if (!isLoading && isAuthenticated && user.sub) {
+  //   setSub(user.sub);
+  // }
+  // console.log(!isLoading && isAuthenticated);
+  const { id } = useParams();
   useEffect(() => {
-    if (user) {
-      fetch(`/api/saved-ads-by-user/${user.sub}`, {
+    {
+      fetch(`/api/saved-ads-by-user/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -29,8 +36,8 @@ const SavedAds = ({ user }) => {
   }, []);
   console.log(savedAds);
   const updateMySavedAdsAfterDelete = () => {
-    if (user) {
-      fetch(`/api/saved-ads-by-user/${user.sub}`, {
+    {
+      fetch(`/api/saved-ads-by-user/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -50,6 +57,7 @@ const SavedAds = ({ user }) => {
   return (
     <>
       <Wrapper>
+        <Title>My Favorite List</Title>
         {status === "idle" &&
           (savedAds.length ? (
             savedAds.map((savedAd) => {
@@ -64,7 +72,7 @@ const SavedAds = ({ user }) => {
             })
           ) : (
             <>
-              <Title>My Favorite List</Title>
+              {/* <Title>My Favorite List</Title> */}
               <Div>
                 <h2>No Saved Ad!</h2>
               </Div>

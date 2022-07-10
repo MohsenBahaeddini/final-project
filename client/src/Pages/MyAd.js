@@ -61,7 +61,7 @@ const MyAd = ({ currentUser }) => {
         <Title>Manage My Ads</Title>
         {status === "loading" && <LoadingSpinner />}
         {status === "idle" &&
-          (myAds.length ? (
+          (myAds && myAds.length ? (
             <>
               {myAds.map((ad, index) => {
                 return (
@@ -101,7 +101,7 @@ const MyAd = ({ currentUser }) => {
               })}
             </>
           ) : (
-            <H2>You have no ads yet!</H2>
+            <H2>No Ads Yet!</H2>
           ))}
       </Wrapper>
     </>

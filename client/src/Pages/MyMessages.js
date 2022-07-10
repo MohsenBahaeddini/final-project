@@ -143,15 +143,6 @@ const MyMessages = () => {
                         key={index}
                         className={message.user === chat.buyer ? "buyer" : "me"}
                       >
-                        {/* {message.user !== chat.buyer && (
-                          <User
-                            className={
-                              message.user === chat.buyer ? "buyer" : "me"
-                            }
-                          >
-                            {message.user.split("@", 1)}
-                          </User>
-                        )} */}
                         <Div5
                           className={
                             message.user === chat.buyer ? "buyer" : "me"
@@ -241,7 +232,7 @@ const MyMessages = () => {
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   margin: 20px 40px;
   height: 70vh;
 `;
@@ -251,7 +242,7 @@ const Preview = styled.div`
   border-radius: 10px;
   background: var(--color-darkGrey);
   margin: 10px;
-  min-width: calc(100vw / 3);
+  min-width: calc(100vw / 8);
   max-width: calc(100vw / 3);
   /* min-height: 600px; */
   height: 550px;
@@ -420,7 +411,7 @@ const Email = styled.button`
   color: #fff;
   padding: 3px 20px;
   font-size: 16px;
-  margin: 20px 5px 5px 20px;
+  margin: 20px 5px 5px 0px;
   background-color: var(--color-dark-blue);
   border: none;
 

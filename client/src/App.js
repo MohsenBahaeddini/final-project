@@ -9,6 +9,7 @@ import MyMessages from "./Pages/MyMessages";
 import SingleConversation from "./Pages/SingleConversation";
 
 const App = () => {
+  // localStorage.setItem("items", []);
   return (
     <>
       <Router>
@@ -22,7 +23,7 @@ const App = () => {
             <AdDetails />
           </Route>
           <Route exact path="login"></Route>
-          <Route exact path="logout"></Route>    
+          <Route exact path="logout"></Route>
           <Route exact path="/post-ad">
             <Post />
           </Route>

@@ -114,7 +114,6 @@ const PostAd = () => {
                   return <option value={el}>{el}</option>;
                 })}
               </Select1>
-
               <Select1
                 defaultValue={"default"}
                 onChange={(ev) => {
@@ -132,7 +131,6 @@ const PostAd = () => {
                   );
                 })}
               </Select1>
-
               <Select1
                 defaultValue={"default"}
                 onChange={(ev) => {
@@ -146,7 +144,6 @@ const PostAd = () => {
                   return <option value={year}>{year}</option>;
                 })}
               </Select1>
-
               <Select1
                 defaultValue={"default"}
                 onChange={(ev) => {
@@ -163,13 +160,11 @@ const PostAd = () => {
                     </option>
                   ))}
               </Select1>
-
               <Input
                 type="text"
                 placeholder="Kilometers*"
                 onChange={(ev) => setMileage(ev.target.value)}
               />
-
               <Input
                 type="text"
                 placeholder="$ Price*"
@@ -239,12 +234,12 @@ const PostAd = () => {
                   </Div4>
                 </Div3>
               </Options>
-
               <TextArea
                 type="text"
                 placeholder="Description*"
                 onChange={(ev) => setDescription(ev.target.value)}
               />
+              {console.log(imageUrl)}
               <Button
                 disabled={
                   !type ||
@@ -253,7 +248,8 @@ const PostAd = () => {
                   !model ||
                   !description ||
                   !price ||
-                  !mileage
+                  !mileage ||
+                  !imageUrl.length
                     ? true
                     : false
                 }
