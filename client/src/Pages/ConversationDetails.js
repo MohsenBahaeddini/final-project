@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
+
 const ConversationDetails = ({ conversationId, sellerName, adsId }) => {
   const [ads, setAds] = useState([]);
   const [status, setStatus] = useState("loading");
@@ -16,12 +17,11 @@ const ConversationDetails = ({ conversationId, sellerName, adsId }) => {
     })
       .then((res) => res.json())
       .then((response) => {
-        // console.log(response.ad);
         setAds(response.ad);
         setStatus("idle");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, []);
 
@@ -34,7 +34,7 @@ const ConversationDetails = ({ conversationId, sellerName, adsId }) => {
         <>
           <Div2>
             <StyledNavLink to={`/conversation/${conversationId}`}>
-              <Span>Message {sellerName}</Span>
+              <Span>{sellerName}</Span>
             </StyledNavLink>
             <H2>
               {ads.year} {ads.type} {ads.make} {ads.model}
@@ -50,22 +50,19 @@ const ConversationDetails = ({ conversationId, sellerName, adsId }) => {
     </Div>
   );
 };
-const Wrapper = styled.div`
-  min-width: calc(100vw / 3.5);
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin: 10px;
-  min-height: 230px;
-  height: fit-content;
-  background: var(--color-darkGrey);
-  padding-bottom: 5px;
-`;
+
+
 const Div = styled.div`
   display: flex;
-  margin-top: -10px;
+  margin-top: -16px;
+  padding-top: 26px;
 
   justify-content: center;
   margin-bottom: 30px;
+  @media (max-width: 420px) {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
 `;
 const Div2 = styled.div`
   display: flex;
@@ -73,32 +70,32 @@ const Div2 = styled.div`
   align-items: center;
   justify-content: center;
   padding-left: 15px;
+  @media (max-width: 420px) {
+    margin-top: 15px;
+    padding-left: 0;
+    margin-bottom: 20px;
+  }
 `;
 const Div3 = styled.div`
   display: flex;
 
   flex-direction: column;
   justify-content: center;
-  padding-left: 15px;
-  margin-top: 15px;
-`;
+ `;
 const Img = styled.img`
   width: 200px;
   height: 130px;
-  margin: 5px 20px -5px 20px;
+  margin: 0px 20px -5px 20px;
   padding: 2px;
   border: 1px solid var(--color-blue);
   border-radius: 10px;
   &:hover {
     transform: scale(1.02);
   }
-`;
-const Title = styled.h2`
-  border-bottom: 1px solid var(--color-blue);
-  padding: 5px;
-  color: #fff;
-  margin: 20px;
-  text-align: left;
+  @media (max-width: 420px) {
+    width: 280px;
+    height: 210px;
+  }
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -122,17 +119,8 @@ const Span = styled.span`
 `;
 
 const H2 = styled.h2`
-  padding-top: 20px;
+  padding-top: 10px;
   color: #fff;
 `;
-const H3 = styled.h3`
-  font-size: 16px;
-  padding-bottom: 10px;
-  margin-top: -10px;
-  color: #fff;
 
-  &:hover {
-    color: var(--color-blue);
-  }
-`;
 export default ConversationDetails;

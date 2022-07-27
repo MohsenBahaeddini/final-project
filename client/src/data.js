@@ -1,4 +1,5 @@
-// Makes , years and types data is stored here and will get Models from Car Data API based on the selected make and year
+/** 
+ ** Makes , years and types data is stored here and will get Models from Car Data API based on the selected make and year */ 
 
 export const types = [
   "SUV",

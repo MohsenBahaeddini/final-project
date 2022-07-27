@@ -1,10 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-{
-  /* <style>
-  @import
-  url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap');
-</style>; */
-}
+
 export default createGlobalStyle`
   :root {
     --color-darkGrey:#222533;

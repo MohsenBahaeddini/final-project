@@ -1,4 +1,4 @@
-import { Link, NavLink, useHistory, useParams } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useContext } from "react";
 import styled from "styled-components";
@@ -6,9 +6,7 @@ import { CurrentUserContext } from "../CurrentUserContext";
 const Navbar = () => {
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const { currentUser } = useContext(CurrentUserContext);
-  // console.log("currentUser in navbar :", currentUser);
-  // const { id } = useParams();
-  // console.log(id);
+ 
   return (
     <>
       <Wrapper>
@@ -22,7 +20,7 @@ const Navbar = () => {
                 My Account
               </StyledNavLink>
               <StyledNavLink to="/post-ad">Post Ad</StyledNavLink>
-              <Button onClick={() => logout()}>Log out</Button>
+              <Button onClick={() => logout()}>Log Out</Button>
             </>
           )}
           {!isAuthenticated && (
@@ -43,19 +41,22 @@ const Wrapper = styled.div`
 `;
 const Container = styled.div`
   text-align: right;
-  flex-basis: 33%;
+  flex-basis: 60%;
 `;
 const Button = styled.button`
   background: none;
   cursor: pointer;
   border: none;
-  font-size: 14px;
+  font-size: 16px;
   color: #fff;
-  /* width: 0px;
-  height: 25px; */
+  padding-left: 10px;
+
   &:hover {
     color: var(--color-blue);
-    // text-decoration: underline;
+
+  }
+  @media (max-width: 735px) {
+    font-size: 12px;
   }
 `;
 const StyledLink = styled(Link)`
@@ -76,12 +77,14 @@ const Logo = styled.h2`
   color: var(--color-yellow);
   font-size: 22px;
   flex-basis: 33%;
+  @media (max-width: 735px) {
+    font-size: 16px;
+  }
 `;
 const StyledNavLink = styled(NavLink)`
   color: #fff;
   margin-left: 10px;
-  /* font-family: var(--font-body); */
-  font-size: 14px;
+  font-size: 16px;
   text-decoration: none;
   outline: none;
 
@@ -93,6 +96,10 @@ const StyledNavLink = styled(NavLink)`
 
     border: none;
   }
+  @media (max-width: 735px) {
+    font-size: 12px;
+  }
 `;
+
 
 export default Navbar;

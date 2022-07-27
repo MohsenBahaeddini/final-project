@@ -1,20 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import SavedAdDetails from "./SavedAdDetails";
 import styled from "styled-components";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Link, NavLink, useParams, useHistory } from "react-router-dom";
+import { useParams} from "react-router-dom";
 
 const SavedAds = ({ user }) => {
   const [savedAds, setSavedAds] = useState([]);
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
-  // const [sub, setSub] = useState();
-  // const { isLoading, isAuthenticated } = useAuth0();
-  // if (!isLoading && isAuthenticated && user.sub) {
-  //   setSub(user.sub);
-  // }
-  // console.log(!isLoading && isAuthenticated);
   const { id } = useParams();
+
   useEffect(() => {
     {
       fetch(`/api/saved-ads-by-user/${id}`, {
@@ -29,12 +23,11 @@ const SavedAds = ({ user }) => {
           setStatus("idle");
         })
         .catch((err) => {
-          console.log(err);
           setError(true);
         });
     }
   }, []);
-  console.log(savedAds);
+
   const updateMySavedAdsAfterDelete = () => {
     {
       fetch(`/api/saved-ads-by-user/${id}`, {
@@ -49,7 +42,6 @@ const SavedAds = ({ user }) => {
           setStatus("idle");
         })
         .catch((err) => {
-          console.log(err);
           setError(true);
         });
     }
@@ -72,7 +64,6 @@ const SavedAds = ({ user }) => {
             })
           ) : (
             <>
-              {/* <Title>My Favorite List</Title> */}
               <Div>
                 <h2>No Saved Ad!</h2>
               </Div>
@@ -83,14 +74,44 @@ const SavedAds = ({ user }) => {
   );
 };
 const Wrapper = styled.div`
-  min-width: calc(100vw / 4.5);
+  width: 402px;
+  min-width: 402px;
   border: 1px solid #ddd;
   border-radius: 10px;
   margin: 10px;
-  min-height: 230px;
+  min-height: 250px;
   height: fit-content;
   background: var(--color-darkGrey);
   padding-bottom: 5px;
+  max-height: 250px;
+  @media (max-width: 420px) {
+    min-width: 330px;
+    width: 330px;
+    margin-bottom: 40px;
+  }
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #bbbbbb;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #3d4247;
+  }
 `;
 const Div = styled.div`
   display: flex;

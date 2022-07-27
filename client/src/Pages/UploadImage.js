@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+
 const UploadImage = ({ imageUrl, setImageUrl }) => {
-  // implementing the cloudinary uploadImage widget
+  /** 
+   ** implementing the cloudinary uploadImage widget */ 
   const [widgetRef, setWidgetRef] = useState(null);
   useEffect(() => {
     const widget = window.cloudinary.createUploadWidget(
@@ -10,18 +12,12 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
         uploadPreset: "fl3vhygc",
       },
       (error, result) => {
-    
-
         if (result.event === "success") {
           if (result.info.secure_url) {
             let myArr = imageUrl;
-            
             myArr.push(result.info.secure_url);
-            
             setImageUrl(myArr);
-           
           }
-         
         }
       }
     );
@@ -30,7 +26,6 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
 
   return (
     <>
-     
       <Button onClick={() => widgetRef.open()}>Add Photos</Button>
     </>
   );
@@ -41,10 +36,16 @@ const Button = styled.button`
   padding: 5px 200px;
   margin-top: 5px;
   cursor: pointer;
-
+  padding: 5px 20px;
+  width: 420px;
   &:hover {
     transform: scale(1.01, 1.01);
     outline: none;
+  }
+  @media (max-width: 600px) {
+    width: 280px;
+    font-size: 14px;
+    font-weight: bold;
   }
 `;
 export default UploadImage;

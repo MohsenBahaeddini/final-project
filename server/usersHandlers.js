@@ -16,8 +16,7 @@ const options = {
 // check the specified user when signed in by auth0 , if new add it to users collection
 const addNewUser = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  // const _id = uuidv4();
-  
+    
   const { sub, name, email } = req.body;
   try {
     await client.connect();

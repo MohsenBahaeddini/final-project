@@ -1,6 +1,9 @@
 import styled from "styled-components";
+
 const ErrorPage = () => {
-  // This will be displayed if an error happens while loading the page
+  /**
+   *!  This will be displayed if an error happens while loading the page
+  */ 
   return (
     <Wrapper>
       <Div>

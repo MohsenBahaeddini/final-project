@@ -1,7 +1,8 @@
 "use strict";
 
 const exp = require("constants");
-// import the needed node_modules.
+/** 
+ ** import the needed node_modules. */ 
 const express = require("express");
 const morgan = require("morgan");
 
@@ -34,15 +35,17 @@ express()
   // This will give us will log more info to the console. see https://www.npmjs.com/package/morgan
   .use(morgan("tiny"))
   .use(express.json());
-if(process.env.NODE_ENV==="production"){
-  express().use(express.static("client/build"))
+if (process.env.NODE_ENV === "production") {
+  express().use(express.static("client/build"));
 }
 // Any requests for static files will go into the public folder
 express()
   .use(express.static("public"))
 
   // ---------------------------------
-  // REST endpoints
+ /**
+  ** REST endpoints
+  */
 
   // get all ads
   .get("/api/ads", getAds)
@@ -86,6 +89,7 @@ express()
 
   // update conversation
   .patch("/api/update-conversation/:id", updateConversation)
+
   // ---------------------------------
 
   // this is our catch all endpoint.

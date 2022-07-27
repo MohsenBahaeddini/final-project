@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
-import { Link, NavLink, useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import moment from "moment";
 import ErrorPage from "./ErrorPage";
 import LoadingSpinner from "./LoadingSpinner";
@@ -13,17 +13,15 @@ const MyMessages = () => {
   const [status, setStatus] = useState("loading");
   const [msg, setMsg] = useState("");
   const [error, setError] = useState(false);
-
   const [chat, setChat] = useState({});
   const [chatId, setChatId] = useState("");
   const [chatStatus, setChatStatus] = useState("loading");
-
   const [active, setActive] = useState();
   const { currentUser } = useContext(CurrentUserContext);
-
   const { id } = useParams();
 
-  // get the messages that owner has received for a specific ad
+  /**
+   ** get the messages that owner has received for a specific ad */ 
   useEffect(() => {
     fetch(`/api/conversations-by-ad/${id}`, {
       headers: {
@@ -37,12 +35,12 @@ const MyMessages = () => {
         setStatus("idle");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         setError(true);
       });
   }, []);
 
-  // Get conversation by id
+  /** Get conversation by id */ 
   useEffect(() => {
     fetch(`/api/conversation-by-id/${chatId}`, {
       headers: {
@@ -56,12 +54,13 @@ const MyMessages = () => {
         setChatStatus("idle");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         setError(true);
       });
   }, [chatId]);
 
-  // re-fetch messages once the new msg has been sent and dispaly on screen
+  /**
+   ** re-fetch messages once the new msg has been sent and dispaly on screen */ 
   const handleAfterSendMsg = () => {
     fetch(`/api/conversation-by-id/${chatId}`, {
       headers: {
@@ -75,7 +74,6 @@ const MyMessages = () => {
         setChatStatus("idle");
       })
       .catch((err) => {
-        console.log(err);
         setError(true);
       });
     setMsg("");
@@ -91,18 +89,14 @@ const MyMessages = () => {
     <>
       <Wrapper>
         <Preview>
-          <Title>My Chats</Title>
-
-          <h5>
+          <Title1>Chats</Title1>
+          <EmailDiv>
             {status === "idle" &&
               myConversations.map((conversation, index) => {
                 return (
                   <Chat key={index}>
                     <Email
                       id={conversation.id}
-                      className={
-                        active === conversation.id ? "inactive" : "active"
-                      }
                       onClick={(ev) => {
                         console.log(ev);
                         ev.preventDefault();
@@ -118,7 +112,7 @@ const MyMessages = () => {
                             setChatId(response.conversation._id);
                             setChatStatus("idle");
                           });
-                        setActive(ev.target.id);
+                        setActive(!active);
                       }}
                     >
                       {conversation.buyer.split("@", 1)}
@@ -126,7 +120,7 @@ const MyMessages = () => {
                   </Chat>
                 );
               })}
-          </h5>
+          </EmailDiv>
         </Preview>
 
         <Div>
@@ -134,94 +128,98 @@ const MyMessages = () => {
 
           {chatStatus === "idle" && chat && (
             <>
-              <ChatContainer>
-                {chat.messages.map((message, index) => {
-                  console.log(message);
-                  return (
-                    <>
-                      <Div4
-                        key={index}
-                        className={message.user === chat.buyer ? "buyer" : "me"}
-                      >
-                        <Div5
+              <ChatDiv>
+                <ChatContainer>
+                  {chat.messages.map((message, index) => {
+                    console.log(message);
+                    return (
+                      <>
+                        <Div4
+                          key={index}
                           className={
                             message.user === chat.buyer ? "buyer" : "me"
                           }
                         >
-                          <Body
+                          <Div5
                             className={
                               message.user === chat.buyer ? "buyer" : "me"
                             }
                           >
-                            {message.body}
-                          </Body>
-                          <Date
-                            className={
-                              message.user === chat.buyer ? "buyer" : "me"
-                            }
-                          >
-                            {message.date}
-                          </Date>
-                          <Bubble>
-                            {message.user === chat.buyer && <MsgSent />}
-                          </Bubble>
-                          <BubbleSent>
-                            {message.user !== chat.buyer && <MsgReceived />}
-                          </BubbleSent>
-                        </Div5>
-                        {message.user === chat.buyer && (
-                          <User
-                            className={
-                              message.user === chat.buyer ? "buyer" : "me"
-                            }
-                          >
-                            {message.user.split("@", 1)}
-                          </User>
-                        )}
-                      </Div4>
-                    </>
-                  );
-                })}
-              </ChatContainer>
-              <Div6>
-                <TextArea
-                  type="text"
-                  placeholder="Type your message here"
-                  value={msg}
-                  onChange={(ev) => setMsg(ev.target.value)}
-                ></TextArea>
-                <Button
-                  onClick={(ev) => {
-                    ev.preventDefault();
+                            <Body
+                              className={
+                                message.user === chat.buyer ? "buyer" : "me"
+                              }
+                            >
+                              {message.body}
+                            </Body>
+                            <Date
+                              className={
+                                message.user === chat.buyer ? "buyer" : "me"
+                              }
+                            >
+                              {message.date}
+                            </Date>
+                            <Bubble>
+                              {message.user === chat.buyer && <MsgSent />}
+                            </Bubble>
+                            <BubbleSent>
+                              {message.user !== chat.buyer && <MsgReceived />}
+                            </BubbleSent>
+                          </Div5>
+                          {message.user === chat.buyer && (
+                            <User
+                              className={
+                                message.user === chat.buyer ? "buyer" : "me"
+                              }
+                            >
+                              {message.user.split("@", 1)}
+                            </User>
+                          )}
+                        </Div4>
+                      </>
+                    );
+                  })}
+                </ChatContainer>
+                <Div6>
+                  <TextArea
+                    type="text"
+                    placeholder="Type your message here"
+                    value={msg}
+                    onChange={(ev) => setMsg(ev.target.value)}
+                  ></TextArea>
+                  <Button
+                    onClick={(ev) => {
+                      ev.preventDefault();
 
-                    if (msg) {
-                      fetch(`/api/update-conversation/${chat._id}`, {
-                        method: "PATCH",
-                        headers: {
-                          "Content-Type": "application/json",
-                          Accept: "application/json",
-                        },
-                        body: JSON.stringify({
-                          messages: {
-                            user: currentUser.email,
-                            body: msg,
-                            date: moment().format("h:mm A - MMMM Do, YYYY"),
+                      if (msg) {
+                        fetch(`/api/update-conversation/${chat._id}`, {
+                          method: "PATCH",
+                          headers: {
+                            "Content-Type": "application/json",
+                            Accept: "application/json",
                           },
-                        }),
-                      })
-                        .then((res) => res.json())
-                        .then((response) => {
-                          if (response) {
-                            setChatId(chat._id);
-                            handleAfterSendMsg();
-                          }
-                        });
-                    }
-                  }}
-                >
-                  Send Message
-                </Button>
-              </Div6>
+                          body: JSON.stringify({
+                            messages: {
+                              user: currentUser.email,
+                              body: msg,
+                              date: moment().format("h:mm A - MMMM Do, YYYY"),
+                            },
+                          }),
+                        })
+                          .then((res) => res.json())
+                          .then((response) => {
+                            if (response) {
+                              setChatId(chat._id);
+                              handleAfterSendMsg();
+                            }
+                          });
+                      }
+                    }}
+                  >
+                    Send Message
+                  </Button>
+                </Div6>
+              </ChatDiv>
             </>
           )}
         </Div>
@@ -234,7 +232,10 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   margin: 20px 40px;
-  height: 70vh;
+    @media (max-width: 800px) {
+    flex-direction: column;
+        margin: 30px 40px 30px 20px;
+  }
 `;
 
 const Preview = styled.div`
@@ -242,24 +243,45 @@ const Preview = styled.div`
   border-radius: 10px;
   background: var(--color-darkGrey);
   margin: 10px;
-  min-width: calc(100vw / 8);
-  max-width: calc(100vw / 3);
-  /* min-height: 600px; */
-  height: 550px;
+    width: 200px;
+    @media (max-width: 800px) {
+    width: 90vw;
+    display: block;
+    margin: auto;
+    height: 10%;
+    overflow-x: auto;
+  }
+`;
+const EmailDiv = styled.div`
+  @media (max-width: 800px) {
+    display: flex;
+    justify-content: left;
+    padding-bottom: 5px;
+  }
 `;
 const Chat = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
 `;
+const ChatDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+    @media (max-width: 800px) {
+    min-width: 90vw;
+    height: 85%;
+  }
+`;
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 50vh;
+  height: 45vh;
   overflow-y: auto;
-  /* margin-left: -25px; */
-  scroll-behavior: smooth;
-  width: calc(100vw / 2.82);
+   scroll-behavior: smooth;
+  width: 69vw;
+  @media (max-width: 800px) {
+    width: 90vw;
+  }
   &::-webkit-scrollbar {
     width: 10px;
   }
@@ -281,17 +303,20 @@ const ChatContainer = styled.div`
     background: #3d4247;
   }
 `;
-const Main = styled.div``;
+
 const Div = styled.div`
   border: 1px solid #ddd;
   border-radius: 10px;
   background: var(--color-darkGrey);
-  min-width: calc(100vw / 3);
-  width: calc(100vw / 2.7);
-  max-width: calc(100vw / 2.7);
-  /* min-height: 550px; */
-  height: 550px;
-  margin: 10px;
+  width: 70vw;
+    margin: 10px;
+  @media (max-width: 800px) {
+    width: 90vw;
+    display: block;
+    height: auto;
+    margin: auto;
+    margin-top: 20px;
+  }
 `;
 const Div4 = styled.div`
   display: flex;
@@ -320,19 +345,6 @@ const Div5 = styled.div`
   &.buyer {
   }
 `;
-
-// const Bubble = styled.div`
-//   position: absolute;
-//   left: 1155px;
-//   z-index: -1;
-//   margin-top: 50px;
-// `;
-// const BubbleSent = styled.div`
-//   position: absolute;
-//   left: 757px;
-//   z-index: -1;
-//   margin-top: 50px;
-// `;
 
 const Bubble = styled.div`
   position: absolute;
@@ -397,32 +409,48 @@ const Title = styled.h2`
   font-size: 18px;
   color: #fff;
 `;
+const Title1 = styled.h2`
+  border-bottom: 1px solid var(--color-blue);
+  padding: 5px 5px 10px 5px;
+  margin: 20px;
+  text-align: left;
+  font-size: 18px;
+  color: #fff;
+  @media (max-width: 800px) {
+    margin: 10px 10px -10px 10px;
+  }
+`;
 const Button = styled.button`
   cursor: pointer;
-  color: #fff;
+  color: var(--color-dark-blue);
   padding: 3px 20px;
   font-size: 16px;
   margin: -15px 20px 20px 20px;
-  background-color: var(--color-dark-blue);
+  background-color: #fff;
   border: none;
+  font-weight: bold;
+  border-radius: 5px;
 `;
 const Email = styled.button`
   cursor: pointer;
   color: #fff;
   padding: 3px 20px;
   font-size: 16px;
-  margin: 20px 5px 5px 0px;
+  margin: 0px 5px 20px 0px;
   background-color: var(--color-dark-blue);
   border: none;
-
+  @media (max-width: 800px) {
+    margin: 20px 5px 5px 0px;
+  }
   &:hover {
     color: var(--color-blue);
-    font-size: 16px;
   }
 
   &:focus {
     color: var(--color-yellow);
-    font-size: 16px;
+  }
+  &:active {
+    color: var(--color-yellow);
   }
 `;
 const TextArea = styled.textarea`

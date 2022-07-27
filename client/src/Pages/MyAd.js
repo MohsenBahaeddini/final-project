@@ -1,7 +1,7 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { useContext, useEffect, useState } from "react";
-import MyMessages from "./MyMessages";
-import { Link, NavLink, useParams, useHistory } from "react-router-dom";
+
+import {  useEffect, useState } from "react";
+
+import { NavLink, useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import LoadingSpinner from "./LoadingSpinner";
 import ErrorPage from "./ErrorPage";
@@ -11,10 +11,11 @@ const MyAd = ({ currentUser }) => {
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
 
-  const history = useHistory();
+ 
   const { id } = useParams();
 
-  // Get all my ads
+  /**
+   **  Get all my ads */ 
   useEffect(() => {
     setStatus("loading");
     fetch(`/api/ads-by-owner/${id}`, {
@@ -29,7 +30,7 @@ const MyAd = ({ currentUser }) => {
         setStatus("idle");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         setError(true);
       });
   }, []);
@@ -47,7 +48,7 @@ const MyAd = ({ currentUser }) => {
         setStatus("idle");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -66,7 +67,7 @@ const MyAd = ({ currentUser }) => {
               {myAds.map((ad, index) => {
                 return (
                   <div key={index}>
-                    {/* {console.log(ad)} */}
+                   
                     <Div1>
                       <StyledNavLink to={`/ad/${ad._id}`}>
                         <Img src={ad.imageUrl[0]} />
@@ -108,17 +109,44 @@ const MyAd = ({ currentUser }) => {
   );
 };
 const Wrapper = styled.div`
-  min-width: calc(100vw / 3.5);
+  width: 402px;
+  min-width: 402px;
   border: 1px solid #ddd;
   border-radius: 10px;
   background: var(--color-darkGrey);
   margin: 10px;
   min-height: 250px;
   height: fit-content;
-  max-height: 550px;
+  max-height: 250px;
   /* overflow: hidden; */
 
   padding-bottom: 5px;
+  @media (max-width: 420px) {
+    min-width: 330px;
+    width: 330px;
+  }
+  overflow-x: hidden;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #bbbbbb;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #3d4247;
+  }
 `;
 const Title = styled.h2`
   border-bottom: 1px solid var(--color-blue);
@@ -131,8 +159,11 @@ const Div1 = styled.div`
   display: flex;
   margin-top: -10px;
   margin-bottom: 20px;
-  /* overflow: hidden;
-  overflow-y: scroll; */
+  @media (max-width: 420px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 const Div2 = styled.div`
   margin: 20px 20px 20px 0px;
@@ -162,10 +193,13 @@ const Img = styled.img`
   &:hover {
     transform: scale(1.02);
   }
+  @media (max-width: 420px) {
+    width: 280px;
+    height: 210px;
+  }
 `;
 const StyledNavLink = styled(NavLink)`
   color: white;
-  margin-left: 10px;
   font-size: 12px;
   text-decoration: none;
   outline: none;

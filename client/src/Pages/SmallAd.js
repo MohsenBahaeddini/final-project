@@ -1,9 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import { Link, NavLink, useHistory } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import Pagination from "./Pagination";
-import { CurrentUserContext } from "../CurrentUserContext";
 import DisplayAds from "./DisplayAds";
 import ErrorPage from "./ErrorPage";
 import LoadingSpinner from "./LoadingSpinner";
@@ -12,16 +9,13 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
   const [ads, setAds] = useState([]);
   const [filteredAds, setFilteredAds] = useState([ads]);
   const [loading, setLoading] = useState("loading");
-  const { user, isAuthenticated } = useAuth0();
-  const [status, setStatus] = useState("loading");
   const [pageNum, setPageNum] = useState(1);
   const [adsCount, setAdsCount] = useState(0);
   const [error, setError] = useState(false);
-  const { currentUser } = useContext(CurrentUserContext);
 
-  const history = useHistory();
 
-  // Get ads on the homePage
+  /**
+   ** Get ads on the homePage */ 
   const fetchAds = async () => {
     try {
       setLoading("loading");
@@ -38,7 +32,6 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
           setLoading("idle");
         });
     } catch (err) {
-      console.log(err);
       setError(true);
     }
   };
@@ -46,7 +39,8 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
     fetchAds();
   }, [pageNum]);
 
-  // then apply filters if there is any
+  /**
+   * then apply filters if there is any */ 
   useEffect(() => {
     if (
       filters.type === "Any Type" &&
@@ -74,7 +68,9 @@ const SmallAd = ({ filters, sort, make, year, type, model }) => {
     }
   }, [sort]);
 
-  // display error if an error occurred
+  /** 
+   *!  display error if an error occurred
+     */
   if (error) {
     return <ErrorPage />;
   }
@@ -130,6 +126,11 @@ const FilterErr = styled.h1`
 `;
 const Main = styled.div``;
 
-const ItemContainer = styled.div``;
+const ItemContainer = styled.div`
+ display: grid;
+  grid-template-columns: repeat(auto-fit, 315px);
+  gap: 50px;
+  justify-content: center;
+  margin-top: 50px;`;
 
 export default SmallAd;

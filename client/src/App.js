@@ -9,7 +9,7 @@ import MyMessages from "./Pages/MyMessages";
 import SingleConversation from "./Pages/SingleConversation";
 
 const App = () => {
-  // localStorage.setItem("items", []);
+
   return (
     <>
       <Router>

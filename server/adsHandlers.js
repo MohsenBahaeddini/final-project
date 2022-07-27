@@ -46,16 +46,13 @@ const getAds = async (req, res) => {
       Error: err.message,
     });
   }
-  //  finally {
-  //   await client.close();
-  // }
 };
 
 // get a specific ad by id
 const getAd = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const adId = req.params.id;
-  // console.log(req);
+
   try {
     await client.connect();
     const db = client.db("mba");
@@ -167,7 +164,7 @@ const updateAd = async (req, res) => {
         mileage: mileage || previousValues.mileage,
       },
     };
-    console.log(newValues);
+
     const updateAd = await db.collection("ads").updateOne(query, newValues);
     res.status(200).json({
       status: 200,
@@ -224,7 +221,6 @@ const getAdsByOwners = async (req, res) => {
       .collection("ads")
       .find({ owner: findUser.email })
       .toArray();
-    // console.log(findUserAds);
 
     if (findUserAds) {
       res.status(200).json({
@@ -251,7 +247,6 @@ const getAdsByOwners = async (req, res) => {
 const addSavedAd = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const { userId, adId } = req.body;
-  // do we need to get all feature of the car (ad)?
 
   try {
     await client.connect();

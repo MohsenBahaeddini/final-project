@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import { NavLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import { CurrentUserContext } from "../CurrentUserContext";
 import moment from "moment";
@@ -16,23 +16,20 @@ const AdDetails = () => {
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
-
   const [isSaved, setIsSaved] = useState(null);
-  // (localStorage.getItem("isSaved")
   const [savedAds, setSavedAds] = useState([]);
-  // const [items, setItems] = useState(localStorage.getItem("items"));
-
   const { currentUser } = useContext(CurrentUserContext);
   const history = useHistory();
-
   const { id } = useParams();
-  // Get the specific ad by Id
+
+  /**
+   ** Get the specific ad by Id
+   */
   useEffect(() => {
     fetch(`/api/ad/${id}`)
       .then((res) => res.json())
       .then((response) => {
         setAd(response.ad);
-        // console.log(ad);
         setStatus("idle");
       })
       .catch((err) => {
@@ -40,21 +37,19 @@ const AdDetails = () => {
       });
   }, []);
 
-  // get all saved ads by user
-  // console.log(currentUser);
+  /**
+   ** get all saved ads by user
+   */
   useEffect(() => {
     if (currentUser) {
       fetch(`/api/saved-ads-by-user/${currentUser.sub}`)
         .then((res) => res.json())
         .then((response) => {
-          // console.log(response.savedAds);
           setSavedAds(response.savedAds);
-          // setIsSaved(response.savedAds.find((element) => element._id === id));
         });
     }
   }, [savedAds, isSaved, currentUser]);
 
-  console.log("$$$$$$$$$ isSaved: ", isSaved);
   let found;
   if (savedAds) {
     found = savedAds.find((element) => element._id === id);
@@ -69,7 +64,6 @@ const AdDetails = () => {
 
   const handleSaveButton = () => {
     if (!isSaved) {
-      // setIsSaved(true);
       fetch("/api/new-saved-ad", {
         method: "POST",
         headers: {
@@ -83,23 +77,22 @@ const AdDetails = () => {
       })
         .then((res) => res.json())
         .then((response) => {
-          console.log(response);
           localStorage.setItem("isSaved", true);
         });
     } else {
-      // setIsSaved(false);
       fetch(`/api/delete-saved-ad/${id}`, {
         method: "DELETE",
       })
         .then((res) => res.json())
         .then((response) => {
-          console.log(response);
           localStorage.removeItem("isSaved");
         });
     }
   };
 
-  // Create new conversation between user(buyer) and seller when a msg is written and sendMsg is clicked
+  /**
+   ** Create new conversation between user (buyer) and seller when a msg is written and sendMsg is clicked
+   */
   const sendMessage = (ev) => {
     ev.preventDefault();
     if (msg) {
@@ -127,14 +120,18 @@ const AdDetails = () => {
         .then((response) => {
           if (response) {
             setMsg("");
-            // take the user to the profile page to see his/her msg to seller
+            /**
+             ** take the user to the profile page to see his/her msg to seller
+             */
             history.push(`/profile/${currentUser.sub}`);
           }
         });
     }
   };
 
-  // Display errorPage if an error occurred
+  /**
+   *! Display errorPage if an error occurred
+   */
   if (error) {
     return (
       <>
@@ -142,13 +139,16 @@ const AdDetails = () => {
       </>
     );
   }
-  // Display loadingSpinner when the page is loading
+  /** 
+   ** Display loadingSpinner when the page is loading 
+*/
   if (status === "loading") {
     return <LoadingSpinner />;
   }
-  // console.log(savedAdId);
-  // Display adDetails once the page is loaded
-
+ 
+  /** 
+   ** Display adDetails once the page is loaded
+*/
   return (
     <>
       <Wrapper>
@@ -162,11 +162,6 @@ const AdDetails = () => {
                 ) : (
                   <BsHeart style={{ color: "red" }} />
                 )}
-                {/* {savedAds && savedAds.find((element) => element._id === id) ? (
-                  <BsHeartFill style={{ color: "red" }} />
-                ) : (
-                  <BsHeart style={{ color: "red" }} />
-                )} */}
               </SaveBtn>
             </SaveBtnDiv>
           )}
@@ -316,7 +311,12 @@ const AdDetails = () => {
 const Wrapper = styled.div`
   display: flex;
   margin: 80px;
-  max-height: 500px;
+ 
+  @media (max-width: 1300px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 const Container = styled.div`
   display: flex;
@@ -325,13 +325,27 @@ const Container = styled.div`
   border: 1px solid #ddd;
   border-radius: 10px;
   background: var(--color-darkGrey);
-  margin: 0 40px;
-  min-width: 500px;
+
+  min-width: 550px;
   justify-content: space-between;
+  @media (max-width: 720px) {
+    min-width: 550px;
+    max-width: 550px;
+  }
+  @media (max-width: 550px) {
+    min-width: 380px;
+    max-width: 380px;
+  }
 `;
 const SliderDiv = styled.div`
   position: relative;
+  margin-right: 20px;
+  @media (max-width: 1300px) {
+    margin-bottom: 40px;
+    margin-right: 0px;
+  }
 `;
+
 const SaveBtnDiv = styled.div`
   display: flex;
   justify-content: center;
@@ -339,6 +353,14 @@ const SaveBtnDiv = styled.div`
   position: absolute;
   left: 610px;
   bottom: 10px;
+  bottom: 70px;
+
+  @media (max-width: 720px) {
+    left: 510px;
+  }
+  @media (max-width: 550px) {
+    left: 310px;
+  }
 `;
 const SaveBtn = styled.button`
   background: none;
@@ -350,12 +372,7 @@ const SaveBtn = styled.button`
   width: 30px;
   cursor: pointer;
 `;
-const Img = styled.img`
-  width: 650px;
-  height: 500px;
-  padding: 2px;
-  border: 2px solid var(--color-blue);
-`;
+
 const Details = styled.div`
   display: flex;
   flex-direction: column;
@@ -368,7 +385,7 @@ const Div3 = styled.div`
 const Div4 = styled.div`
   display: flex;
   flex-direction: column;
-  padding-right: 70px;
+  padding-right: 20px;
 `;
 const H1 = styled.h1`
   display: flex;

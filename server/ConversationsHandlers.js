@@ -16,7 +16,6 @@ const options = {
 // create conversation
 const createConversation = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  // will add date(timestamp) // actually should be added in messages object
   const { seller, buyer, buyerId, adId, messages } = req.body;
   const id = uuidv4();
   try {
@@ -54,15 +53,14 @@ const createConversation = async (req, res) => {
 const getConverationsById = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const id = req.params.id;
-  // console.log(id);
+  
   try {
     await client.connect();
     const db = client.db("mba");
     const conversation = await db
       .collection("conversations")
       .findOne({ _id: id });
-    // console.log(user);
-    res.status(200).json({
+     res.status(200).json({
       status: 200,
       success: true,
       conversation: conversation,
@@ -116,7 +114,7 @@ const getConversationsByAdId = async (req, res) => {
 
 const getConversationsByBuyerId = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  // id will be currentuser.sub
+ 
   const { id } = req.params;
   try {
     await client.connect();

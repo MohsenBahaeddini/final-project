@@ -1,4 +1,4 @@
-import { Link, NavLink, useParams, useHistory } from "react-router-dom";
+import {useParams} from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { CurrentUserContext } from "../CurrentUserContext";
 import moment from "moment";
@@ -14,10 +14,10 @@ const SingleConversation = () => {
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
-
   const { id } = useParams();
 
-  // Get a specific conversation by id
+  /** 
+   ** Get a specific conversation by id */ 
   useEffect(() => {
     fetch(`/api/conversation-by-id/${id}`, {
       headers: {
@@ -31,12 +31,12 @@ const SingleConversation = () => {
         setStatus("idle");
       })
       .catch((err) => {
-        console.log(err);
         setError(true);
       });
   }, []);
 
-  // refetch to re-render the conversation after a new message has been sent
+  /** 
+   ** refetch to re-render the conversation after a new message has been sent */ 
   const handleAfterSendMsg = () => {
     fetch(`/api/conversation-by-id/${id}`, {
       headers: {
@@ -50,17 +50,18 @@ const SingleConversation = () => {
         setStatus("idle");
       })
       .catch((err) => {
-        console.log(err);
         setError(true);
       });
     setMsg("");
   };
 
-  // Display errorPage if an error occurred
+  /**
+   ** Display errorPage if an error occurred */ 
   if (error) {
     return <ErrorPage />;
   }
-  // Display loading page while the page is being loaded
+  /** 
+   ** Display loading page while the page is being loaded */ 
   if (status === "loading") {
     return <LoadingSpinner />;
   }
@@ -70,7 +71,7 @@ const SingleConversation = () => {
         <>
           <Container>
             <Chat>
-              <Title>My Chat with</Title>
+              <Title>Chat with</Title>
               <Seller> {conversation.seller.split("@", 1)}</Seller>
             </Chat>
             <ChatContainer2>
@@ -182,20 +183,24 @@ const SingleConversation = () => {
   );
 };
 const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
   background-color: var(--color-darkGrey);
   border: 1px solid #fff;
   border-radius: 10px;
   margin: 40px 40px 40px calc(100vw / 3.7);
   padding: 20px;
-  max-width: 600px;
-
-  height: 78vh;
+  width: 60vw;
+  margin: auto;
+  height: 550px;
+  min-height: 500px;
+  margin-top: 40px;
+  overflow-y: hidden;
+  @media (max-width: 600px) {
+    width: 90vw;
+  }
 `;
 const Title = styled.h1`
-  padding: 10px 10px 0 10px;
+  padding: 20px 10px 0 10px;
   margin-bottom: 10px;
   color: #fff;
 `;
@@ -208,7 +213,7 @@ const Seller = styled.h1`
 const Chat = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
   padding: 10px 10px -10px 10px;
   margin-bottom: 20px;
   border-bottom: 1px solid var(--color-blue);
@@ -230,13 +235,7 @@ const Div = styled.div`
   }
 `;
 const ChatContainer2 = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  height: 50vh;
-  overflow-y: scroll;
-  scrollbar-width: thin;
-  scroll-behavior: smooth; */
-  overflow-y: hidden;
+  height: 310px;
 `;
 const ChatContainer = styled.div`
   display: flex;
@@ -293,30 +292,7 @@ const Div2 = styled.div`
   }
 `;
 
-const Div4 = styled.div`
-  display: flex;
-  padding: 5px;
-  margin: 0 20px;
-  &.seller {
-    justify-content: left;
-  }
-  &.me {
-    justify-content: right;
-  }
-`;
-const Div5 = styled.div`
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 5px;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  &.seller {
-    background-color: #c7e6f0;
-  }
-  &.me {
-  }
-`;
+
 const User = styled.h2`
   font-size: 14px;
   padding-bottom: 5px;
@@ -363,27 +339,25 @@ const Date = styled.h2`
 const Div3 = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: -15px -20px 10px -20px;
+  height: 50vh;
+  overflow-y: auto;
 `;
 
 const TextArea = styled.textarea`
   padding: 10px 10px 40px 10px;
   margin: 20px;
-  min-width: 550px;
   font-size: 14px;
+  border-radius: 5px;
 `;
 const Button = styled.button`
   cursor: pointer;
-  color: #fff;
-  /* color: var(--color-darkGrey); */
+  color: var(--color-dark-blue);
+  font-weight: bold;
   padding: 3px 20px;
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 16px;
   margin: -18px 20px 20px 20px;
-  background-color: var(--color-dark-blue);
-  /* background-color: #fff; */
-
+  background-color: #fff;
   border: none;
 `;
 export default SingleConversation;

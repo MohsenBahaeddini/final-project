@@ -1,15 +1,14 @@
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { years, types, makes } from "../data";
 import { useHistory } from "react-router-dom";
-
 import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
 import UploadImage from "./UploadImage";
 import uploadImage from "../assets/uploadImage.png";
-import Select from "react-select";
+
 
 const PostAd = () => {
-  // useState to update different options when entering the car info
+  /** useState to update different options when entering the car info */ 
   const [make, setMake] = useState("");
   const [type, setType] = useState("");
   const [year, setYear] = useState("");
@@ -24,13 +23,11 @@ const PostAd = () => {
   const [navigationSystem, setNavigationSystem] = useState(false);
   const [stabilityControl, setStabilityControl] = useState(false);
   const [cars, setCars] = useState([]);
-  const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState([]);
   const history = useHistory();
-  const [newAd, setNewAd] = useState({});
   const { currentUser } = useContext(CurrentUserContext);
 
-  // get all Models for the selected make,type and year from car data api
+  /**  get all Models for the selected make,type and year from car data api */
   useEffect(() => {
     if (make && type && year) {
       fetch(
@@ -51,7 +48,8 @@ const PostAd = () => {
     }
   }, [make, type, year]);
 
-  // hadnleSubmit will send the info to the server
+  /**  
+   ** hadnleSubmit will send the info to the server */
   const handleSubmit = (ev) => {
     ev.preventDefault();
 
@@ -96,7 +94,7 @@ const PostAd = () => {
           <H1>Post Ad</H1>
         </Div>
         <Section>
-          <Div>
+          <FormDiv>
             <Form onSubmit={handleSubmit}>
               <H3>Enter Your Car Info</H3>
               <Select1
@@ -107,11 +105,11 @@ const PostAd = () => {
                   setType(ev.target.value);
                 }}
               >
-                <option value={"default"} disabled>
+                <Option value={"default"} disabled>
                   Select Type
-                </option>
+                </Option>
                 {types.map((el) => {
-                  return <option value={el}>{el}</option>;
+                  return <Option value={el}>{el}</Option>;
                 })}
               </Select1>
               <Select1
@@ -120,13 +118,13 @@ const PostAd = () => {
                   setMake(ev.target.value);
                 }}
               >
-                <option value={"default"} disabled>
+                <Option value={"default"} disabled>
                   Select Make
-                </option>
+                </Option>
                 {makes.map((make) => {
                   return (
                     <>
-                      <option value={make}>{make}</option>
+                      <Option value={make}>{make}</Option>
                     </>
                   );
                 })}
@@ -137,11 +135,11 @@ const PostAd = () => {
                   setYear(ev.target.value);
                 }}
               >
-                <option value={"default"} disabled>
+                <Option value={"default"} disabled>
                   Select Year
-                </option>
+                </Option>
                 {years.map((year) => {
-                  return <option value={year}>{year}</option>;
+                  return <Option value={year}>{year}</Option>;
                 })}
               </Select1>
               <Select1
@@ -150,14 +148,14 @@ const PostAd = () => {
                   setModel(ev.target.value);
                 }}
               >
-                <option value={"default"} disabled>
+                <Option value={"default"} disabled>
                   Select Model
-                </option>
+                </Option>
                 {cars.length &&
                   cars.map((car, index) => (
-                    <option key={index} value={car.model}>
+                    <Option key={index} value={car.model}>
                       {car.model}
-                    </option>
+                    </Option>
                   ))}
               </Select1>
               <Input
@@ -258,7 +256,7 @@ const PostAd = () => {
                 Post My Ad
               </Button>
             </Form>
-          </Div>
+          </FormDiv>
           <Div2>
             <H3>Showcase the beauty of your car</H3>
             <Img src={uploadImage} />
@@ -281,16 +279,35 @@ const Wrapper = styled.div`
 const H1 = styled.h1`
   font-size: 20px;
   color: #fff;
+  @media (max-width: 600px) {
+    font-size: 19px;
+  }
 `;
 const Section = styled.section`
   display: flex;
   justify-content: space-evenly;
+  @media (max-width: 1100px) {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  @media (max-width: 600px) {
+    justify-content: center;
+    align-items: center;
+  }
 `;
-
+const FormDiv = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin: 20px;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+`;
 const Div = styled.div`
   display: flex;
   justify-content: left;
@@ -308,9 +325,7 @@ const Div2 = styled.div`
   border-bottom: 1px solid #ddd;
   padding: 10px;
 `;
-const Features = styled.div`
-  border: 1px solid #fff;
-`;
+
 const Div3 = styled.div`
   display: flex;
   flex-direction: column;
@@ -326,20 +341,47 @@ const Options = styled.div`
   display: flex;
   justify-content: left;
   align-items: center;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+const Option = styled.option`
+  @media (max-width: 1100px) {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  @media (max-width: 600px) {
+    width: 280px;
+  }
 `;
 const H3 = styled.h3`
   margin-bottom: 30px;
   font-size: 18px;
   color: #fff;
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
 const Img = styled.img`
   width: 380px;
   height: 330px;
+  @media (max-width: 600px) {
+    width: 280px;
+    height: 230px;
+  }
 `;
 const Input = styled.input`
   margin-top: 5px;
   border: none;
   border-radius: 2px;
+  @media (max-width: 1100px) {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  @media (max-width: 600px) {
+    width: 280px;
+  }
 `;
 const Button = styled.button`
   color: var(--color-darkGrey);
@@ -349,7 +391,8 @@ const Button = styled.button`
   cursor: pointer;
   border-radius: 2px;
   border: 1px solid #fff;
-
+  padding: 5px 20px;
+  width: 500px;
   &:disabled {
     background-color: grey;
     border: 1px solid grey;
@@ -361,6 +404,11 @@ const Button = styled.button`
     border-radius: 2px;
     border: 1px solid #fff;
   }
+  @media (max-width: 600px) {
+    width: 280px;
+    font-size: 14px;
+    font-weight: bold;
+  }
 `;
 const TextArea = styled.textarea`
   padding-bottom: 30px;
@@ -371,12 +419,26 @@ const TextArea = styled.textarea`
   border: none;
   border-radius: 2px;
   outline: none;
+  @media (max-width: 600px) {
+    width: 280px;
+  }
 `;
 const Select1 = styled.select`
   padding: 5px;
   margin-top: 5px;
+  @media (max-width: 1100px) {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  @media (max-width: 600px) {
+    width: 280px;
+  }
 `;
 const Label = styled.label`
   color: #fff;
+  @media (max-width: 600px) {
+    font-size: 14px;
+    font-weight: bold;
+  }
 `;
 export default PostAd;

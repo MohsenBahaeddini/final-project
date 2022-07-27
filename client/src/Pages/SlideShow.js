@@ -2,11 +2,11 @@ import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import Thumbnail from "./Thumbnail";
 import "./SlideShow.css";
-
 import { FcPrevious, FcNext } from "react-icons/fc";
 
 const SlideShow = ({ imgs }) => {
-  // implementing slideShow on the adDetails page
+  /** 
+   ** implementing slideShow on the adDetails page */ 
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -50,8 +50,14 @@ const Img = styled.img`
   padding: 2px;
   border-radius: 10px;
   border: 2px solid var(--color-blue);
+  @media (max-width: 720px) {
+    width: 550px;
+    height: 350px;
+  }
+  @media (max-width: 550px) {
+    width: 350px;
+    height: 250px;
+  }
 `;
-const Button = styled.button`
-  margin: -360px 0 0 0;
-`;
+
 export default SlideShow;
