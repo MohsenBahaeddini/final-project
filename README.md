@@ -35,11 +35,13 @@
 
 - ### My Account
 > On the my account page users can check out their profile info, saved ads, messages to other car sellers and manage their posted ads.  
-![my account page](https://user-images.githubusercontent.com/91036770/175699203-ceaecb2e-a1dc-4c6d-bc31-65cb0c742730.jpg)
+![my account page](https://user-images.githubusercontent.com/91036770/181649658-fa2510d8-d805-44ae-82a3-a55044b0c063.jpg)
+
 
 - ### My Ad Messages
 > On the my ad messages page users can check out the shoppers messages for their ads and respond to them.  
-![my ad messages](https://user-images.githubusercontent.com/91036770/175699376-fca17b67-3dad-4003-82fd-13420bd6155b.jpg)
+![my ad messages](https://user-images.githubusercontent.com/91036770/181650745-5a565faa-ff46-4234-ab8f-c71b26273948.jpg)
+
 
 - ### My Messages to Sellers
 > On the my messages to sellers page users can check out the sellers response to their inquiry and respond to them.  
