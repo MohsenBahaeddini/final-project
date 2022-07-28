@@ -1,5 +1,7 @@
 # Auto-Explorer | Mohsen Bahaeddini
-> __Auto-Explorer__ is a Car-Listing Web-App which is developed by Mohsen Bahaeddini as the final project of Concordia Full-Stack Web Development Bootcamps. Auto-Explorer facilitates the cars Buying/Selling process by allowing users to post their cars ad or find their future cars by just simply searching among listed cars. 
+> __Auto-Explorer__ is Car-Listing Web-App which is developed by Mohsen Bahaeddini as the final project of Concordia Full-Stack Web Development Bootcamps. Auto-Explorer facilitates the cars Buying/Selling process by allowing users to post their cars ad or find their future cars by just simply searching among listed cars.
+
+:white_check_mark: Find the live version of the app here: **[Auto-Explorer](https://auto-explorer.herokuapp.com/)**
 
 ## :hammer_and_wrench: Tech Stack
 - __Client:__ `React.js`, `Styled-Components`, `CSS`
